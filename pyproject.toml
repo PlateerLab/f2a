@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "f2a"
+dynamic = ["version"]
+description = "File to Analysis — 데이터 소스를 입력받아 기술 통계 분석 및 시각화를 자동 수행하는 라이브러리"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "f2a contributors" },
+]
+keywords = ["statistics", "visualization", "data-analysis", "eda", "huggingface"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "seaborn>=0.13",
+    "scipy>=1.11",
+]
+
+[project.optional-dependencies]
+hf = ["datasets>=2.14"]
+excel = ["openpyxl>=3.1"]
+parquet = ["pyarrow>=12.0"]
+rich = ["rich>=13.0"]
+report = ["jinja2>=3.1"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+    "black>=23.0",
+    "isort>=5.12",
+    "mypy>=1.5",
+]
+all = [
+    "f2a[hf,excel,parquet,rich,report]",
+]
+
+[project.urls]
+Homepage = "https://github.com/f2a/f2a"
+Documentation = "https://github.com/f2a/f2a#readme"
+Repository = "https://github.com/f2a/f2a"
+Issues = "https://github.com/f2a/f2a/issues"
+
+[tool.hatch.version]
+path = "src/f2a/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/f2a"]
+
+# ── Ruff ──────────────────────────────────────────────
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM"]
+
+# ── Black ─────────────────────────────────────────────
+[tool.black]
+target-version = ["py310"]
+line-length = 100
+
+# ── isort ─────────────────────────────────────────────
+[tool.isort]
+profile = "black"
+line_length = 100
+
+# ── pytest ────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+# ── mypy ──────────────────────────────────────────────
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

@@ -1,0 +1,42 @@
+# f2a — .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test & Coverage
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Output
+examples/output/
+examples/sample_data.csv
+*.html
+
+# mypy
+.mypy_cache/
+
+# ruff
+.ruff_cache/
