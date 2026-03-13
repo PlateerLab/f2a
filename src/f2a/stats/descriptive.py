@@ -86,16 +86,32 @@ class DescriptiveStats:
         desc = series.describe()
         q1 = float(desc.get("25%", np.nan))
         q3 = float(desc.get("75%", np.nan))
+        mean = float(series.mean())
+        std = float(series.std())
+        count = int(series.count())
+        skew_val = float(series.skew()) if count >= 3 else np.nan
+        kurt_val = float(series.kurtosis()) if count >= 4 else np.nan
+        se = std / np.sqrt(count) if count > 0 else np.nan
+        cv = abs(std / mean) if mean != 0 else np.nan
+        mad = float((series - series.median()).abs().median())
+
         return {
-            "mean": round(float(series.mean()), 4),
+            "mean": round(mean, 4),
             "median": round(float(series.median()), 4),
-            "std": round(float(series.std()), 4),
+            "std": round(std, 4),
+            "se": round(float(se), 4),
+            "cv": round(float(cv), 4) if not np.isnan(cv) else None,
+            "mad": round(mad, 4),
             "min": float(series.min()),
             "max": float(series.max()),
             "range": round(float(series.max() - series.min()), 4),
+            "p5": round(float(series.quantile(0.05)), 4),
             "q1": round(q1, 4),
             "q3": round(q3, 4),
+            "p95": round(float(series.quantile(0.95)), 4),
             "iqr": round(q3 - q1, 4),
+            "skewness": round(skew_val, 4) if not np.isnan(skew_val) else None,
+            "kurtosis": round(kurt_val, 4) if not np.isnan(kurt_val) else None,
         }
 
     @staticmethod

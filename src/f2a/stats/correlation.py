@@ -37,12 +37,22 @@ class CorrelationStats:
             return pd.DataFrame()
         return self._df[cols].corr(method="spearman")
 
+    def kendall(self) -> pd.DataFrame:
+        """Return the Kendall tau correlation matrix."""
+        cols = self._schema.numeric_columns
+        if len(cols) < 2:
+            return pd.DataFrame()
+        # Kendall is expensive — limit columns
+        cols = cols[:15]
+        return self._df[cols].corr(method="kendall")
+
     def cramers_v_matrix(self) -> pd.DataFrame:
-        """Return the Cramér's V matrix for categorical columns."""
+        """Return the Cramer's V matrix for categorical columns."""
         cols = self._schema.categorical_columns
         if len(cols) < 2:
             return pd.DataFrame()
 
+        cols = cols[:15]
         n = len(cols)
         matrix = pd.DataFrame(np.ones((n, n)), index=cols, columns=cols)
 
@@ -53,6 +63,49 @@ class CorrelationStats:
                 matrix.iloc[j, i] = v
 
         return matrix
+
+    def vif(self) -> pd.DataFrame:
+        """Compute Variance Inflation Factor for numeric columns.
+
+        VIF > 5 suggests moderate multicollinearity;
+        VIF > 10 suggests severe multicollinearity.
+
+        Uses the inverse-correlation-matrix diagonal method.
+        """
+        cols = self._schema.numeric_columns
+        if len(cols) < 2:
+            return pd.DataFrame()
+
+        df_clean = self._df[cols].dropna()
+        if len(df_clean) < len(cols) + 1:
+            return pd.DataFrame()
+
+        corr = df_clean.corr()
+        try:
+            corr_inv = np.linalg.inv(corr.values)
+            vif_values = np.diag(corr_inv)
+        except np.linalg.LinAlgError:
+            logger.warning("Singular correlation matrix; VIF cannot be computed.")
+            return pd.DataFrame()
+
+        rows: list[dict] = []
+        for col, vif_val in zip(cols, vif_values):
+            severity = (
+                "severe" if vif_val > 10
+                else "moderate" if vif_val > 5
+                else "low"
+            )
+            rows.append({
+                "column": col,
+                "VIF": round(float(vif_val), 2),
+                "multicollinearity": severity,
+            })
+
+        return (
+            pd.DataFrame(rows)
+            .set_index("column")
+            .sort_values("VIF", ascending=False)
+        )
 
     def high_correlations(self, threshold: float = 0.9) -> list[tuple[str, str, float]]:
         """Return pairs with high correlation.
@@ -88,7 +141,7 @@ class CorrelationStats:
 
     @staticmethod
     def _cramers_v(x: pd.Series, y: pd.Series) -> float:
-        """Compute Cramér's V between two categorical variables."""
+        """Compute Cramer's V between two categorical variables."""
         confusion = pd.crosstab(x, y)
         n = confusion.sum().sum()
         if n == 0:

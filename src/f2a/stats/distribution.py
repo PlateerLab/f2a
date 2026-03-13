@@ -65,23 +65,87 @@ class DistributionStats:
         skew = float(series.skew())
         kurt = float(series.kurtosis())
 
-        # Normality test
-        normality_p: float | None = None
-        normality_test: str = "n/a"
-
         n = len(series)
+
+        # ── Normality tests ──────────────────────────────
+        shapiro_p: float | None = None
+        dagostino_p: float | None = None
+        ks_p: float | None = None
+        anderson_stat: float | None = None
+        anderson_critical: float | None = None
+
+        # Shapiro-Wilk (best for n <= 5000)
         if 3 <= n <= 5000:
-            _, normality_p = sp_stats.shapiro(series)
-            normality_test = "shapiro"
-        elif n > 5000:
-            _, normality_p = sp_stats.normaltest(series)
-            normality_test = "dagostino"
+            try:
+                _, shapiro_p = sp_stats.shapiro(series)
+            except Exception:
+                pass
+
+        # D'Agostino-Pearson (good for n > 20)
+        if n > 20:
+            try:
+                _, dagostino_p = sp_stats.normaltest(series)
+            except Exception:
+                pass
+
+        # Kolmogorov-Smirnov
+        if n >= 5:
+            try:
+                mean, std = series.mean(), series.std()
+                if std > 0:
+                    _, ks_p = sp_stats.kstest(series, "norm", args=(mean, std))
+            except Exception:
+                pass
+
+        # Anderson-Darling
+        if n >= 8:
+            try:
+                ad = sp_stats.anderson(series, "norm")
+                anderson_stat = float(ad.statistic)
+                # Use the 5% significance level critical value
+                anderson_critical = float(ad.critical_values[2])  # index 2 = 5%
+            except Exception:
+                pass
+
+        # Primary normality verdict (prefer Shapiro for small, D'Agostino for large)
+        primary_p: float | None = None
+        primary_test: str = "n/a"
+        if shapiro_p is not None:
+            primary_p = shapiro_p
+            primary_test = "shapiro"
+        elif dagostino_p is not None:
+            primary_p = dagostino_p
+            primary_test = "dagostino"
+
+        # Skewness interpretation
+        if abs(skew) < 0.5:
+            skew_label = "symmetric"
+        elif abs(skew) < 1.0:
+            skew_label = "moderate skew"
+        else:
+            skew_label = "high skew"
+
+        # Kurtosis interpretation (excess kurtosis: 0 = normal)
+        if abs(kurt) < 0.5:
+            kurt_label = "mesokurtic"
+        elif kurt > 0:
+            kurt_label = "leptokurtic"
+        else:
+            kurt_label = "platykurtic"
 
         return {
             "column": col,
+            "n": n,
             "skewness": round(skew, 4),
+            "skew_type": skew_label,
             "kurtosis": round(kurt, 4),
-            "normality_test": normality_test,
-            "normality_p": round(normality_p, 6) if normality_p is not None else None,
-            "is_normal_0.05": normality_p > 0.05 if normality_p is not None else None,
+            "kurt_type": kurt_label,
+            "normality_test": primary_test,
+            "normality_p": round(primary_p, 6) if primary_p is not None else None,
+            "is_normal_0.05": primary_p > 0.05 if primary_p is not None else None,
+            "shapiro_p": round(shapiro_p, 6) if shapiro_p is not None else None,
+            "dagostino_p": round(dagostino_p, 6) if dagostino_p is not None else None,
+            "ks_p": round(ks_p, 6) if ks_p is not None else None,
+            "anderson_stat": round(anderson_stat, 4) if anderson_stat is not None else None,
+            "anderson_5pct_cv": round(anderson_critical, 4) if anderson_critical is not None else None,
         }

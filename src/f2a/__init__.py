@@ -11,5 +11,6 @@ Usage:
 
 from f2a._version import __version__
 from f2a.core.analyzer import analyze
+from f2a.core.config import AnalysisConfig
 
-__all__ = ["__version__", "analyze"]
+__all__ = ["__version__", "analyze", "AnalysisConfig"]
