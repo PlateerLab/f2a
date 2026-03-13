@@ -93,7 +93,7 @@ jobs:
           pip install beautifulsoup4 html5lib
 
       - name: Run tests
-        run: pytest tests/ -v --tb=short
+        run: pytest git_action/tests/ -v --tb=short
 
   # ── Step 3: Build & Deploy ────────────────────────────────
   publish:
