@@ -10,7 +10,7 @@ readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 authors = [
-    { name = "f2a contributors" },
+    { name = "CocoRoF" },
 ]
 keywords = ["statistics", "visualization", "data-analysis", "eda", "huggingface"]
 classifiers = [
@@ -38,6 +38,12 @@ dependencies = [
 hf = ["datasets>=2.14"]
 excel = ["openpyxl>=3.1"]
 parquet = ["pyarrow>=12.0"]
+arrow = ["pyarrow>=12.0"]
+spss = ["pyreadstat>=1.2"]
+hdf5 = ["tables>=3.8"]
+ods = ["odfpy>=1.4"]
+xml = ["lxml>=4.9"]
+duckdb = ["duckdb>=0.9"]
 rich = ["rich>=13.0"]
 report = ["jinja2>=3.1"]
 dev = [
@@ -49,14 +55,14 @@ dev = [
     "mypy>=1.5",
 ]
 all = [
-    "f2a[hf,excel,parquet,rich,report]",
+    "f2a[hf,excel,parquet,arrow,spss,hdf5,ods,xml,duckdb,rich,report]",
 ]
 
 [project.urls]
-Homepage = "https://github.com/f2a/f2a"
-Documentation = "https://github.com/f2a/f2a#readme"
-Repository = "https://github.com/f2a/f2a"
-Issues = "https://github.com/f2a/f2a/issues"
+Homepage = "https://github.com/CocoRoF/f2a"
+Documentation = "https://github.com/CocoRoF/f2a#readme"
+Repository = "https://github.com/CocoRoF/f2a"
+Issues = "https://github.com/CocoRoF/f2a/issues"
 
 [tool.hatch.version]
 path = "src/f2a/_version.py"
