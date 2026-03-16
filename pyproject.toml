@@ -67,7 +67,7 @@ Repository = "https://github.com/CocoRoF/f2a"
 Issues = "https://github.com/CocoRoF/f2a/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/f2a"]
+packages = ["f2a"]
 
 # ── Ruff ──────────────────────────────────────────────
 [tool.ruff]
