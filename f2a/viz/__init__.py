@@ -16,6 +16,11 @@ from f2a.viz.advanced_corr_plots import AdvancedCorrPlotter
 from f2a.viz.advanced_dist_plots import AdvancedDistPlotter
 from f2a.viz.cluster_plots import ClusterPlotter
 
+# New viz modules (enhancement)
+from f2a.viz.cross_plots import CrossPlotter
+from f2a.viz.dimreduction_plots import DimReductionPlotter
+from f2a.viz.insight_plots import InsightPlotter
+
 __all__ = [
     "BasicPlotter",
     "CategoricalPlotter",
@@ -31,4 +36,8 @@ __all__ = [
     "AdvancedCorrPlotter",
     "AdvancedDistPlotter",
     "ClusterPlotter",
+    # Enhancement
+    "CrossPlotter",
+    "DimReductionPlotter",
+    "InsightPlotter",
 ]

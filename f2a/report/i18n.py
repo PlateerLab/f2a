@@ -79,6 +79,8 @@ TRANSLATIONS["en"] = {
     "tab_adv_anomaly": "Anomaly+",
     "tab_stat_tests": "Statistical Tests",
     "tab_data_profile": "Data Profile",
+    "tab_insights": "Key Insights",
+    "tab_cross_analysis": "Cross Analysis",
 
     # Advanced section titles
     "adv_distribution": "Advanced Distribution Analysis",
@@ -89,6 +91,8 @@ TRANSLATIONS["en"] = {
     "adv_anomaly": "Advanced Anomaly Detection",
     "adv_stat_tests": "Statistical Tests",
     "adv_data_profile": "Data Profiling Summary",
+    "adv_insights": "Auto-Generated Insights",
+    "adv_cross_analysis": "Cross-Dimensional Analysis",
 
     # Sub-section headings
     "sub_best_fit": "Best-Fit Distribution",
@@ -125,6 +129,17 @@ TRANSLATIONS["en"] = {
     "sub_loadings": "Loadings",
     "sub_column_quality": "Column Quality",
     "sub_summary": "Summary",
+
+    # Enhancement sub-sections
+    "sub_executive_summary": "Executive Summary",
+    "sub_insight_details": "Insight Details",
+    "sub_data_profile_summary": "Dataset Profile",
+    "sub_column_roles": "Column Roles",
+    "sub_ml_readiness": "ML Readiness",
+    "sub_outlier_cluster": "Anomaly Distribution by Cluster",
+    "sub_dist_outlier_fitness": "Outlier Method Recommendation",
+    "sub_importance_missing": "Feature Importance vs. Missing Rate",
+    "sub_simpson_paradox": "Simpson's Paradox Detection",
 
     # Stat test names
     "test_levene": "Levene's Test (Equality of Variances)",
@@ -194,6 +209,8 @@ TRANSLATIONS["ko"] = {
     "tab_adv_anomaly": "이상치+",
     "tab_stat_tests": "통계 검정",
     "tab_data_profile": "데이터 프로필",
+    "tab_insights": "핵심 인사이트",
+    "tab_cross_analysis": "교차 분석",
 
     "adv_distribution": "고급 분포 분석",
     "adv_correlation": "고급 상관 분석",
@@ -203,6 +220,8 @@ TRANSLATIONS["ko"] = {
     "adv_anomaly": "고급 이상치 탐지",
     "adv_stat_tests": "통계 검정",
     "adv_data_profile": "데이터 프로파일링 요약",
+    "adv_insights": "자동 생성 인사이트",
+    "adv_cross_analysis": "교차 차원 분석",
 
     "sub_best_fit": "최적 분포 적합",
     "sub_jarque_bera": "자크-베라 정규성 검정",
@@ -303,6 +322,8 @@ TRANSLATIONS["zh"] = {
     "tab_adv_anomaly": "异常+",
     "tab_stat_tests": "统计检验",
     "tab_data_profile": "数据概要",
+    "tab_insights": "关键洞察",
+    "tab_cross_analysis": "交叉分析",
 
     "adv_distribution": "高级分布分析",
     "adv_correlation": "高级相关性分析",
@@ -312,6 +333,8 @@ TRANSLATIONS["zh"] = {
     "adv_anomaly": "高级异常检测",
     "adv_stat_tests": "统计检验",
     "adv_data_profile": "数据概要统计",
+    "adv_insights": "自动生成的洞察",
+    "adv_cross_analysis": "跨维度分析",
 
     "sub_best_fit": "最佳拟合分布",
     "sub_jarque_bera": "Jarque-Bera正态性检验",
@@ -412,6 +435,8 @@ TRANSLATIONS["ja"] = {
     "tab_adv_anomaly": "異常+",
     "tab_stat_tests": "統計検定",
     "tab_data_profile": "データプロファイル",
+    "tab_insights": "主要インサイト",
+    "tab_cross_analysis": "クロス分析",
 
     "adv_distribution": "高度な分布分析",
     "adv_correlation": "高度な相関分析",
@@ -421,6 +446,8 @@ TRANSLATIONS["ja"] = {
     "adv_anomaly": "高度な異常検出",
     "adv_stat_tests": "統計検定",
     "adv_data_profile": "データプロファイリング要約",
+    "adv_insights": "自動生成インサイト",
+    "adv_cross_analysis": "クロスディメンション分析",
 
     "sub_best_fit": "最適分布フィッティング",
     "sub_jarque_bera": "Jarque-Bera正規性検定",
@@ -521,6 +548,8 @@ TRANSLATIONS["de"] = {
     "tab_adv_anomaly": "Anomalie+",
     "tab_stat_tests": "Statistische Tests",
     "tab_data_profile": "Datenprofil",
+    "tab_insights": "Schlüsselerkenntnisse",
+    "tab_cross_analysis": "Kreuzanalyse",
 
     "adv_distribution": "Erweiterte Verteilungsanalyse",
     "adv_correlation": "Erweiterte Korrelationsanalyse",
@@ -530,6 +559,8 @@ TRANSLATIONS["de"] = {
     "adv_anomaly": "Erweiterte Anomalieerkennung",
     "adv_stat_tests": "Statistische Tests",
     "adv_data_profile": "Datenprofilierungs-Zusammenfassung",
+    "adv_insights": "Automatisch generierte Erkenntnisse",
+    "adv_cross_analysis": "Dimensionsübergreifende Analyse",
 
     "sub_best_fit": "Best-Fit-Verteilung",
     "sub_jarque_bera": "Jarque-Bera-Normalitätstest",
@@ -630,6 +661,8 @@ TRANSLATIONS["fr"] = {
     "tab_adv_anomaly": "Anomalie+",
     "tab_stat_tests": "Tests statistiques",
     "tab_data_profile": "Profil de données",
+    "tab_insights": "Informations clés",
+    "tab_cross_analysis": "Analyse croisée",
 
     "adv_distribution": "Analyse avancée de distribution",
     "adv_correlation": "Analyse avancée de corrélation",
@@ -639,6 +672,8 @@ TRANSLATIONS["fr"] = {
     "adv_anomaly": "Détection avancée d'anomalies",
     "adv_stat_tests": "Tests statistiques",
     "adv_data_profile": "Résumé du profilage de données",
+    "adv_insights": "Informations générées automatiquement",
+    "adv_cross_analysis": "Analyse interdimensionnelle",
 
     "sub_best_fit": "Meilleur ajustement de distribution",
     "sub_jarque_bera": "Test de normalité Jarque-Bera",

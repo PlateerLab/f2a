@@ -20,6 +20,12 @@ from f2a.stats.clustering import ClusteringStats
 from f2a.stats.feature_insights import FeatureInsightsStats
 from f2a.stats.statistical_tests import StatisticalTests
 
+# Enhancement modules (v2)
+from f2a.stats.column_role import ColumnRoleClassifier
+from f2a.stats.cross_analysis import CrossAnalysis
+from f2a.stats.insight_engine import InsightEngine
+from f2a.stats.ml_readiness import MLReadinessEvaluator
+
 __all__ = [
     "CategoricalStats",
     "CorrelationStats",
@@ -39,4 +45,9 @@ __all__ = [
     "ClusteringStats",
     "FeatureInsightsStats",
     "StatisticalTests",
+    # Enhancement
+    "ColumnRoleClassifier",
+    "CrossAnalysis",
+    "InsightEngine",
+    "MLReadinessEvaluator",
 ]

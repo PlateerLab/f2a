@@ -3,12 +3,28 @@
 Provides Levene, Kruskal-Wallis, Mann-Whitney, Chi-Square goodness-of-fit,
 Grubbs outlier test, and Augmented Dickey-Fuller stationarity test.
 
+**Enhancements over v1**:
+
+* **Kruskal-Wallis** now uses categorical columns as grouping variables
+  so each test compares one numeric column across groups of a factor — the
+  semantically correct usage.
+* **Benjamini-Hochberg FDR** correction is applied to all pairwise /
+  multi-test batteries (Levene, Mann-Whitney, Kruskal-Wallis).
+* **Effect sizes** are reported alongside every test:
+  - rank-biserial *r* for Mann-Whitney U
+  - η² (eta-squared) for Kruskal-Wallis H
+  - Cohen's *d* proxy for Levene (log-variance difference)
+  - Cramér's *V* for Chi-Square
+
 References:
     - Levene (1960) — equality of variances
     - Kruskal & Wallis (1952) — non-parametric one-way ANOVA
     - Mann & Whitney (1947) — two-sample rank test
     - Grubbs (1950) — single-outlier test
     - Dickey & Fuller (1979) — stationarity test
+    - Benjamini & Hochberg (1995) — FDR control
+    - Rosenthal (1991) — rank-biserial correlation
+    - Cohen (1988) — effect size conventions
 """
 
 from __future__ import annotations
@@ -24,6 +40,46 @@ from f2a.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
+# ── Utility: Benjamini-Hochberg FDR correction ───────────
+
+
+def _bh_adjust(p_values: list[float]) -> list[float]:
+    """Return Benjamini-Hochberg adjusted p-values.
+
+    Args:
+        p_values: Raw p-values (same order as rows).
+
+    Returns:
+        Adjusted p-values clipped to [0, 1].
+    """
+    m = len(p_values)
+    if m == 0:
+        return []
+    arr = np.asarray(p_values, dtype=float)
+    order = np.argsort(arr)
+    ranked = np.empty_like(arr)
+    ranked[order] = np.arange(1, m + 1)
+
+    adjusted = arr * m / ranked
+    # enforce monotonicity (descending by rank order)
+    sorted_idx = np.argsort(ranked)[::-1]
+    cum_min = np.minimum.accumulate(adjusted[sorted_idx])
+    adjusted[sorted_idx] = cum_min
+    return np.clip(adjusted, 0.0, 1.0).tolist()
+
+
+def _significance_stars(p: float) -> str:
+    """Return significance star annotation."""
+    if p < 0.001:
+        return "***"
+    if p < 0.01:
+        return "**"
+    if p < 0.05:
+        return "*"
+    if p < 0.1:
+        return "†"
+    return "ns"
+
 
 class StatisticalTests:
     """Perform various statistical hypothesis tests.
@@ -32,6 +88,10 @@ class StatisticalTests:
         df: Target DataFrame.
         schema: Data schema.
     """
+
+    _MAX_PAIRWISE = 15
+    _MAX_CATEGORIES = 20
+    _MIN_GROUP_SIZE = 5
 
     def __init__(self, df: pd.DataFrame, schema: DataSchema) -> None:
         self._df = df
@@ -42,7 +102,9 @@ class StatisticalTests:
     def levene_test(self) -> pd.DataFrame:
         """Levene's test for equality of variances across numeric columns.
 
-        Tests whether columns have equal variances — useful before ANOVA.
+        Tests whether pairs of numeric columns have equal variances.
+        Results include BH-adjusted p-values and a log-variance-ratio
+        effect size proxy.
 
         Returns:
             DataFrame with pairwise Levene test results.
@@ -51,7 +113,7 @@ class StatisticalTests:
         if len(cols) < 2:
             return pd.DataFrame()
 
-        cols = cols[:15]
+        cols = cols[: self._MAX_PAIRWISE]
         rows: list[dict] = []
 
         for i in range(len(cols)):
@@ -62,92 +124,174 @@ class StatisticalTests:
                     continue
                 try:
                     stat, p = sp_stats.levene(a, b)
+                    # Effect size: absolute log-variance ratio
+                    var_a = float(np.var(a, ddof=1)) if len(a) > 1 else 1e-12
+                    var_b = float(np.var(b, ddof=1)) if len(b) > 1 else 1e-12
+                    log_var_ratio = abs(
+                        float(np.log(max(var_a, 1e-12) / max(var_b, 1e-12)))
+                    )
                     rows.append({
                         "col_a": cols[i],
                         "col_b": cols[j],
                         "levene_stat": round(float(stat), 4),
                         "p_value": round(float(p), 6),
-                        "equal_variance_0.05": float(p) > 0.05,
+                        "log_var_ratio": round(log_var_ratio, 4),
                     })
                 except Exception:
                     continue
 
-        return pd.DataFrame(rows) if rows else pd.DataFrame()
+        if not rows:
+            return pd.DataFrame()
+
+        # BH-adjusted p-values
+        raw_p = [r["p_value"] for r in rows]
+        adj_p = _bh_adjust(raw_p)
+        for r, ap in zip(rows, adj_p):
+            r["adjusted_p"] = round(ap, 6)
+            r["significant_0.05"] = ap < 0.05
+            r["stars"] = _significance_stars(ap)
+
+        return pd.DataFrame(rows)
 
     # ── Kruskal-Wallis test ───────────────────────────────
 
     def kruskal_wallis(self) -> pd.DataFrame:
-        """Kruskal-Wallis H-test across numeric columns.
+        """Kruskal-Wallis H-test: numeric column grouped by categorical factor.
 
-        Non-parametric alternative to one-way ANOVA. Tests whether
-        the distributions of all numeric columns come from the same population.
+        For each (categorical, numeric) pair the test checks whether the
+        numeric distribution differs across the levels of the factor.
+        Reports η² (eta-squared) effect size and BH-adjusted p-values.
 
         Returns:
-            DataFrame with test results for column groups.
+            DataFrame with one row per (grouping_col, numeric_col) pair.
         """
-        cols = self._schema.numeric_columns
-        if len(cols) < 2:
+        num_cols = self._schema.numeric_columns
+        cat_cols = self._schema.categorical_columns
+
+        if not num_cols or not cat_cols:
             return pd.DataFrame()
 
-        cols = cols[:20]
-        groups = [self._df[c].dropna().values for c in cols if len(self._df[c].dropna()) >= 5]
+        # Limit to manageable size
+        cat_cols = cat_cols[:10]
+        num_cols = num_cols[:15]
 
-        if len(groups) < 2:
+        rows: list[dict] = []
+
+        for cat in cat_cols:
+            groups_series = self._df[cat]
+            unique_vals = groups_series.dropna().unique()
+            # skip useless groupings (1 group, or >50 levels)
+            if len(unique_vals) < 2 or len(unique_vals) > 50:
+                continue
+
+            for num in num_cols:
+                sub = self._df[[cat, num]].dropna()
+                grouped = [
+                    grp[num].values
+                    for _, grp in sub.groupby(cat)
+                    if len(grp) >= self._MIN_GROUP_SIZE
+                ]
+                if len(grouped) < 2:
+                    continue
+
+                try:
+                    stat, p = sp_stats.kruskal(*grouped)
+                    n_total = sum(len(g) for g in grouped)
+                    k = len(grouped)
+                    # η² = (H - k + 1) / (n - k)
+                    eta_sq = max(
+                        0.0, (float(stat) - k + 1) / (n_total - k)
+                    ) if n_total > k else 0.0
+                    rows.append({
+                        "grouping_col": cat,
+                        "numeric_col": num,
+                        "n_groups": k,
+                        "h_statistic": round(float(stat), 4),
+                        "p_value": round(float(p), 6),
+                        "eta_squared": round(eta_sq, 4),
+                        "effect_magnitude": (
+                            "large" if eta_sq >= 0.14
+                            else "medium" if eta_sq >= 0.06
+                            else "small"
+                        ),
+                    })
+                except Exception:
+                    continue
+
+        if not rows:
             return pd.DataFrame()
 
-        try:
-            stat, p = sp_stats.kruskal(*groups)
-            return pd.DataFrame([{
-                "test": "Kruskal-Wallis",
-                "n_groups": len(groups),
-                "h_statistic": round(float(stat), 4),
-                "p_value": round(float(p), 6),
-                "reject_h0_0.05": float(p) < 0.05,
-                "interpretation": (
-                    "At least one group differs"
-                    if float(p) < 0.05
-                    else "No significant difference"
-                ),
-            }]).set_index("test")
-        except Exception:
-            return pd.DataFrame()
+        # BH correction
+        raw_p = [r["p_value"] for r in rows]
+        adj_p = _bh_adjust(raw_p)
+        for r, ap in zip(rows, adj_p):
+            r["adjusted_p"] = round(ap, 6)
+            r["reject_h0_0.05"] = ap < 0.05
+            r["stars"] = _significance_stars(ap)
+            r["interpretation"] = (
+                f"Significant (η²={r['eta_squared']}, {r['effect_magnitude']})"
+                if ap < 0.05
+                else "No significant difference"
+            )
+
+        return pd.DataFrame(rows)
 
     # ── Mann-Whitney U test ───────────────────────────────
 
     def mann_whitney(self) -> pd.DataFrame:
         """Pairwise Mann-Whitney U tests between numeric columns.
 
-        Non-parametric test for equal medians between two samples.
+        Reports rank-biserial *r* effect size (Rosenthal, 1991) and
+        BH-adjusted p-values.
 
         Returns:
-            DataFrame with col_a, col_b, U_stat, p_value.
+            DataFrame with col_a, col_b, U-stat, p-value, effect size.
         """
         cols = self._schema.numeric_columns
         if len(cols) < 2:
             return pd.DataFrame()
 
-        cols = cols[:15]
+        cols = cols[: self._MAX_PAIRWISE]
         rows: list[dict] = []
 
         for i in range(len(cols)):
             for j in range(i + 1, len(cols)):
                 a = self._df[cols[i]].dropna().values
                 b = self._df[cols[j]].dropna().values
-                if len(a) < 5 or len(b) < 5:
+                if len(a) < self._MIN_GROUP_SIZE or len(b) < self._MIN_GROUP_SIZE:
                     continue
                 try:
                     stat, p = sp_stats.mannwhitneyu(a, b, alternative="two-sided")
+                    n1, n2 = len(a), len(b)
+                    # rank-biserial r = 1 - 2U / (n1 * n2)
+                    r_rb = 1.0 - 2.0 * float(stat) / (n1 * n2)
                     rows.append({
                         "col_a": cols[i],
                         "col_b": cols[j],
                         "u_statistic": round(float(stat), 2),
                         "p_value": round(float(p), 6),
-                        "significant_0.05": float(p) < 0.05,
+                        "rank_biserial_r": round(r_rb, 4),
+                        "effect_magnitude": (
+                            "large" if abs(r_rb) >= 0.5
+                            else "medium" if abs(r_rb) >= 0.3
+                            else "small"
+                        ),
                     })
                 except Exception:
                     continue
 
-        return pd.DataFrame(rows) if rows else pd.DataFrame()
+        if not rows:
+            return pd.DataFrame()
+
+        # BH correction
+        raw_p = [r["p_value"] for r in rows]
+        adj_p = _bh_adjust(raw_p)
+        for r, ap in zip(rows, adj_p):
+            r["adjusted_p"] = round(ap, 6)
+            r["significant_0.05"] = ap < 0.05
+            r["stars"] = _significance_stars(ap)
+
+        return pd.DataFrame(rows)
 
     # ── Chi-square goodness-of-fit ────────────────────────
 
@@ -155,6 +299,7 @@ class StatisticalTests:
         """Chi-square goodness-of-fit test for categorical columns.
 
         Tests whether observed frequencies differ from expected uniform.
+        Reports Cramér's *V* effect size.
 
         Returns:
             DataFrame with test results per categorical column.
@@ -164,21 +309,31 @@ class StatisticalTests:
             return pd.DataFrame()
 
         rows: list[dict] = []
-        for col in cols[:20]:
+        for col in cols[: self._MAX_CATEGORIES]:
             vc = self._df[col].value_counts()
             if len(vc) < 2 or len(vc) > 100:
                 continue
 
             observed = vc.values.astype(float)
             expected = np.full_like(observed, observed.mean())
+            n_obs = float(observed.sum())
+            k = len(vc)
 
             try:
                 stat, p = sp_stats.chisquare(observed, f_exp=expected)
+                # Cramér's V for goodness-of-fit: sqrt(chi2 / (n*(k-1)))
+                cramers_v = float(np.sqrt(stat / (n_obs * (k - 1)))) if k > 1 else 0.0
                 rows.append({
                     "column": col,
-                    "n_categories": len(vc),
+                    "n_categories": k,
                     "chi2_stat": round(float(stat), 4),
                     "p_value": round(float(p), 6),
+                    "cramers_v": round(cramers_v, 4),
+                    "effect_magnitude": (
+                        "large" if cramers_v >= 0.5
+                        else "medium" if cramers_v >= 0.3
+                        else "small"
+                    ),
                     "uniform_0.05": float(p) > 0.05,
                     "interpretation": (
                         "Approximately uniform"
@@ -261,7 +416,6 @@ class StatisticalTests:
         try:
             from statsmodels.tsa.stattools import adfuller
         except ImportError:
-            # Try scipy-only alternative (simplified)
             logger.info("statsmodels not available; skipping ADF test.")
             return pd.DataFrame()
 

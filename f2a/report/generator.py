@@ -376,11 +376,51 @@ section {
 .chart-card {
     background: #fafafa; border-radius: 8px; padding: 12px; text-align: center;
 }
-.chart-card img { max-width: 100%; border-radius: 6px; }
+.chart-card img { max-width: 100%; border-radius: 6px; cursor: zoom-in; transition: opacity 0.15s; }
+.chart-card img:hover { opacity: 0.85; }
 .chart-card h4 { font-size: 0.9em; color: #555; margin-bottom: 8px; }
 /* Single full-width chart */
 .chart-full { text-align: center; margin: 15px 0; }
-.chart-full img { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.chart-full img { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); cursor: zoom-in; transition: opacity 0.15s; }
+.chart-full img:hover { opacity: 0.85; }
+/* Image viewer modal */
+.f2a-img-overlay {
+    position: fixed; inset: 0; z-index: 10001;
+    background: rgba(0,0,0,0.82); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    cursor: grab;
+}
+.f2a-img-overlay.visible { opacity: 1; pointer-events: auto; }
+.f2a-img-overlay.dragging { cursor: grabbing; }
+.f2a-img-overlay .img-viewport {
+    position: relative; width: 100%; height: 100%;
+    overflow: hidden;
+}
+.f2a-img-overlay .img-viewport img {
+    position: absolute; top: 0; left: 0; transform-origin: 0 0;
+    max-width: none; max-height: none; user-select: none; -webkit-user-drag: none;
+    transition: none;
+}
+.f2a-img-overlay .img-close {
+    position: fixed; top: 18px; right: 24px; z-index: 10002;
+    background: rgba(255,255,255,0.15); border: none; color: #fff; font-size: 2em;
+    cursor: pointer; width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s; line-height: 1;
+}
+.f2a-img-overlay .img-close:hover { background: rgba(255,255,255,0.3); }
+.f2a-img-overlay .img-title {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10002;
+    color: #fff; font-size: 0.9em; background: rgba(0,0,0,0.5); padding: 6px 18px;
+    border-radius: 20px; white-space: nowrap; pointer-events: none;
+}
+.f2a-img-overlay .img-zoom-info {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 10002;
+    color: #fff; font-size: 0.82em; background: rgba(0,0,0,0.45); padding: 4px 14px;
+    border-radius: 14px; pointer-events: none; opacity: 0; transition: opacity 0.25s;
+}
+.f2a-img-overlay .img-zoom-info.show { opacity: 1; }
 /* Warnings */
 .warnings {
     background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px;
@@ -694,6 +734,178 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 """
+
+_IMG_MODAL_JS = """
+(function() {
+    /* Build overlay DOM */
+    var ov = document.createElement('div');
+    ov.className = 'f2a-img-overlay';
+    ov.innerHTML = '<div class="img-viewport"><img></div>' +
+        '<button class="img-close" aria-label="Close">&times;</button>' +
+        '<div class="img-title"></div>' +
+        '<div class="img-zoom-info"></div>';
+    document.body.appendChild(ov);
+
+    var vp = ov.querySelector('.img-viewport');
+    var img = vp.querySelector('img');
+    var titleEl = ov.querySelector('.img-title');
+    var zoomInfo = ov.querySelector('.img-zoom-info');
+    var closeBtn = ov.querySelector('.img-close');
+
+    var scale = 1, panX = 0, panY = 0;
+    var dragging = false, dragStartX = 0, dragStartY = 0, panStartX = 0, panStartY = 0;
+    var zoomTimer = null;
+    var MIN_SCALE = 0.2, MAX_SCALE = 12;
+
+    function applyTransform() {
+        img.style.transform = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
+    }
+
+    function showZoom() {
+        zoomInfo.textContent = Math.round(scale * 100) + '%';
+        zoomInfo.classList.add('show');
+        clearTimeout(zoomTimer);
+        zoomTimer = setTimeout(function() { zoomInfo.classList.remove('show'); }, 900);
+    }
+
+    function resetView() {
+        /* Fit image within viewport */
+        var vw = vp.clientWidth, vh = vp.clientHeight;
+        var nw = img.naturalWidth, nh = img.naturalHeight;
+        if (!nw || !nh) { scale = 1; panX = 0; panY = 0; applyTransform(); return; }
+        scale = Math.min(vw * 0.92 / nw, vh * 0.88 / nh, 1);
+        panX = (vw - nw * scale) / 2;
+        panY = (vh - nh * scale) / 2;
+        applyTransform();
+    }
+
+    function openImg(src, alt) {
+        img.src = src;
+        titleEl.textContent = alt || '';
+        ov.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+        /* Wait one frame so the overlay is laid out before measuring dimensions */
+        requestAnimationFrame(function() {
+            if (img.naturalWidth) { resetView(); } else {
+                img.onload = function() { resetView(); img.onload = null; };
+            }
+        });
+    }
+
+    function closeImg() {
+        ov.classList.remove('visible');
+        document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeImg);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && ov.classList.contains('visible')) closeImg();
+    });
+
+    /* Click outside image to close */
+    ov.addEventListener('click', function(e) {
+        if (e.target === ov || e.target === vp) closeImg();
+    });
+
+    /* Wheel zoom — zoom towards cursor */
+    vp.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        var rect = vp.getBoundingClientRect();
+        var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+        var factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+        var ns = Math.min(Math.max(scale * factor, MIN_SCALE), MAX_SCALE);
+        var ratio = ns / scale;
+        panX = mx - ratio * (mx - panX);
+        panY = my - ratio * (my - panY);
+        scale = ns;
+        applyTransform();
+        showZoom();
+    }, { passive: false });
+
+    /* Drag to pan */
+    vp.addEventListener('mousedown', function(e) {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        dragging = true;
+        ov.classList.add('dragging');
+        dragStartX = e.clientX; dragStartY = e.clientY;
+        panStartX = panX; panStartY = panY;
+    });
+    window.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        panX = panStartX + (e.clientX - dragStartX);
+        panY = panStartY + (e.clientY - dragStartY);
+        applyTransform();
+    });
+    window.addEventListener('mouseup', function() {
+        if (dragging) { dragging = false; ov.classList.remove('dragging'); }
+    });
+
+    /* Touch: pinch zoom + pan */
+    var lastTouchDist = 0, lastTouchMid = null, touchPanStart = null;
+    vp.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            var dx = e.touches[0].clientX - e.touches[1].clientX;
+            var dy = e.touches[0].clientY - e.touches[1].clientY;
+            lastTouchDist = Math.sqrt(dx*dx + dy*dy);
+            lastTouchMid = { x: (e.touches[0].clientX + e.touches[1].clientX)/2,
+                             y: (e.touches[0].clientY + e.touches[1].clientY)/2 };
+        } else if (e.touches.length === 1) {
+            touchPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, px: panX, py: panY };
+        }
+    }, { passive: false });
+    vp.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 2 && lastTouchDist) {
+            e.preventDefault();
+            var dx = e.touches[0].clientX - e.touches[1].clientX;
+            var dy = e.touches[0].clientY - e.touches[1].clientY;
+            var dist = Math.sqrt(dx*dx + dy*dy);
+            var factor = dist / lastTouchDist;
+            var rect = vp.getBoundingClientRect();
+            var mx = (e.touches[0].clientX + e.touches[1].clientX)/2 - rect.left;
+            var my = (e.touches[0].clientY + e.touches[1].clientY)/2 - rect.top;
+            var ns = Math.min(Math.max(scale * factor, MIN_SCALE), MAX_SCALE);
+            var ratio = ns / scale;
+            panX = mx - ratio * (mx - panX);
+            panY = my - ratio * (my - panY);
+            scale = ns;
+            lastTouchDist = dist;
+            applyTransform(); showZoom();
+        } else if (e.touches.length === 1 && touchPanStart) {
+            panX = touchPanStart.px + (e.touches[0].clientX - touchPanStart.x);
+            panY = touchPanStart.py + (e.touches[0].clientY - touchPanStart.y);
+            applyTransform();
+        }
+    }, { passive: false });
+    vp.addEventListener('touchend', function() { lastTouchDist = 0; touchPanStart = null; });
+
+    /* Double-click to reset / toggle 100% */
+    vp.addEventListener('dblclick', function(e) {
+        e.preventDefault();
+        var rect = vp.getBoundingClientRect();
+        var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+        if (Math.abs(scale - 1) < 0.01) {
+            resetView();
+        } else {
+            var ratio = 1 / scale;
+            panX = mx - ratio * (mx - panX);
+            panY = my - ratio * (my - panY);
+            scale = 1;
+        }
+        applyTransform(); showZoom();
+    });
+
+    /* Attach click listeners to chart images */
+    document.addEventListener('click', function(e) {
+        var target = e.target;
+        if (target.tagName === 'IMG' && (target.closest('.chart-card') || target.closest('.chart-full'))) {
+            e.stopPropagation();
+            openImg(target.src, target.alt || '');
+        }
+    });
+})();
+""";
 
 _METHOD_MODAL_JS = """
 (function() {
@@ -1216,6 +1428,16 @@ def _section_dimreduction(stats: Any, figures: dict[str, plt.Figure]) -> str:
     if fc is not None and not fc.empty:
         body += '<h3 class="section-subtitle" data-i18n="sub_feature_contrib">PCA-Weighted Feature Contribution</h3>'
         body += _wrap_table(_df_to_html(fc))
+
+    # Dim-reduction charts
+    chart_keys = [
+        "t-SNE Scatter", "PCA Biplot", "Explained Variance Curve",
+        "Factor Loadings Heatmap", "Feature Contribution per PC",
+    ]
+    chart_parts: dict[str, plt.Figure] = {k: figures[k] for k in chart_keys if k in figures}
+    if chart_parts:
+        body += _figures_to_html(chart_parts, grid=True)
+
     return body
 
 
@@ -1311,10 +1533,188 @@ def _section_stat_tests(stats: Any, figures: dict[str, plt.Figure]) -> str:
 
 
 def _section_data_profiling(stats: Any, figures: dict[str, plt.Figure]) -> str:
-    adv = stats.advanced_stats.get("data_profiling", {})
-    if not adv:
+    adv = stats.advanced_stats
+    profiling = adv.get("data_profiling", {})
+    body = ""
+
+    # Basic profiling metrics
+    if profiling:
+        body += '<h3 class="section-subtitle" data-i18n="sub_data_profile_summary">Dataset Profile</h3>'
+        body += '<div class="cards">' + _dict_to_cards(profiling) + "</div>"
+
+    # Column roles
+    roles = adv.get("column_roles", {})
+    roles_df = roles.get("summary_df")
+    if roles_df is not None and isinstance(roles_df, pd.DataFrame) and not roles_df.empty:
+        body += '<h3 class="section-subtitle" data-i18n="sub_column_roles">Column Roles</h3>'
+        body += _wrap_table(_df_to_html(roles_df))
+
+    # ML Readiness
+    ml = adv.get("ml_readiness", {})
+    if ml:
+        body += '<h3 class="section-subtitle" data-i18n="sub_ml_readiness">ML Readiness</h3>'
+        grade = ml.get("grade", "?")
+        overall = ml.get("overall", 0)
+        dims = ml.get("dimensions", {})
+        body += (
+            f'<div class="cards">'
+            f'<div class="card"><span class="card-label">Overall Score</span>'
+            f'<span class="card-value">{overall:.0f}/100 ({grade})</span></div>'
+        )
+        for dim_name, dim_score in dims.items():
+            body += (
+                f'<div class="card"><span class="card-label">{dim_name}</span>'
+                f'<span class="card-value">{dim_score:.1f}</span></div>'
+            )
+        body += "</div>"
+
+        blocking = ml.get("blocking_issues", [])
+        if blocking:
+            body += '<h4>Blocking Issues</h4><ul class="insight-list">'
+            for issue in blocking[:10]:
+                body += f'<li class="insight-critical">{html_mod.escape(str(issue))}</li>'
+            body += "</ul>"
+
+        suggestions = ml.get("suggestions", [])
+        if suggestions:
+            body += '<h4>Suggestions</h4><ul class="insight-list">'
+            for sug in suggestions[:10]:
+                body += f'<li class="insight-info">{html_mod.escape(str(sug))}</li>'
+            body += "</ul>"
+
+    return body
+
+
+def _section_insights(stats: Any, figures: dict[str, plt.Figure]) -> str:
+    """Build Insights sub-tab content."""
+    insights_data = stats.advanced_stats.get("insights", {})
+    if not insights_data:
         return ""
-    return '<div class="cards">' + _dict_to_cards(adv) + "</div>"
+
+    body = ""
+
+    # Executive summary
+    exec_summary = insights_data.get("executive_summary", "")
+    if exec_summary:
+        body += (
+            '<div class="executive-summary" style="background:#f8f9fa;border-left:4px solid #3498db;'
+            'padding:16px 20px;margin-bottom:20px;border-radius:0 8px 8px 0;">'
+            f'<h3 style="margin:0 0 8px 0;" data-i18n="sub_executive_summary">Executive Summary</h3>'
+            f'<p style="margin:0;line-height:1.6;">{html_mod.escape(exec_summary)}</p>'
+            '</div>'
+        )
+
+    # Summary stats
+    summary = insights_data.get("summary", {})
+    if summary:
+        body += '<div class="cards">'
+        body += f'<div class="card"><span class="card-label">Total Insights</span><span class="card-value">{summary.get("total", 0)}</span></div>'
+        by_sev = summary.get("by_severity", {})
+        for sev, count in by_sev.items():
+            color = {"critical": "#e74c3c", "warning": "#f39c12", "info": "#3498db", "opportunity": "#2ecc71"}.get(sev, "#95a5a6")
+            body += (
+                f'<div class="card" style="border-left:3px solid {color}">'
+                f'<span class="card-label">{sev.title()}</span>'
+                f'<span class="card-value">{count}</span></div>'
+            )
+        body += "</div>"
+
+    # All insight items (top 20)
+    all_insights = insights_data.get("all_insights", [])
+    if all_insights:
+        sorted_insights = sorted(all_insights, key=lambda i: i.get("priority_score", 0), reverse=True)
+        body += '<h3 class="section-subtitle" data-i18n="sub_insight_details">Insight Details</h3>'
+        body += '<div class="insight-list-container">'
+        for ins in sorted_insights[:20]:
+            sev = ins.get("severity", "info")
+            color = {"critical": "#e74c3c", "warning": "#f39c12", "info": "#3498db", "opportunity": "#2ecc71"}.get(sev, "#95a5a6")
+            title = html_mod.escape(ins.get("title", ""))
+            desc = html_mod.escape(ins.get("description", ""))
+            category = html_mod.escape(ins.get("category", ""))
+            score = ins.get("priority_score", 0)
+            body += (
+                f'<div class="insight-item" style="border-left:4px solid {color};'
+                f'padding:12px 16px;margin-bottom:10px;background:#fff;border-radius:0 6px 6px 0;">'
+                f'<div style="display:flex;justify-content:space-between;align-items:center;">'
+                f'<strong>{title}</strong>'
+                f'<span style="font-size:0.8em;color:{color};font-weight:bold;">{sev.upper()} · {score:.1f}</span>'
+                f'</div>'
+                f'<div style="font-size:0.85em;color:#666;margin-top:2px;">{category}</div>'
+                f'<p style="margin:6px 0 0 0;font-size:0.9em;">{desc}</p>'
+            )
+            actions = ins.get("action_items", [])
+            if actions:
+                body += '<ul style="margin:6px 0 0 0;padding-left:20px;font-size:0.85em;">'
+                for a in actions[:3]:
+                    body += f'<li>{html_mod.escape(str(a))}</li>'
+                body += "</ul>"
+            body += "</div>"
+        body += "</div>"
+
+    # Insight charts
+    chart_keys = ["Insight Severity Distribution", "Insight Categories", "Top Insights", "Action Items Summary"]
+    chart_parts: dict[str, plt.Figure] = {k: figures[k] for k in chart_keys if k in figures}
+    if chart_parts:
+        body += _figures_to_html(chart_parts, grid=True)
+
+    return body
+
+
+def _section_cross_analysis(stats: Any, figures: dict[str, plt.Figure]) -> str:
+    """Build Cross Analysis sub-tab content."""
+    cross = stats.advanced_stats.get("cross_analysis", {})
+    if not cross:
+        return ""
+
+    body = ""
+
+    # Outlier by cluster table
+    obc = cross.get("outlier_by_cluster", {})
+    per_cluster = obc.get("per_cluster")
+    if per_cluster is not None:
+        if isinstance(per_cluster, pd.DataFrame) and not per_cluster.empty:
+            body += '<h3 class="section-subtitle" data-i18n="sub_outlier_cluster">Anomaly Distribution by Cluster</h3>'
+            body += _wrap_table(_df_to_html(per_cluster))
+
+    # Distribution–outlier fitness
+    dof = cross.get("distribution_outlier_fitness", {})
+    rec_df = dof.get("recommendations") if isinstance(dof, dict) else dof
+    if rec_df is not None and isinstance(rec_df, pd.DataFrame) and not rec_df.empty:
+        body += '<h3 class="section-subtitle" data-i18n="sub_dist_outlier_fitness">Outlier Method Recommendation</h3>'
+        body += _wrap_table(_df_to_html(rec_df))
+
+    # Importance vs. missing risk
+    ivm = cross.get("importance_vs_missing", {})
+    risk_table = ivm.get("risk_table") if isinstance(ivm, dict) else ivm
+    if risk_table is not None and isinstance(risk_table, pd.DataFrame) and not risk_table.empty:
+        body += '<h3 class="section-subtitle" data-i18n="sub_importance_missing">Feature Importance vs. Missing Rate</h3>'
+        body += _wrap_table(_df_to_html(risk_table))
+
+    # Simpson's paradox
+    sp = cross.get("simpson_paradox", {})
+    sp_cases = sp.get("cases", []) if isinstance(sp, dict) else []
+    if sp_cases:
+        body += '<h3 class="section-subtitle" data-i18n="sub_simpson_paradox">Simpson\'s Paradox Detection</h3>'
+        body += '<div class="cards">'
+        for case in sp_cases[:5]:
+            body += (
+                f'<div class="card" style="border-left:3px solid #e74c3c;">'
+                f'<span class="card-label">{html_mod.escape(str(case.get("col_a", "?")))} vs '
+                f'{html_mod.escape(str(case.get("col_b", "?")))}</span>'
+                f'<span class="card-value">Overall r={case.get("overall_corr", 0):+.3f}</span></div>'
+            )
+        body += "</div>"
+
+    # Cross-analysis charts
+    chart_keys = [
+        "Anomaly by Cluster", "Missing Correlation (Cross)",
+        "Simpson's Paradox", "Importance vs Missing", "Unified 2D Embedding",
+    ]
+    chart_parts: dict[str, plt.Figure] = {k: figures[k] for k in chart_keys if k in figures}
+    if chart_parts:
+        body += _figures_to_html(chart_parts, grid=True)
+
+    return body
 
 
 # =====================================================================
@@ -1371,6 +1771,9 @@ def _build_sub_tabs(
     # Build advanced tab contents
     # (key, tab_label, section_title, tab_i18n_key, section_i18n_key, builder_fn)
     adv_builders: list[tuple[str, str, str, str, str, Any]] = [
+        ("insights", "Key Insights", "Auto-Generated Insights",
+         "tab_insights", "adv_insights",
+         lambda: _section_insights(stats, figures)),
         ("adv-dist", "Distribution+", "Advanced Distribution Analysis",
          "tab_adv_dist", "adv_distribution",
          lambda: _section_adv_distribution(stats, figures)),
@@ -1386,6 +1789,9 @@ def _build_sub_tabs(
         ("feat-insights", "Feature Insights", "Feature Engineering Insights",
          "tab_feat_insights", "adv_feat_insights",
          lambda: _section_feature_insights(stats, figures)),
+        ("cross-analysis", "Cross Analysis", "Cross-Dimensional Analysis",
+         "tab_cross_analysis", "adv_cross_analysis",
+         lambda: _section_cross_analysis(stats, figures)),
         ("adv-anomaly", "Anomaly+", "Advanced Anomaly Detection",
          "tab_adv_anomaly", "adv_anomaly",
          lambda: _section_adv_anomaly(stats, figures)),
@@ -1548,6 +1954,7 @@ class ReportGenerator:
 <script>{_NAV_SCROLL_JS}</script>
 <script>{_TOOLTIP_JS}</script>
 <script>{_METHOD_MODAL_JS}</script>
+<script>{_IMG_MODAL_JS}</script>
 </body>
 </html>"""
         return html
@@ -1694,6 +2101,7 @@ function openTab(evt, tabId) {{
 <script>{_DRAG_SCROLL_JS}</script>
 <script>{_TOOLTIP_JS}</script>
 <script>{_METHOD_MODAL_JS}</script>
+<script>{_IMG_MODAL_JS}</script>
 </body>
 </html>"""
         return html

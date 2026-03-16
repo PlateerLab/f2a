@@ -95,6 +95,19 @@ class AnalysisConfig:
     data_profiling: bool = True
     """Automated insights, type recommendation, health dashboard."""
 
+    # ── Enhancement modules (v2) ──────────────────────────
+    insight_engine: bool = True
+    """Auto-generate prioritised natural-language insights."""
+
+    cross_analysis: bool = True
+    """Cross-dimensional analysis (outlier × cluster, Simpson, etc.)."""
+
+    column_role: bool = True
+    """Auto-detect column semantic roles (ID, target, feature, …)."""
+
+    ml_readiness: bool = True
+    """Multi-dimensional ML-readiness scoring."""
+
     # ── Advanced sub-options ──────────────────────────────
     max_cluster_k: int = 10
     """Maximum k for K-Means elbow search."""

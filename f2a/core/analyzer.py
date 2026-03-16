@@ -401,6 +401,165 @@ class VizResult:
         self._figures["consensus_comparison"] = fig
         return fig
 
+    # -- Insight plots (enhancement) --------------------------------------
+
+    def plot_insight_severity(self) -> plt.Figure:
+        from f2a.viz.insight_plots import InsightPlotter
+        p = InsightPlotter()
+        insights = self._stats.advanced_stats.get("insights", {}).get("all_insights", [])
+        if not insights:
+            return None  # type: ignore[return-value]
+        fig = p.severity_bar(insights)
+        self._figures["insight_severity"] = fig
+        return fig
+
+    def plot_insight_categories(self) -> plt.Figure:
+        from f2a.viz.insight_plots import InsightPlotter
+        p = InsightPlotter()
+        insights = self._stats.advanced_stats.get("insights", {}).get("all_insights", [])
+        if not insights:
+            return None  # type: ignore[return-value]
+        fig = p.category_treemap(insights)
+        self._figures["insight_categories"] = fig
+        return fig
+
+    def plot_top_insights(self) -> plt.Figure:
+        from f2a.viz.insight_plots import InsightPlotter
+        p = InsightPlotter()
+        insights = self._stats.advanced_stats.get("insights", {}).get("all_insights", [])
+        if not insights:
+            return None  # type: ignore[return-value]
+        fig = p.top_insights_table(insights)
+        self._figures["top_insights"] = fig
+        return fig
+
+    def plot_action_items(self) -> plt.Figure:
+        from f2a.viz.insight_plots import InsightPlotter
+        p = InsightPlotter()
+        insights = self._stats.advanced_stats.get("insights", {}).get("all_insights", [])
+        if not insights:
+            return None  # type: ignore[return-value]
+        fig = p.action_items_chart(insights)
+        self._figures["action_items"] = fig
+        return fig
+
+    # -- Cross-analysis plots (enhancement) --------------------------------
+
+    def plot_anomaly_by_cluster(self) -> plt.Figure:
+        from f2a.viz.cross_plots import CrossPlotter
+        p = CrossPlotter()
+        ca = self._stats.advanced_stats.get("cross_analysis", {}).get("outlier_by_cluster")
+        if not ca:
+            return None  # type: ignore[return-value]
+        fig = p.anomaly_by_cluster_bar(ca)
+        self._figures["anomaly_by_cluster"] = fig
+        return fig
+
+    def plot_missing_correlation_cross(self) -> plt.Figure:
+        from f2a.viz.cross_plots import CrossPlotter
+        p = CrossPlotter()
+        ca = self._stats.advanced_stats.get("cross_analysis", {}).get("missing_correlation")
+        if not ca:
+            return None  # type: ignore[return-value]
+        fig = p.missing_correlation_heatmap(ca)
+        self._figures["missing_correlation"] = fig
+        return fig
+
+    def plot_simpson_paradox(self) -> plt.Figure:
+        from f2a.viz.cross_plots import CrossPlotter
+        p = CrossPlotter()
+        ca = self._stats.advanced_stats.get("cross_analysis", {}).get("simpson_paradox")
+        if not ca:
+            return None  # type: ignore[return-value]
+        fig = p.simpson_paradox_scatter(ca)
+        self._figures["simpson_paradox"] = fig
+        return fig
+
+    def plot_importance_vs_missing(self) -> plt.Figure:
+        from f2a.viz.cross_plots import CrossPlotter
+        p = CrossPlotter()
+        ca = self._stats.advanced_stats.get("cross_analysis", {}).get("importance_vs_missing")
+        if not ca:
+            return None  # type: ignore[return-value]
+        fig = p.importance_vs_missing_scatter(ca)
+        self._figures["importance_vs_missing"] = fig
+        return fig
+
+    def plot_unified_embedding(self) -> plt.Figure:
+        from f2a.viz.cross_plots import CrossPlotter
+        p = CrossPlotter()
+        ca = self._stats.advanced_stats.get("cross_analysis", {}).get("unified_2d_embedding")
+        if not ca:
+            return None  # type: ignore[return-value]
+        fig = p.unified_2d_scatter(ca)
+        self._figures["unified_embedding"] = fig
+        return fig
+
+    # -- Dim-reduction plots (enhancement) --------------------------------
+
+    def plot_tsne(self) -> plt.Figure:
+        from f2a.viz.dimreduction_plots import DimReductionPlotter
+        p = DimReductionPlotter()
+        fig = p.tsne_scatter(
+            self._df, self._schema.numeric_columns[:20],
+            perplexity=self._config.tsne_perplexity,
+            max_sample=self._config.max_sample_for_advanced,
+        )
+        self._figures["tsne"] = fig
+        return fig
+
+    def plot_umap(self) -> plt.Figure:
+        from f2a.viz.dimreduction_plots import DimReductionPlotter
+        p = DimReductionPlotter()
+        fig = p.umap_scatter(
+            self._df, self._schema.numeric_columns[:20],
+            max_sample=self._config.max_sample_for_advanced,
+        )
+        self._figures["umap"] = fig
+        return fig
+
+    def plot_explained_variance_curve(self) -> plt.Figure:
+        from f2a.viz.dimreduction_plots import DimReductionPlotter
+        p = DimReductionPlotter()
+        pca_data = self._stats.pca_summary or {}
+        ev_df = pca_data.get("explained_variance_df", self._stats.pca_variance)
+        if ev_df is None or (isinstance(ev_df, pd.DataFrame) and ev_df.empty):
+            return None  # type: ignore[return-value]
+        fig = p.explained_variance_curve({"explained_variance_df": ev_df})
+        self._figures["explained_variance_curve"] = fig
+        return fig
+
+    def plot_factor_loadings_heatmap(self) -> plt.Figure:
+        from f2a.viz.dimreduction_plots import DimReductionPlotter
+        p = DimReductionPlotter()
+        if self._stats.pca_loadings.empty:
+            return None  # type: ignore[return-value]
+        fig = p.factor_loadings_heatmap({"loadings_df": self._stats.pca_loadings})
+        self._figures["factor_loadings"] = fig
+        return fig
+
+    def plot_feature_contribution(self) -> plt.Figure:
+        from f2a.viz.dimreduction_plots import DimReductionPlotter
+        p = DimReductionPlotter()
+        if self._stats.pca_loadings.empty:
+            return None  # type: ignore[return-value]
+        fig = p.feature_contribution_bar({"loadings_df": self._stats.pca_loadings})
+        self._figures["feature_contribution"] = fig
+        return fig
+
+    def plot_biplot(self) -> plt.Figure:
+        from f2a.viz.dimreduction_plots import DimReductionPlotter
+        p = DimReductionPlotter()
+        num_cols = self._schema.numeric_columns[:20]
+        if len(num_cols) < 2:
+            return None  # type: ignore[return-value]
+        fig = p.biplot(
+            self._df, num_cols,
+            max_sample=self._config.max_sample_for_advanced,
+        )
+        self._figures["biplot"] = fig
+        return fig
+
 
 # =====================================================================
 #  Subset / Analysis Report
@@ -577,6 +736,19 @@ class AnalysisReport:
         return sections
 
     @staticmethod
+    def _has_data(obj: Any) -> bool:
+        """Check if an object represents non-empty data (safe for DataFrames)."""
+        if obj is None:
+            return False
+        if isinstance(obj, pd.DataFrame):
+            return not obj.empty
+        if isinstance(obj, pd.Series):
+            return not obj.empty
+        if isinstance(obj, (dict, list)):
+            return len(obj) > 0
+        return bool(obj)
+
+    @staticmethod
     def _generate_figures(
         viz: VizResult,
         stats: StatsResult,
@@ -584,6 +756,7 @@ class AnalysisReport:
     ) -> dict[str, plt.Figure]:
         """Generate all configured figures, catching individual failures."""
         figures: dict[str, plt.Figure] = {}
+        _hd = AnalysisReport._has_data
 
         if not config.visualizations:
             return figures
@@ -729,6 +902,90 @@ class AnalysisReport:
                     viz.plot_consensus_comparison,
                     config.advanced_anomaly
                     and bool(adv.get("advanced_anomaly", {}).get("consensus")),
+                ),
+                # Enhancement: Insight Engine plots
+                (
+                    "Insight Severity Distribution",
+                    viz.plot_insight_severity,
+                    config.insight_engine
+                    and bool(adv.get("insights", {}).get("all_insights")),
+                ),
+                (
+                    "Insight Categories",
+                    viz.plot_insight_categories,
+                    config.insight_engine
+                    and bool(adv.get("insights", {}).get("all_insights")),
+                ),
+                (
+                    "Top Insights",
+                    viz.plot_top_insights,
+                    config.insight_engine
+                    and bool(adv.get("insights", {}).get("all_insights")),
+                ),
+                (
+                    "Action Items Summary",
+                    viz.plot_action_items,
+                    config.insight_engine
+                    and bool(adv.get("insights", {}).get("all_insights")),
+                ),
+                # Enhancement: Cross-Analysis plots
+                (
+                    "Anomaly by Cluster",
+                    viz.plot_anomaly_by_cluster,
+                    config.cross_analysis
+                    and _hd(adv.get("cross_analysis", {}).get("outlier_by_cluster")),
+                ),
+                (
+                    "Missing Correlation (Cross)",
+                    viz.plot_missing_correlation_cross,
+                    config.cross_analysis
+                    and _hd(adv.get("cross_analysis", {}).get("missing_correlation")),
+                ),
+                (
+                    "Simpson's Paradox",
+                    viz.plot_simpson_paradox,
+                    config.cross_analysis
+                    and _hd(adv.get("cross_analysis", {}).get("simpson_paradox")),
+                ),
+                (
+                    "Importance vs Missing",
+                    viz.plot_importance_vs_missing,
+                    config.cross_analysis
+                    and _hd(adv.get("cross_analysis", {}).get("importance_vs_missing")),
+                ),
+                (
+                    "Unified 2D Embedding",
+                    viz.plot_unified_embedding,
+                    config.cross_analysis
+                    and _hd(adv.get("cross_analysis", {}).get("unified_2d_embedding")),
+                ),
+                # Enhancement: Dim-reduction plots
+                (
+                    "t-SNE Scatter",
+                    viz.plot_tsne,
+                    config.advanced_dimreduction
+                    and len(stats._schema.numeric_columns if hasattr(stats, '_schema') else []) >= 2,
+                ),
+                (
+                    "PCA Biplot",
+                    viz.plot_biplot,
+                    config.advanced_dimreduction
+                    and len(viz._schema.numeric_columns) >= 2,
+                ),
+                (
+                    "Explained Variance Curve",
+                    viz.plot_explained_variance_curve,
+                    config.pca and not stats.pca_variance.empty,
+                ),
+                (
+                    "Factor Loadings Heatmap",
+                    viz.plot_factor_loadings_heatmap,
+                    config.pca and not stats.pca_loadings.empty,
+                ),
+                (
+                    "Feature Contribution per PC",
+                    viz.plot_feature_contribution,
+                    config.pca and not stats.pca_loadings.empty,
                 ),
             ]
             plot_attempts.extend(adv_attempts)
@@ -1213,6 +1470,109 @@ class Analyzer:
                 adv["data_profiling"] = profile
             except Exception as exc:
                 logger.debug("Data profiling failed: %s", exc)
+
+        # A9. Insight Engine (v2 enhancement)
+        if config.insight_engine:
+            try:
+                from f2a.stats.insight_engine import InsightEngine
+                ie = InsightEngine(result, schema)
+                insights = ie.generate()
+                adv["insights"] = {
+                    "all_insights": [
+                        {
+                            "type": i.type.value,
+                            "severity": i.severity.value,
+                            "category": i.category,
+                            "title": i.title,
+                            "description": i.description,
+                            "affected_columns": i.affected_columns,
+                            "evidence": i.evidence,
+                            "action_items": i.action_items,
+                            "priority_score": i.priority_score,
+                        }
+                        for i in insights
+                    ],
+                    "summary": ie.summary_dict(),
+                    "executive_summary": ie.executive_summary(),
+                }
+            except Exception as exc:
+                logger.debug("Insight engine failed: %s", exc)
+
+        # A10. Cross Analysis (v2 enhancement)
+        if config.cross_analysis:
+            try:
+                from f2a.stats.cross_analysis import CrossAnalysis
+                ca = CrossAnalysis(df, schema, result)
+                cross_results: dict[str, Any] = {}
+
+                try:
+                    cross_results["outlier_by_cluster"] = ca.outlier_by_cluster()
+                except Exception:
+                    pass
+                try:
+                    cross_results["missing_correlation"] = ca.missing_correlation()
+                except Exception:
+                    pass
+                try:
+                    cross_results["distribution_outlier_fitness"] = ca.distribution_outlier_fitness()
+                except Exception:
+                    pass
+                try:
+                    cross_results["simpson_paradox"] = ca.simpson_paradox()
+                except Exception:
+                    pass
+                try:
+                    cross_results["importance_vs_missing"] = ca.importance_vs_missing()
+                except Exception:
+                    pass
+                try:
+                    cross_results["unified_2d_embedding"] = ca.unified_2d_embedding()
+                except Exception:
+                    pass
+
+                adv["cross_analysis"] = cross_results
+            except Exception as exc:
+                logger.debug("Cross analysis failed: %s", exc)
+
+        # A11. Column Role Classification (v2 enhancement)
+        if config.column_role:
+            try:
+                from f2a.stats.column_role import ColumnRoleClassifier
+                crc = ColumnRoleClassifier(df, schema)
+                roles = crc.classify()
+                adv["column_roles"] = {
+                    "roles": [
+                        {
+                            "column": r.column,
+                            "primary_role": r.primary_role,
+                            "confidence": r.confidence,
+                            "secondary_role": r.secondary_role,
+                            "properties": r.properties,
+                        }
+                        for r in roles
+                    ],
+                    "summary_df": crc.summary(),
+                }
+            except Exception as exc:
+                logger.debug("Column role classification failed: %s", exc)
+
+        # A12. ML Readiness (v2 enhancement)
+        if config.ml_readiness:
+            try:
+                from f2a.stats.ml_readiness import MLReadinessEvaluator
+                roles_df = adv.get("column_roles", {}).get("summary_df")
+                mle = MLReadinessEvaluator(df, schema, result, column_roles=roles_df)
+                readiness = mle.evaluate()
+                adv["ml_readiness"] = {
+                    "overall": readiness.overall,
+                    "grade": readiness.grade,
+                    "dimensions": readiness.dimensions,
+                    "blocking_issues": readiness.blocking_issues,
+                    "suggestions": readiness.suggestions,
+                    "details": readiness.details,
+                }
+            except Exception as exc:
+                logger.debug("ML readiness evaluation failed: %s", exc)
 
 
 # =====================================================================
