@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from f2a.core.config import AnalysisConfig
-from f2a.report.i18n import SUPPORTED_LANGUAGES, TRANSLATIONS, DEFAULT_LANG, t
+from f2a.report.i18n import SUPPORTED_LANGUAGES, TRANSLATIONS, DEFAULT_LANG, t, get_method_info_json, get_metric_tips_json
 from f2a.utils.logging import get_logger
 
 logger = get_logger(__name__)
@@ -45,54 +45,54 @@ def _fig_to_base64(fig: plt.Figure) -> str:
     return encoded
 
 
-# ── Metric tooltip descriptions ──────────────────────────────────────
+# -- Metric tooltip descriptions --------------------------------------
 
 _METRIC_TIPS: dict[str, str] = {
     # Descriptive
     "type": "Inferred data type of the column (numeric, categorical, text, datetime, boolean).",
     "count": "Number of non-null values in the column.",
     "missing": "Number of missing (null / NaN) values.",
-    "missing_%": "Percentage of missing values = (missing / total rows) × 100.",
+    "missing_%": "Percentage of missing values = (missing / total rows) x 100.",
     "unique": "Number of distinct values in the column.",
     "mean": "Arithmetic mean = sum of values / count.",
     "median": "Middle value when data is sorted (50th percentile).",
-    "std": "Standard deviation — measures spread around the mean. Larger = more dispersed.",
-    "se": "Standard error of the mean = std / √n. Indicates precision of the sample mean.",
+    "std": "Standard deviation -- measures spread around the mean. Larger = more dispersed.",
+    "se": "Standard error of the mean = std / sqrtn. Indicates precision of the sample mean.",
     "cv": "Coefficient of variation = std / |mean|. Unitless relative measure of variability.",
-    "mad": "Median Absolute Deviation = median(|xi − median|). Robust measure of spread.",
+    "mad": "Median Absolute Deviation = median(|xi - median|). Robust measure of spread.",
     "min": "Minimum value in the column.",
     "max": "Maximum value in the column.",
-    "range": "Range = max − min. Total spread of the data.",
-    "p5": "5th percentile — 5% of data falls below this value.",
-    "q1": "1st quartile (25th percentile) — 25% of data falls below this value.",
-    "q3": "3rd quartile (75th percentile) — 75% of data falls below this value.",
-    "p95": "95th percentile — 95% of data falls below this value.",
-    "iqr": "Interquartile Range = Q3 − Q1. Middle 50% spread, used for outlier detection.",
+    "range": "Range = max - min. Total spread of the data.",
+    "p5": "5th percentile -- 5% of data falls below this value.",
+    "q1": "1st quartile (25th percentile) -- 25% of data falls below this value.",
+    "q3": "3rd quartile (75th percentile) -- 75% of data falls below this value.",
+    "p95": "95th percentile -- 95% of data falls below this value.",
+    "iqr": "Interquartile Range = Q3 - Q1. Middle 50% spread, used for outlier detection.",
     "skewness": "Skewness measures distribution asymmetry. 0 = symmetric, >0 = right-skewed, <0 = left-skewed.",
     "kurtosis": "Excess kurtosis measures tail heaviness. 0 = normal, >0 = heavy tails, <0 = light tails.",
     "top": "Most frequently occurring value in the column.",
     "freq": "Frequency count of the most common value.",
     # Distribution
     "n": "Number of non-null observations used for the distribution test.",
-    "skew_type": "Interpretation of skewness: symmetric (|s|<0.5), moderate skew (0.5–1), high skew (>1).",
-    "kurt_type": "Interpretation of kurtosis: mesokurtic (≈0), leptokurtic (>1, heavy tails), platykurtic (<−1, light tails).",
-    "normality_test": "Primary normality test used (Shapiro-Wilk for n≤5000, D'Agostino-Pearson for larger).",
-    "normality_p": "p-value of the primary normality test. p<0.05 → likely non-normal.",
-    "is_normal_0.05": "True if p-value ≥ 0.05, meaning the null hypothesis of normality is not rejected at α=0.05.",
-    "shapiro_p": "p-value from Shapiro-Wilk test. Best for small–medium samples (n≤5000).",
-    "dagostino_p": "p-value from D'Agostino-Pearson test. Uses skewness + kurtosis, good for n≥20.",
+    "skew_type": "Interpretation of skewness: symmetric (|s|<0.5), moderate skew (0.5-1), high skew (>1).",
+    "kurt_type": "Interpretation of kurtosis: mesokurtic (~0), leptokurtic (>1, heavy tails), platykurtic (<-1, light tails).",
+    "normality_test": "Primary normality test used (Shapiro-Wilk for n<=5000, D'Agostino-Pearson for larger).",
+    "normality_p": "p-value of the primary normality test. p<0.05 -> likely non-normal.",
+    "is_normal_0.05": "True if p-value >= 0.05, meaning the null hypothesis of normality is not rejected at alpha=0.05.",
+    "shapiro_p": "p-value from Shapiro-Wilk test. Best for small-medium samples (n<=5000).",
+    "dagostino_p": "p-value from D'Agostino-Pearson test. Uses skewness + kurtosis, good for n>=20.",
     "ks_p": "p-value from Kolmogorov-Smirnov test vs. normal distribution.",
     "anderson_stat": "Anderson-Darling test statistic. Higher = stronger evidence against normality.",
-    "anderson_5pct_cv": "Anderson-Darling 5% critical value. If stat > cv → reject normality at 5%.",
+    "anderson_5pct_cv": "Anderson-Darling 5% critical value. If stat > cv -> reject normality at 5%.",
     # Missing
     "missing_count": "Number of missing (null) values in this column.",
     "missing_ratio": "Fraction of missing values = missing_count / total_rows (0 to 1).",
     "dtype": "Pandas dtype of the column.",
     # Outlier
-    "lower_bound": "IQR lower fence = Q1 − k × IQR. Values below this are outliers (default k=1.5).",
-    "upper_bound": "IQR upper fence = Q3 + k × IQR. Values above this are outliers (default k=1.5).",
+    "lower_bound": "IQR lower fence = Q1 - k x IQR. Values below this are outliers (default k=1.5).",
+    "upper_bound": "IQR upper fence = Q3 + k x IQR. Values above this are outliers (default k=1.5).",
     "outlier_count": "Number of values falling outside the outlier bounds.",
-    "outlier_%": "Percentage of outlier values = (outlier_count / total) × 100.",
+    "outlier_%": "Percentage of outlier values = (outlier_count / total) x 100.",
     "min_outlier": "Smallest outlier value detected.",
     "max_outlier": "Largest outlier value detected.",
     "threshold": "Z-score threshold used. Values with |z| > threshold are outliers.",
@@ -100,7 +100,7 @@ _METRIC_TIPS: dict[str, str] = {
     # Categorical
     "top_value": "The most frequently occurring category value.",
     "top_frequency": "Count of the most frequent category.",
-    "top_%": "Percentage of the most frequent category = (top_freq / total) × 100.",
+    "top_%": "Percentage of the most frequent category = (top_freq / total) x 100.",
     "entropy": "Shannon entropy (bits). Higher = more uniform distribution among categories.",
     "norm_entropy": "Normalized entropy = entropy / log2(unique). 1.0 = perfectly uniform.",
     "max_entropy": "Maximum possible entropy = log2(unique). Achieved when all categories are equally frequent.",
@@ -111,15 +111,15 @@ _METRIC_TIPS: dict[str, str] = {
     "mean_abs_corr": "Mean absolute Pearson correlation with all other numeric columns.",
     "avg_mutual_info": "Average mutual information with all other columns (uses sklearn).",
     # Correlation
-    "VIF": "Variance Inflation Factor. VIF=1 → no multicollinearity, >5 → moderate, >10 → severe.",
-    "multicollinearity": "Interpretation of VIF: low (<5), moderate (5–10), or high (≥10).",
+    "VIF": "Variance Inflation Factor. VIF=1 -> no multicollinearity, >5 -> moderate, >10 -> severe.",
+    "multicollinearity": "Interpretation of VIF: low (<5), moderate (5-10), or high (>=10).",
     # PCA
     "variance_ratio": "Proportion of total variance explained by this principal component.",
     "cumulative_ratio": "Cumulative proportion of variance explained up to this component.",
     "eigenvalue": "Eigenvalue of the covariance matrix for this component. Higher = more variance.",
     "n_components": "Total number of principal components computed.",
     "total_variance_explained": "Total variance captured by all computed components.",
-    "components_for_90pct": "Minimum number of components needed to explain ≥ 90% of variance.",
+    "components_for_90pct": "Minimum number of components needed to explain >= 90% of variance.",
     "top_component_variance": "Variance ratio of the first (most important) principal component.",
     # Duplicates
     "total_rows": "Total number of rows in the dataset.",
@@ -128,77 +128,77 @@ _METRIC_TIPS: dict[str, str] = {
     "duplicate_ratio": "Fraction of duplicate rows = duplicate_rows / total_rows.",
     "uniqueness_ratio": "Ratio of unique values = unique / total_non_null. 1.0 = all unique.",
     "total_non_null": "Number of non-null values used for uniqueness calculation.",
-    "is_unique_key": "True if every non-null value is unique — potential primary key.",
+    "is_unique_key": "True if every non-null value is unique -- potential primary key.",
     # Quality
-    "completeness": "Fraction of non-missing values = 1 − (missing / total). 1.0 = no missing data.",
+    "completeness": "Fraction of non-missing values = 1 - (missing / total). 1.0 = no missing data.",
     "uniqueness": "Ratio of unique values to total non-null values. Higher = more diverse.",
     "consistency": "Measures type consistency. 1.0 = all values match the expected data type.",
     "validity": "Fraction of values within expected ranges/formats. 1.0 = all valid.",
-    "overall": "Weighted quality score = 0.35×completeness + 0.25×uniqueness + 0.20×consistency + 0.20×validity.",
+    "overall": "Weighted quality score = 0.35xcompleteness + 0.25xuniqueness + 0.20xconsistency + 0.20xvalidity.",
     "quality_score": "Per-column quality score combining completeness and uniqueness.",
     # Common row-index labels
     "column": "Column name in the dataset.",
-    "component": "Principal component identifier (PC1, PC2, …).",
+    "component": "Principal component identifier (PC1, PC2, ...).",
     "value": "Category or discrete value.",
-    "percentage": "Percentage share of this value = (count / total) × 100.",
-    # ── Advanced Distribution ──
+    "percentage": "Percentage share of this value = (count / total) x 100.",
+    # -- Advanced Distribution --
     "best_distribution": "Scipy distribution that best fits the data according to AIC.",
-    "aic": "Akaike Information Criterion — lower is better. Penalises complexity.",
-    "bic": "Bayesian Information Criterion — lower is better. More conservative than AIC.",
+    "aic": "Akaike Information Criterion -- lower is better. Penalises complexity.",
+    "bic": "Bayesian Information Criterion -- lower is better. More conservative than AIC.",
     "ks_statistic": "Kolmogorov-Smirnov statistic measuring max CDF deviation from the fitted distribution.",
     "jarque_bera_stat": "Jarque-Bera test statistic. Large values indicate non-normality.",
-    "jb_p_value": "p-value of the Jarque-Bera test. p < 0.05 → reject normality.",
+    "jb_p_value": "p-value of the Jarque-Bera test. p < 0.05 -> reject normality.",
     "recommended_transform": "Power transform recommended to make the column more normal (Box-Cox or Yeo-Johnson).",
     "original_skew": "Skewness of the original (untransformed) column.",
     "transformed_skew": "Skewness after applying the recommended power transform.",
     "bandwidth_silverman": "Kernel bandwidth via Silverman's rule for KDE estimation.",
     "bandwidth_scott": "Kernel bandwidth via Scott's rule for KDE estimation.",
-    # ── Advanced Correlation ──
-    "partial_corr": "Partial correlation — Pearson correlation after removing confounding effects of other variables.",
-    "mutual_information": "Mutual information (bits) — measures non-linear dependency between two variables.",
+    # -- Advanced Correlation --
+    "partial_corr": "Partial correlation -- Pearson correlation after removing confounding effects of other variables.",
+    "mutual_information": "Mutual information (bits) -- measures non-linear dependency between two variables.",
     "ci_lower": "Lower bound of the 95% bootstrap confidence interval for the correlation.",
     "ci_upper": "Upper bound of the 95% bootstrap confidence interval for the correlation.",
-    "distance_corr": "Székely distance correlation — captures non-linear dependencies (0 = independent, 1 = dependent).",
-    # ── Clustering ──
+    "distance_corr": "Szekely distance correlation -- captures non-linear dependencies (0 = independent, 1 = dependent).",
+    # -- Clustering --
     "optimal_k": "Best number of clusters determined by silhouette score analysis.",
-    "best_silhouette": "Highest mean silhouette score across evaluated k values (−1 to 1, higher = better separation).",
+    "best_silhouette": "Highest mean silhouette score across evaluated k values (-1 to 1, higher = better separation).",
     "inertia": "Within-cluster sum of squares (WCSS). Lower = tighter clusters.",
     "n_clusters_dbscan": "Number of clusters found by DBSCAN (excludes noise).",
     "noise_ratio": "Fraction of points labelled as noise by DBSCAN.",
-    "eps": "DBSCAN epsilon — neighbourhood radius auto-estimated from k-distance plot.",
-    # ── Dimensionality Reduction ──
+    "eps": "DBSCAN epsilon -- neighbourhood radius auto-estimated from k-distance plot.",
+    # -- Dimensionality Reduction --
     "kl_divergence": "Kullback-Leibler divergence of the t-SNE embedding. Lower = better fit.",
     "tsne_perplexity": "Perplexity parameter for t-SNE (balances local vs. global structure).",
     "n_factors": "Number of latent factors retained via Kaiser criterion (eigenvalue > 1).",
     "factor_loading": "Correlation between an observed variable and a latent factor.",
     "noise_variance": "Estimated noise (uniqueness) for each variable in Factor Analysis.",
-    # ── Feature Insights ──
+    # -- Feature Insights --
     "interaction_strength": "Pearson correlation between a product-interaction term and the top feature.",
-    "monotonic_gap": "Gap between Pearson and Spearman correlations — large gap → non-linear monotonic relationship.",
+    "monotonic_gap": "Gap between Pearson and Spearman correlations -- large gap -> non-linear monotonic relationship.",
     "entropy_equal_width": "Shannon entropy of equal-width binning. Lower = more concentrated distribution.",
     "entropy_equal_freq": "Shannon entropy of equal-frequency binning. Lower = more concentrated.",
     "cardinality": "Number of unique values in a categorical column.",
     "encoding_rec": "Recommended encoding strategy based on cardinality analysis.",
     "leakage_risk": "Risk level (low/medium/high) that a feature may leak target information.",
-    # ── Advanced Anomaly ──
+    # -- Advanced Anomaly --
     "anomaly_score_if": "Isolation Forest anomaly score. More negative = more anomalous.",
     "lof_score": "Local Outlier Factor minus-score. More negative = more anomalous.",
     "mahalanobis_dist": "Mahalanobis distance from the data centroid. Larger = more unusual.",
-    "consensus_flag": "True if ≥ 2 out of 3 anomaly methods agree the point is anomalous.",
-    # ── Statistical Tests ──
+    "consensus_flag": "True if >= 2 out of 3 anomaly methods agree the point is anomalous.",
+    # -- Statistical Tests --
     "levene_stat": "Levene test statistic for equality of variances.",
-    "levene_p": "p-value of Levene's test. p < 0.05 → variances are significantly different.",
-    "kw_stat": "Kruskal-Wallis H statistic — non-parametric one-way ANOVA.",
-    "kw_p": "p-value of Kruskal-Wallis test. p < 0.05 → at least one group differs.",
-    "mw_stat": "Mann-Whitney U statistic — non-parametric two-sample rank test.",
+    "levene_p": "p-value of Levene's test. p < 0.05 -> variances are significantly different.",
+    "kw_stat": "Kruskal-Wallis H statistic -- non-parametric one-way ANOVA.",
+    "kw_p": "p-value of Kruskal-Wallis test. p < 0.05 -> at least one group differs.",
+    "mw_stat": "Mann-Whitney U statistic -- non-parametric two-sample rank test.",
     "mw_p": "p-value of Mann-Whitney U test.",
     "chi2_stat": "Chi-square goodness-of-fit statistic vs. uniform distribution.",
     "chi2_p": "p-value of chi-square goodness-of-fit test.",
     "grubbs_stat": "Grubbs test statistic for detecting a single outlier.",
     "grubbs_p": "p-value of Grubbs test.",
     "adf_stat": "Augmented Dickey-Fuller test statistic for stationarity.",
-    "adf_p": "p-value of the ADF test. p < 0.05 → series is stationary.",
-    # ── Data Profiling ──
+    "adf_p": "p-value of the ADF test. p < 0.05 -> series is stationary.",
+    # -- Data Profiling --
     "numeric_ratio": "Fraction of columns that are numeric.",
     "categorical_ratio": "Fraction of columns that are categorical.",
     "duplicate_row_ratio": "Fraction of rows that are exact duplicates.",
@@ -220,29 +220,34 @@ def _df_to_html(df: pd.DataFrame, max_rows: int = 100) -> str:
     idx_name = sub.index.name or ""
     tip = _METRIC_TIPS.get(idx_name, "")
     tip_attr = f' data-tip="{tip}"' if tip else ""
-    parts.append(f"<th{tip_attr}>{idx_name}</th>")
+    key_attr = f' data-tip-key="{idx_name}"' if tip else ""
+    parts.append(f"<th{tip_attr}{key_attr}>{idx_name}</th>")
     for col in sub.columns:
-        tip = _METRIC_TIPS.get(str(col), "")
+        col_str = str(col)
+        tip = _METRIC_TIPS.get(col_str, "")
         tip_attr = f' data-tip="{tip}"' if tip else ""
-        parts.append(f"<th{tip_attr}>{col}</th>")
+        key_attr = f' data-tip-key="{col_str}"' if tip else ""
+        parts.append(f"<th{tip_attr}{key_attr}>{col}</th>")
     parts.append("</tr></thead>")
 
     # Body rows
     parts.append("<tbody>")
     for idx_val, row in sub.iterrows():
         parts.append("<tr>")
-        # Index cell — row identifier
+        # Index cell -- row identifier
         parts.append(f"<td>{html_mod.escape(str(idx_val))}</td>")
         for col in sub.columns:
             val = row[col]
-            col_tip = _METRIC_TIPS.get(str(col), "")
+            col_str = str(col)
+            col_tip = _METRIC_TIPS.get(col_str, "")
             # Format the display value
             if isinstance(val, float):
                 display = f"{val:.4f}"
             else:
                 display = str(val) if pd.notna(val) else "NaN"
             tip_attr = f' data-tip="{col_tip}"' if col_tip else ""
-            parts.append(f"<td{tip_attr}>{html_mod.escape(display)}</td>")
+            key_attr = f' data-tip-key="{col_str}"' if col_tip else ""
+            parts.append(f"<td{tip_attr}{key_attr}>{html_mod.escape(display)}</td>")
         parts.append("</tr>")
     parts.append("</tbody></table>")
     return "\n".join(parts)
@@ -270,8 +275,9 @@ def _dict_to_cards(d: dict[str, Any], fmt: str = ",.0f") -> str:
         label = key.replace("_", " ").title()
         tip = _METRIC_TIPS.get(key, "")
         tip_attr = f' data-tip="{tip}"' if tip else ""
+        key_attr = f' data-tip-key="{key}"' if tip else ""
         cards.append(
-            f'<div class="card"{tip_attr}><div class="value">{display}</div>'
+            f'<div class="card"{tip_attr}{key_attr}><div class="value">{display}</div>'
             f'<div class="label">{label}</div></div>'
         )
     return "\n".join(cards)
@@ -470,6 +476,47 @@ th[data-tip] { text-decoration: underline dotted rgba(0,0,0,0.25); text-underlin
 /* Analysis timing */
 .analysis-meta { font-size: 0.88em; opacity: 0.8; margin-top: 4px; }
 .header { position: relative; }
+/* Method-info clickable headings */
+.section-subtitle[data-method-key] {
+    cursor: pointer; transition: color 0.15s;
+    border-bottom: 1px dashed rgba(0,0,0,0.2); display: inline-block;
+}
+.section-subtitle[data-method-key]:hover { color: #2980b9; }
+/* Modal overlay + card */
+.f2a-modal-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(0,0,0,0.45); backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.f2a-modal-overlay.visible { opacity: 1; pointer-events: auto; }
+.f2a-modal {
+    background: #fff; border-radius: 14px; max-width: 620px; width: 92%;
+    max-height: 80vh; overflow-y: auto; padding: 28px 32px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.25);
+    transform: translateY(20px); transition: transform 0.2s;
+    position: relative;
+}
+.f2a-modal-overlay.visible .f2a-modal { transform: translateY(0); }
+.f2a-modal-close {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none; font-size: 1.3em; cursor: pointer;
+    color: #999; line-height: 1; padding: 4px 8px; border-radius: 6px;
+    transition: background 0.15s;
+}
+.f2a-modal-close:hover { background: #f0f0f0; color: #333; }
+.f2a-modal h3 {
+    font-size: 1.15em; color: #2c3e50; margin: 0 0 6px 0;
+    padding-right: 30px;
+}
+.f2a-modal .modal-tip {
+    color: #888; font-size: 0.88em; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid #eee;
+}
+.f2a-modal .modal-desc { font-size: 0.92em; color: #444; line-height: 1.7; }
+.f2a-modal .modal-desc ul { margin: 6px 0 6px 20px; }
+.f2a-modal .modal-desc li { margin: 3px 0; }
+.f2a-modal .modal-desc b { color: #2c3e50; }
 """
 
 _DRAG_SCROLL_JS = """
@@ -582,7 +629,7 @@ _TOOLTIP_JS = """
             var rowLabel = getRowLabel(el);
             var cellVal = el.textContent.trim();
             html = '';
-            if (rowLabel) html += '<div class="tip-header">' + rowLabel + ' → ' + colName + '</div>';
+            if (rowLabel) html += '<div class="tip-header">' + rowLabel + ' -> ' + colName + '</div>';
             else if (colName) html += '<div class="tip-header">' + colName + '</div>';
             html += desc;
             if (cellVal && cellVal !== 'NaN') html += '<br><span class="tip-value">Value: ' + cellVal + '</span>';
@@ -648,6 +695,71 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 """
 
+_METHOD_MODAL_JS = """
+(function() {
+    /* Create modal overlay once */
+    var overlay = document.createElement('div');
+    overlay.className = 'f2a-modal-overlay';
+    overlay.innerHTML = '<div class="f2a-modal">' +
+        '<button class="f2a-modal-close" aria-label="Close">&times;</button>' +
+        '<h3 class="modal-title"></h3>' +
+        '<div class="modal-tip"></div>' +
+        '<div class="modal-desc"></div>' +
+        '</div>';
+    document.body.appendChild(overlay);
+
+    var modal = overlay.querySelector('.f2a-modal');
+    var closeBtn = overlay.querySelector('.f2a-modal-close');
+    var titleEl = overlay.querySelector('.modal-title');
+    var tipEl = overlay.querySelector('.modal-tip');
+    var descEl = overlay.querySelector('.modal-desc');
+
+    function showModal(title, tip, desc) {
+        titleEl.textContent = title;
+        tipEl.textContent = tip;
+        descEl.innerHTML = desc;
+        overlay.classList.add('visible');
+    }
+    function hideModal() { overlay.classList.remove('visible'); }
+
+    closeBtn.addEventListener('click', hideModal);
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) hideModal();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') hideModal();
+    });
+
+    /* On DOMContentLoaded, attach data-method-key + data-tip to h3[data-i18n] */
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof _F2A_METHOD_INFO === 'undefined') return;
+        var lang = (typeof _f2aLang !== 'undefined') ? _f2aLang : 'en';
+        document.querySelectorAll('h3.section-subtitle[data-i18n]').forEach(function(el) {
+            var key = el.getAttribute('data-i18n');
+            var info = (_F2A_METHOD_INFO[lang] && _F2A_METHOD_INFO[lang][key]) ||
+                       (_F2A_METHOD_INFO['en'] && _F2A_METHOD_INFO['en'][key]);
+            if (!info) return;
+            el.setAttribute('data-method-key', key);
+            el.setAttribute('data-tip', info.tip || '');
+        });
+    });
+
+    /* Click handler for method-info headings */
+    document.addEventListener('click', function(e) {
+        var el = e.target.closest('[data-method-key]');
+        if (!el || el.tagName.toLowerCase() !== 'h3') return;
+        var key = el.getAttribute('data-method-key');
+        if (typeof _F2A_METHOD_INFO === 'undefined') return;
+        var lang = (typeof _f2aLang !== 'undefined') ? _f2aLang : 'en';
+        var info = (_F2A_METHOD_INFO[lang] && _F2A_METHOD_INFO[lang][key]) ||
+                   (_F2A_METHOD_INFO['en'] && _F2A_METHOD_INFO['en'][key]);
+        if (!info) return;
+        var title = el.textContent.trim();
+        showModal(title, info.tip || '', info.desc || '');
+    });
+})();
+"""
+
 
 def _build_i18n_js(translations_json: str) -> str:
     """Build the i18n JavaScript that handles language switching."""
@@ -660,6 +772,16 @@ function f2aSetLang(lang) {{
     document.querySelectorAll('[data-i18n]').forEach(function(el) {{
         var key = el.getAttribute('data-i18n');
         var text = _F2A_I18N[lang][key] || _F2A_I18N['en'][key] || key;
+        /* Interpolate {{var}} placeholders from data-i18n-args */
+        var argsAttr = el.getAttribute('data-i18n-args');
+        if (argsAttr) {{
+            try {{
+                var params = JSON.parse(argsAttr);
+                for (var k in params) {{
+                    text = text.replace('{{' + k + '}}', params[k]);
+                }}
+            }} catch(e) {{}}
+        }}
         if (el.hasAttribute('data-i18n-html')) {{
             el.innerHTML = text;
         }} else {{
@@ -673,6 +795,23 @@ function f2aSetLang(lang) {{
     }});
     var sel = document.getElementById('f2a-lang-select');
     if (sel) sel.value = lang;
+    /* Update method-info modal title translations */
+    document.querySelectorAll('[data-method-key]').forEach(function(el) {{
+        var mkey = el.getAttribute('data-method-key');
+        if (_F2A_METHOD_INFO && _F2A_METHOD_INFO[lang] && _F2A_METHOD_INFO[lang][mkey]) {{
+            el.setAttribute('data-tip', _F2A_METHOD_INFO[lang][mkey].tip || '');
+        }}
+    }});
+    /* Update metric tooltip translations */
+    if (typeof _F2A_METRIC_TIPS !== 'undefined') {{
+        var tips = _F2A_METRIC_TIPS[lang] || _F2A_METRIC_TIPS['en'] || {{}};
+        document.querySelectorAll('[data-tip-key]').forEach(function(el) {{
+            var tkey = el.getAttribute('data-tip-key');
+            if (tips[tkey]) {{
+                el.setAttribute('data-tip', tips[tkey]);
+            }}
+        }});
+    }}
 }}
 document.addEventListener('DOMContentLoaded', function() {{
     var sel = document.getElementById('f2a-lang-select');
@@ -1136,7 +1275,7 @@ def _section_adv_anomaly(stats: Any, figures: dict[str, plt.Figure]) -> str:
         }) + "</div>"
     cons = adv.get("consensus")
     if cons:
-        body += '<h3 class="section-subtitle" data-i18n="sub_consensus">Consensus (≥2/3 agree)</h3>'
+        body += '<h3 class="section-subtitle" data-i18n="sub_consensus">Consensus (>=2/3 agree)</h3>'
         body += '<div class="cards">' + _dict_to_cards({
             "consensus_count": cons.get("consensus_count", 0),
             "consensus_ratio": cons.get("consensus_ratio", 0),
@@ -1376,6 +1515,8 @@ class ReportGenerator:
 
         # i18n JS
         i18n_js = _build_i18n_js(json.dumps(TRANSLATIONS, ensure_ascii=False))
+        method_info_json = get_method_info_json()
+        metric_tips_json = get_metric_tips_json()
 
         html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -1399,11 +1540,14 @@ class ReportGenerator:
 {sections_html}
 </div>
 <footer data-i18n="footer_text" data-i18n-html="1">Generated by <strong>f2a</strong> (File to Analysis)</footer>
+<script>var _F2A_METHOD_INFO = {method_info_json};</script>
+<script>var _F2A_METRIC_TIPS = {metric_tips_json};</script>
 <script>{i18n_js}</script>
 <script>{_SUB_TAB_JS}</script>
 <script>{_DRAG_SCROLL_JS}</script>
 <script>{_NAV_SCROLL_JS}</script>
 <script>{_TOOLTIP_JS}</script>
+<script>{_METHOD_MODAL_JS}</script>
 </body>
 </html>"""
         return html
@@ -1503,6 +1647,13 @@ class ReportGenerator:
 
         # i18n JS
         i18n_js = _build_i18n_js(json.dumps(TRANSLATIONS, ensure_ascii=False))
+        method_info_json = get_method_info_json()
+        metric_tips_json = get_metric_tips_json()
+
+        # Pre-format summary values for i18n interpolation
+        _total_fmt = f"{total_rows:,}"
+        _count_fmt = str(len(sections))
+        _i18n_args_summary = html_mod.escape(json.dumps({"total": _total_fmt, "count": _count_fmt}, ensure_ascii=False))
 
         html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -1521,13 +1672,15 @@ class ReportGenerator:
 </div>
 <div class="main">
     <div class="summary-bar">
-        <span data-i18n="total_rows_across">Total: <strong>{total_rows:,}</strong> rows across
+        <span data-i18n="total_rows_across" data-i18n-html="1" data-i18n-args='{_i18n_args_summary}'>Total: <strong>{total_rows:,}</strong> rows across
         <strong>{len(sections)}</strong> subsets / splits</span>
     </div>
     <div class="tab-bar">{tabs_html}</div>
     {content_html}
 </div>
 <footer data-i18n="footer_text" data-i18n-html="1">Generated by <strong>f2a</strong> (File to Analysis)</footer>
+<script>var _F2A_METHOD_INFO = {method_info_json};</script>
+<script>var _F2A_METRIC_TIPS = {metric_tips_json};</script>
 <script>{i18n_js}</script>
 <script>
 function openTab(evt, tabId) {{
@@ -1540,6 +1693,7 @@ function openTab(evt, tabId) {{
 <script>{_SUB_TAB_JS}</script>
 <script>{_DRAG_SCROLL_JS}</script>
 <script>{_TOOLTIP_JS}</script>
+<script>{_METHOD_MODAL_JS}</script>
 </body>
 </html>"""
         return html

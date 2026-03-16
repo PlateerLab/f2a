@@ -9,7 +9,7 @@ translated user-visible strings.
 
 from __future__ import annotations
 
-# ── Supported languages ──────────────────────────────────────────────
+# -- Supported languages ----------------------------------------------
 
 SUPPORTED_LANGUAGES: list[dict[str, str]] = [
     {"code": "en", "label": "English"},
@@ -22,7 +22,7 @@ SUPPORTED_LANGUAGES: list[dict[str, str]] = [
 
 DEFAULT_LANG = "en"
 
-# ── Translation dictionary ───────────────────────────────────────────
+# -- Translation dictionary -------------------------------------------
 # Flat dict: TRANSLATIONS[lang_code][key] = translated string
 
 TRANSLATIONS: dict[str, dict[str, str]] = {}
@@ -116,7 +116,7 @@ TRANSLATIONS["en"] = {
     "sub_iso_forest": "Isolation Forest",
     "sub_lof": "Local Outlier Factor",
     "sub_mahalanobis": "Mahalanobis Distance",
-    "sub_consensus": "Consensus (≥2/3 agree)",
+    "sub_consensus": "Consensus (>=2/3 agree)",
     "sub_normality_tests": "Normality Tests & Shape",
     "sub_vif": "Variance Inflation Factor (VIF)",
     "sub_cleaning_log": "Cleaning Log",
@@ -135,7 +135,7 @@ TRANSLATIONS["en"] = {
     "test_adf": "Augmented Dickey-Fuller (Stationarity)",
 
     # Multi-subset
-    "total_rows_across": "Total: {total} rows across {count} subsets / splits",
+    "total_rows_across": "Total: <strong>{total}</strong> rows across <strong>{count}</strong> subsets / splits",
     "subsets": "subsets / splits",
 
     # Footer
@@ -229,7 +229,7 @@ TRANSLATIONS["ko"] = {
     "sub_iso_forest": "고립 포레스트",
     "sub_lof": "로컬 이상치 팩터",
     "sub_mahalanobis": "마할라노비스 거리",
-    "sub_consensus": "합의 (≥2/3 동의)",
+    "sub_consensus": "합의 (>=2/3 동의)",
     "sub_normality_tests": "정규성 검정 및 형태",
     "sub_vif": "분산 팽창 인자 (VIF)",
     "sub_cleaning_log": "전처리 로그",
@@ -246,7 +246,7 @@ TRANSLATIONS["ko"] = {
     "test_grubbs": "그럽스 이상치 검정",
     "test_adf": "ADF 정상성 검정",
 
-    "total_rows_across": "총 {total}행, {count}개 하위 데이터셋",
+    "total_rows_across": "총 <strong>{total}</strong>행, <strong>{count}</strong>개 하위 데이터셋",
     "subsets": "하위 데이터셋",
 
     "footer_text": "<strong>f2a</strong> (File to Analysis)로 생성됨",
@@ -338,7 +338,7 @@ TRANSLATIONS["zh"] = {
     "sub_iso_forest": "隔离森林",
     "sub_lof": "局部离群因子",
     "sub_mahalanobis": "马氏距离",
-    "sub_consensus": "共识 (≥2/3方法一致)",
+    "sub_consensus": "共识 (>=2/3方法一致)",
     "sub_normality_tests": "正态性检验与形态",
     "sub_vif": "方差膨胀因子 (VIF)",
     "sub_cleaning_log": "清洗日志",
@@ -355,7 +355,7 @@ TRANSLATIONS["zh"] = {
     "test_grubbs": "Grubbs异常值检验",
     "test_adf": "ADF平稳性检验",
 
-    "total_rows_across": "共 {total} 行，{count} 个子集/拆分",
+    "total_rows_across": "共 <strong>{total}</strong> 行，<strong>{count}</strong> 个子集/拆分",
     "subsets": "子集/拆分",
 
     "footer_text": "由 <strong>f2a</strong>（File to Analysis）生成",
@@ -447,7 +447,7 @@ TRANSLATIONS["ja"] = {
     "sub_iso_forest": "Isolation Forest",
     "sub_lof": "局所外れ値因子",
     "sub_mahalanobis": "マハラノビス距離",
-    "sub_consensus": "合意（≥2/3手法一致）",
+    "sub_consensus": "合意（>=2/3手法一致）",
     "sub_normality_tests": "正規性検定と形状",
     "sub_vif": "分散膨張係数（VIF）",
     "sub_cleaning_log": "クリーニングログ",
@@ -464,7 +464,7 @@ TRANSLATIONS["ja"] = {
     "test_grubbs": "Grubbs外れ値検定",
     "test_adf": "ADF定常性検定",
 
-    "total_rows_across": "合計 {total} 行、{count} サブセット/分割",
+    "total_rows_across": "合計 <strong>{total}</strong> 行、<strong>{count}</strong> サブセット/分割",
     "subsets": "サブセット/分割",
 
     "footer_text": "<strong>f2a</strong>（File to Analysis）で生成",
@@ -556,7 +556,7 @@ TRANSLATIONS["de"] = {
     "sub_iso_forest": "Isolation Forest",
     "sub_lof": "Lokaler Ausreißerfaktor",
     "sub_mahalanobis": "Mahalanobis-Distanz",
-    "sub_consensus": "Konsens (≥2/3 Übereinstimmung)",
+    "sub_consensus": "Konsens (>=2/3 Übereinstimmung)",
     "sub_normality_tests": "Normalitätstests & Form",
     "sub_vif": "Varianzinflationsfaktor (VIF)",
     "sub_cleaning_log": "Bereinigungsprotokoll",
@@ -573,7 +573,7 @@ TRANSLATIONS["de"] = {
     "test_grubbs": "Grubbs-Ausreißertest",
     "test_adf": "ADF-Stationaritätstest",
 
-    "total_rows_across": "Gesamt: {total} Zeilen in {count} Teilmengen",
+    "total_rows_across": "Gesamt: <strong>{total}</strong> Zeilen in <strong>{count}</strong> Teilmengen",
     "subsets": "Teilmengen",
 
     "footer_text": "Erstellt mit <strong>f2a</strong> (File to Analysis)",
@@ -665,7 +665,7 @@ TRANSLATIONS["fr"] = {
     "sub_iso_forest": "Isolation Forest",
     "sub_lof": "Facteur local d'aberration",
     "sub_mahalanobis": "Distance de Mahalanobis",
-    "sub_consensus": "Consensus (≥2/3 d'accord)",
+    "sub_consensus": "Consensus (>=2/3 d'accord)",
     "sub_normality_tests": "Tests de normalité et forme",
     "sub_vif": "Facteur d'inflation de la variance (VIF)",
     "sub_cleaning_log": "Journal de nettoyage",
@@ -682,7 +682,7 @@ TRANSLATIONS["fr"] = {
     "test_grubbs": "Test de Grubbs",
     "test_adf": "Test ADF (stationnarité)",
 
-    "total_rows_across": "Total : {total} lignes dans {count} sous-ensembles",
+    "total_rows_across": "Total : <strong>{total}</strong> lignes dans <strong>{count}</strong> sous-ensembles",
     "subsets": "sous-ensembles",
 
     "footer_text": "Généré par <strong>f2a</strong> (File to Analysis)",
@@ -703,3 +703,1174 @@ def get_all_translations_json() -> str:
     """Return the full translation dict as a JSON string for embedding in JS."""
     import json
     return json.dumps(TRANSLATIONS, ensure_ascii=False)
+
+
+# -- Method information (tooltip + modal descriptions) -----------------
+# METHOD_INFO[lang_code][method_key] = {"tip": "short hover text", "desc": "detailed HTML"}
+# Keys match the data-i18n keys used on h3.section-subtitle elements.
+
+METHOD_INFO: dict[str, dict[str, dict[str, str]]] = {}
+
+# -- English -----------------------------------------------------------
+METHOD_INFO["en"] = {
+    # -- Section-level --
+    "section_overview": {
+        "tip": "High-level summary: row/column counts, data types, memory usage.",
+        "desc": (
+            "<p><b>Overview</b> provides a bird's-eye view of the dataset -- number of rows, columns, "
+            "inferred types (numeric, categorical, text, datetime, boolean), and memory footprint.</p>"
+            "<p>Use this section to verify the data was loaded correctly before deeper analysis.</p>"
+        ),
+    },
+    "section_quality": {
+        "tip": "Scores the dataset across completeness, uniqueness, consistency, validity.",
+        "desc": (
+            "<p><b>Data Quality</b> evaluates four orthogonal dimensions:</p>"
+            "<ul><li><b>Completeness</b> -- fraction of non-null values.</li>"
+            "<li><b>Uniqueness</b> -- distinctness of rows.</li>"
+            "<li><b>Consistency</b> -- checks for mixed types.</li>"
+            "<li><b>Validity</b> -- values within expected domains.</li></ul>"
+            "<p>Each dimension is scored 0-100 %. Scores below 70 % are flagged.</p>"
+        ),
+    },
+    "section_preprocessing": {
+        "tip": "Documents all cleaning / transformation steps applied before analysis.",
+        "desc": (
+            "<p><b>Preprocessing</b> records every automatic cleaning action -- columns dropped, "
+            "type coercions, encoding, rows removed. Review for reproducibility.</p>"
+        ),
+    },
+    "section_descriptive": {
+        "tip": "Central tendency, dispersion, and shape statistics for each column.",
+        "desc": (
+            "<p><b>Descriptive Statistics</b> summarises each column: mean, median, std, IQR, "
+            "skewness, kurtosis, and percentiles. Non-numeric columns show count, unique, top, freq.</p>"
+        ),
+    },
+    "section_distribution": {
+        "tip": "Visualises the shape and spread of each numeric column with histograms.",
+        "desc": (
+            "<p><b>Distribution Analysis</b> plots histograms and Q-Q plots revealing the empirical "
+            "distribution shape -- symmetric, skewed, bimodal, uniform, etc.</p>"
+        ),
+    },
+    "section_correlation": {
+        "tip": "Measures pairwise linear relationships between numeric columns.",
+        "desc": (
+            "<p><b>Correlation Analysis</b> computes Pearson (linear) and Spearman (rank) matrices. "
+            "High correlations (|r| >= 0.90) trigger multicollinearity warnings.</p>"
+        ),
+    },
+    "section_missing": {
+        "tip": "Analyses patterns, proportions, and potential mechanisms of missing data.",
+        "desc": (
+            "<p><b>Missing Data Analysis</b> examines per-column missing counts, a bar chart, and a "
+            "missingness matrix to reveal MCAR / MAR / MNAR patterns.</p>"
+        ),
+    },
+    "section_outlier": {
+        "tip": "Detects anomalous data points using IQR fences and box plots.",
+        "desc": (
+            "<p><b>Outlier Detection</b> flags points beyond 1.5 x IQR. Extreme outliers "
+            "(beyond 3 x IQR) are also highlighted. Always investigate before removing.</p>"
+        ),
+    },
+    "section_categorical": {
+        "tip": "Frequency distributions and bar charts for categorical / boolean columns.",
+        "desc": (
+            "<p><b>Categorical Analysis</b> shows value counts, percentages, bar charts, "
+            "and cardinality assessment for non-numeric features.</p>"
+        ),
+    },
+    "section_importance": {
+        "tip": "Ranks features by predictive power using variance / mutual information.",
+        "desc": (
+            "<p><b>Feature Importance</b> ranks columns by relative informational value. "
+            "Near-zero importance features are candidates for removal.</p>"
+        ),
+    },
+    "section_pca": {
+        "tip": "Principal Component Analysis reduces dimensions and reveals variance structure.",
+        "desc": (
+            "<p><b>PCA Analysis</b> computes eigenvalue decomposition, scree plot, and loading matrix "
+            "to understand intrinsic dimensionality and detect multicollinearity.</p>"
+        ),
+    },
+    "section_duplicates": {
+        "tip": "Identifies exact duplicate rows in the dataset.",
+        "desc": (
+            "<p><b>Duplicate Analysis</b> scans for identical rows that can inflate sample sizes "
+            "and bias estimates. The duplicate ratio quantifies redundancy.</p>"
+        ),
+    },
+    "section_warnings": {
+        "tip": "Aggregated warnings and potential issues detected during analysis.",
+        "desc": (
+            "<p><b>Warnings</b> collects all anomalies found: high missing ratios, constant columns, "
+            "multicollinearity alerts, unexpected patterns.</p>"
+        ),
+    },
+    # -- Advanced: Distribution+ --
+    "sub_best_fit": {
+        "tip": "Tests each numeric column against theoretical distributions and selects the best match via KS test.",
+        "desc": (
+            "<p><b>Best-Fit Distribution</b> evaluates each numeric column against Normal, Lognormal, "
+            "Exponential, Gamma, Beta, Weibull, etc. using the Kolmogorov-Smirnov (KS) test.</p>"
+            "<p><b>Interpretation:</b></p>"
+            "<ul><li><b>KS statistic</b> -- smaller is better (0 = perfect fit).</li>"
+            "<li><b>p-value</b> -- p &gt; 0.05 suggests acceptable fit.</li>"
+            "<li><b>Parameters</b> -- shape, location, scale of the fitted distribution.</li></ul>"
+            "<p>Knowing the generative distribution enables better simulation, parametric modeling, "
+            "and anomaly detection.</p>"
+        ),
+    },
+    "sub_jarque_bera": {
+        "tip": "Tests whether each column's skewness and kurtosis match a normal distribution.",
+        "desc": (
+            "<p><b>Jarque-Bera Normality Test</b> checks whether sample data have the skewness "
+            "and kurtosis matching a normal distribution.</p>"
+            "<p>JB = (n/6) x [S^2 + (K-3)^2/4]</p>"
+            "<p><b>Interpretation:</b> p &lt; 0.05 -> reject normality. "
+            "Non-normal data may need transformations or non-parametric tests.</p>"
+        ),
+    },
+    "sub_power_transform": {
+        "tip": "Recommends Box-Cox or Yeo-Johnson transformations to make distributions more Gaussian.",
+        "desc": (
+            "<p><b>Power Transform Recommendation</b> evaluates:</p>"
+            "<ul><li><b>Box-Cox</b> (strictly positive data)</li>"
+            "<li><b>Yeo-Johnson</b> (any real data, extends Box-Cox to negatives)</li></ul>"
+            "<p>The optimal lambda is estimated by maximum likelihood. Use cases: stabilise variance, "
+            "reduce skewness, improve model assumptions.</p>"
+        ),
+    },
+    "sub_kde_bandwidth": {
+        "tip": "Analyses optimal kernel density estimation bandwidth using Scott's and Silverman's rules.",
+        "desc": (
+            "<p><b>KDE Bandwidth Analysis</b> determines the optimal smoothing parameter:</p>"
+            "<ul><li><b>Scott's rule</b>: h = 3.49 sigma n^(-1/3)</li>"
+            "<li><b>Silverman's rule</b>: h = 0.9 min(sigma, IQR/1.34) n^(-1/5)</li></ul>"
+            "<p>Smaller bandwidth captures fine detail but overfits noise; "
+            "larger bandwidth over-smooths.</p>"
+        ),
+    },
+    # -- Advanced: Correlation+ --
+    "sub_partial_corr": {
+        "tip": "Correlation between two variables after removing the linear effect of all others.",
+        "desc": (
+            "<p><b>Partial Correlation</b> measures the <em>direct</em> association between each pair "
+            "after controlling for confounders. Computed via the inverse covariance (precision) matrix.</p>"
+            "<p>Near-zero partial correlation -> the apparent relationship is mediated by other features.</p>"
+        ),
+    },
+    "sub_mutual_info": {
+        "tip": "Information-theoretic measure capturing both linear and non-linear dependencies.",
+        "desc": (
+            "<p><b>Mutual Information</b> quantifies the information obtained about one variable "
+            "by observing another: MI(X,Y) = H(X)+H(Y)-H(X,Y).</p>"
+            "<p>Unlike correlation, MI captures <em>any</em> dependency -- linear, periodic, or arbitrary. "
+            "MI = 0 <-> statistical independence.</p>"
+        ),
+    },
+    "sub_bootstrap_ci": {
+        "tip": "Resampling-based 95 % confidence interval for each pairwise correlation.",
+        "desc": (
+            "<p><b>Bootstrap Correlation 95 % CI</b> draws 1 000 bootstrap samples and computes "
+            "the 2.5th-97.5th percentile interval.</p>"
+            "<p>Narrow CI -> stable estimate; wide CI -> high uncertainty; "
+            "CI spanning zero -> possibly not significant.</p>"
+        ),
+    },
+    "sub_distance_corr": {
+        "tip": "Szekely distance correlation -- detects non-linear dependencies missed by Pearson.",
+        "desc": (
+            "<p><b>Distance Correlation</b> equals zero <em>iff</em> variables are statistically independent. "
+            "Unlike Pearson it detects complex non-linear patterns. Range: 0 (independent) to 1 (dependent).</p>"
+            "<p>Compare with Pearson: low Pearson + high distance corr -> significant non-linear relationship.</p>"
+        ),
+    },
+    # -- Clustering --
+    "sub_kmeans": {
+        "tip": "K-Means partitioning with automatically optimised cluster count via silhouette analysis.",
+        "desc": (
+            "<p><b>K-Means</b> clusters standardised numeric features. Optimal k is determined by "
+            "silhouette scores (k=2...10). Results: optimal k, inertia (WCSS), and cluster sizes.</p>"
+        ),
+    },
+    "sub_dbscan": {
+        "tip": "Density-based clustering that discovers clusters of arbitrary shape and identifies noise.",
+        "desc": (
+            "<p><b>DBSCAN</b> groups closely packed points and marks isolated points as noise. "
+            "No need to pre-specify k. Key params: eps (auto-estimated), min_samples.</p>"
+        ),
+    },
+    "sub_hierarchical": {
+        "tip": "Agglomerative clustering dendrogram showing nested cluster structure.",
+        "desc": (
+            "<p><b>Hierarchical Clustering</b> progressively merges the most similar clusters "
+            "(Ward linkage). The dendrogram lets you cut at any height for different k.</p>"
+        ),
+    },
+    "sub_cluster_profiles": {
+        "tip": "Statistical profile (mean, std) of each cluster across all features.",
+        "desc": (
+            "<p><b>Cluster Profiles</b> summarises each K-Means cluster's mean/std for every feature. "
+            "Large mean differences identify the most discriminative features.</p>"
+        ),
+    },
+    # -- Dimensionality Reduction --
+    "sub_tsne": {
+        "tip": "Non-linear 2D embedding that preserves local neighbourhood structure for visualisation.",
+        "desc": (
+            "<p><b>t-SNE</b> projects high-dimensional data to 2D preserving local structure. "
+            "Perplexity balances local vs. global; KL divergence measures embedding quality.</p>"
+            "<p><b>Caution:</b> Inter-cluster distances are NOT meaningful in t-SNE.</p>"
+        ),
+    },
+    "sub_umap": {
+        "tip": "Fast non-linear 2D embedding preserving both local and global structure.",
+        "desc": (
+            "<p><b>UMAP</b> projects data into 2D preserving local and global topology. "
+            "Faster than t-SNE with more faithful global structure.</p>"
+        ),
+    },
+    "sub_factor_analysis": {
+        "tip": "Discovers latent unobserved factors explaining correlations among observed variables.",
+        "desc": (
+            "<p><b>Factor Analysis</b> models variables as linear combinations of latent factors + noise. "
+            "Number of factors selected by Kaiser criterion (eigenvalue &gt; 1).</p>"
+        ),
+    },
+    "sub_factor_loadings": {
+        "tip": "Shows how strongly each observed variable relates to each latent factor.",
+        "desc": (
+            "<p><b>Factor Loadings</b> show variable-factor correlations:</p>"
+            "<ul><li>&gt; 0.7 -> strong</li><li>0.4-0.7 -> moderate</li><li>&lt; 0.4 -> weak</li></ul>"
+            "<p>Cross-loadings suggest a variable is not cleanly associated with a single construct.</p>"
+        ),
+    },
+    "sub_feature_contrib": {
+        "tip": "Weights each feature's contribution to variance using PCA component loadings.",
+        "desc": (
+            "<p><b>PCA-Weighted Feature Contribution</b> ranks original features by total explained variance "
+            "contribution (sum of squared loadings x eigenvalue proportion). "
+            "Useful for unsupervised feature selection.</p>"
+        ),
+    },
+    # -- Feature Insights --
+    "sub_interaction": {
+        "tip": "Detects product-interaction effects between feature pairs.",
+        "desc": (
+            "<p><b>Interaction Detection</b> evaluates pairwise products to discover synergistic effects "
+            "not visible in individual features. Useful for feature engineering.</p>"
+        ),
+    },
+    "sub_monotonic": {
+        "tip": "Compares Pearson (linear) vs Spearman (rank) correlation to find non-linear monotonic patterns.",
+        "desc": (
+            "<p><b>Monotonic Relationship Analysis</b> detects non-linear monotonic relationships. "
+            "A large gap between |Spearman rho| and |Pearson r| signals exponential, log, or sigmoidal patterns. "
+            "Consider monotonic transforms before linear modelling.</p>"
+        ),
+    },
+    "sub_binning": {
+        "tip": "Evaluates equal-width and equal-frequency binning strategies with entropy analysis.",
+        "desc": (
+            "<p><b>Binning Analysis</b> discretises each variable with equal-width / equal-frequency bins. "
+            "Shannon entropy is compared; bin count follows Sturges' rule.</p>"
+        ),
+    },
+    "sub_cardinality": {
+        "tip": "Analyses unique-value counts and recommends encoding methods for categorical features.",
+        "desc": (
+            "<p><b>Cardinality &amp; Encoding</b> recommends:</p>"
+            "<ul><li>Low (<= 5) -> One-hot</li><li>Medium (6-20) -> Target / ordinal</li>"
+            "<li>High (&gt; 20) -> Hashing / embedding / frequency</li></ul>"
+        ),
+    },
+    "sub_leakage": {
+        "tip": "Flags features that might unintentionally leak target information.",
+        "desc": (
+            "<p><b>Leakage Risk Assessment</b> checks for near-perfect correlations, "
+            "suspiciously high cardinality (= row count), and target-derived features. "
+            "Leakage causes unrealistic training performance but production failure.</p>"
+        ),
+    },
+    # -- Anomaly+ --
+    "sub_iso_forest": {
+        "tip": "Tree-based anomaly detection: isolates outliers by random feature splits.",
+        "desc": (
+            "<p><b>Isolation Forest</b> measures how easily a point is isolated via random partitioning. "
+            "Shorter average path -> more anomalous. Works well in high dimensions.</p>"
+        ),
+    },
+    "sub_lof": {
+        "tip": "Density-based anomaly detection: compares local density to neighbours.",
+        "desc": (
+            "<p><b>Local Outlier Factor (LOF)</b> compares each point's local density to its "
+            "k nearest neighbours. LOF ~ 1 -> normal; LOF >> 1 -> anomalous.</p>"
+        ),
+    },
+    "sub_mahalanobis": {
+        "tip": "Multivariate distance from the data centroid, accounting for feature correlations.",
+        "desc": (
+            "<p><b>Mahalanobis Distance</b> measures how far each observation is from the distribution "
+            "centre, accounting for covariance. Under normality, D^2 ~ chi^2(p). "
+            "Points exceeding the 97.5th percentile are flagged.</p>"
+        ),
+    },
+    "sub_consensus": {
+        "tip": "Flags points identified as anomalous by at least 2 out of 3 detection methods.",
+        "desc": (
+            "<p><b>Consensus Anomaly Detection</b> combines Isolation Forest, LOF, and Mahalanobis. "
+            "A point flagged by >= 2 methods is much more likely to be a genuine anomaly.</p>"
+        ),
+    },
+    # -- Statistical Tests --
+    "test_levene": {
+        "tip": "Tests whether groups have equal variances (homoscedasticity assumption).",
+        "desc": (
+            "<p><b>Levene's Test</b> checks equal variances (homoscedasticity). "
+            "p &gt; 0.05 -> variances are roughly equal. More robust to non-normality than Bartlett's test.</p>"
+        ),
+    },
+    "test_kruskal_wallis": {
+        "tip": "Non-parametric ANOVA: tests whether multiple groups have the same median.",
+        "desc": (
+            "<p><b>Kruskal-Wallis</b> is a non-parametric one-way ANOVA on ranked data. "
+            "p &lt; 0.05 -> at least one group differs; follow up with pairwise Mann-Whitney.</p>"
+        ),
+    },
+    "test_mann_whitney": {
+        "tip": "Non-parametric two-sample test comparing distributions of two groups.",
+        "desc": (
+            "<p><b>Mann-Whitney U</b> (Wilcoxon rank-sum) compares two independent groups. "
+            "p &lt; 0.05 -> they differ significantly. Ideal for ordinal data or violated normality.</p>"
+        ),
+    },
+    "test_chi_square": {
+        "tip": "Tests whether observed category frequencies differ from expected frequencies.",
+        "desc": (
+            "<p><b>Chi-Square Goodness of Fit</b> tests whether the observed frequency distribution "
+            "matches a hypothesised one (default: uniform). chi^2 = Sigma(O-E)^2/E. "
+            "Requires each expected frequency >= 5.</p>"
+        ),
+    },
+    "test_grubbs": {
+        "tip": "Tests whether the most extreme value in a dataset is a significant outlier.",
+        "desc": (
+            "<p><b>Grubbs Test</b> evaluates the single most extreme value. "
+            "G = max|Xi-X|/s. p &lt; 0.05 -> the extreme value IS a significant outlier. "
+            "Assumes approximate normality excluding the outlier.</p>"
+        ),
+    },
+    "test_adf": {
+        "tip": "Tests whether a time series is stationary (constant statistical properties over time).",
+        "desc": (
+            "<p><b>Augmented Dickey-Fuller</b> tests for a unit root (non-stationarity). "
+            "p &lt; 0.05 -> reject unit root -> series IS stationary. "
+            "Otherwise consider differencing or detrending.</p>"
+        ),
+    },
+    # -- Basic sub-sections --
+    "sub_column_quality": {
+        "tip": "Per-column quality scores for completeness, uniqueness, and validity.",
+        "desc": "<p><b>Column Quality</b> breaks down quality for each column to pinpoint problem areas.</p>",
+    },
+    "sub_cleaning_log": {
+        "tip": "Step-by-step record of all automated data cleaning actions performed.",
+        "desc": "<p><b>Cleaning Log</b> documents every transformation for full transparency.</p>",
+    },
+    "sub_detected_issues": {
+        "tip": "List of data quality issues found during preprocessing.",
+        "desc": "<p><b>Detected Issues</b> enumerates problems: mixed types, suspicious patterns, encoding issues.</p>",
+    },
+    "sub_normality_tests": {
+        "tip": "Shapiro-Wilk, Anderson-Darling, and Jarque-Bera tests for each numeric column.",
+        "desc": (
+            "<p><b>Normality Tests &amp; Shape</b> applies Shapiro-Wilk (small-medium samples), "
+            "Anderson-Darling (tail emphasis), and Jarque-Bera (skewness+kurtosis).</p>"
+        ),
+    },
+    "sub_vif": {
+        "tip": "Detects multicollinearity by measuring how much each feature's variance is inflated.",
+        "desc": (
+            "<p><b>VIF</b> = 1/(1-R^2_i). VIF = 1 -> no correlation; 5-10 -> high; "
+            "&gt; 10 -> severe multicollinearity, consider removing or combining features.</p>"
+        ),
+    },
+    "sub_summary": {
+        "tip": "Compact summary statistics for distribution shape and outlier counts.",
+        "desc": "<p><b>Summary</b> provides a concise view of skewness, kurtosis class, and outlier counts.</p>",
+    },
+    "sub_variance_explained": {
+        "tip": "Cumulative variance captured by each principal component.",
+        "desc": (
+            "<p><b>Variance Explained</b> shows each component's individual and cumulative variance ratio. "
+            "A steep scree-plot drop indicates a clear dimensionality cutoff.</p>"
+        ),
+    },
+    "sub_loadings": {
+        "tip": "Shows each original feature's contribution to each principal component.",
+        "desc": "<p><b>Loadings</b> matrix shows feature weights per component. Use to interpret component meaning.</p>",
+    },
+}
+
+# -- Korean ------------------------------------------------------------
+METHOD_INFO["ko"] = {
+    "section_overview": {"tip": "행/열 수, 데이터 타입, 메모리 사용량 등 데이터셋 고수준 요약.", "desc": "<p><b>개요</b>는 데이터셋 전체 구조를 보여줍니다.</p>"},
+    "section_quality": {"tip": "완전성*유일성*일관성*유효성 4차원 품질 평가.", "desc": "<p><b>데이터 품질</b>은 네 가지 차원(0-100%)으로 평가합니다.</p>"},
+    "section_preprocessing": {"tip": "분석 전 적용된 정제/변환 단계 기록.", "desc": "<p><b>전처리</b>는 모든 자동 정제 작업을 기록합니다.</p>"},
+    "section_descriptive": {"tip": "각 열의 중심경향*산포도*형태 통계.", "desc": "<p><b>기술통계량</b>은 평균, 중앙값, 표준편차, 왜도, 첨도 등으로 요약합니다.</p>"},
+    "section_distribution": {"tip": "히스토그램으로 각 수치 열의 형태*분포 시각화.", "desc": "<p><b>분포 분석</b>은 히스토그램과 Q-Q 플롯을 그립니다.</p>"},
+    "section_correlation": {"tip": "수치 열 간 쌍별 선형 관계 측정.", "desc": "<p><b>상관 분석</b>은 피어슨/스피어만 상관 행렬을 계산합니다.</p>"},
+    "section_missing": {"tip": "결측 데이터 패턴*비율*메커니즘 분석.", "desc": "<p><b>결측치 분석</b>은 결측 값의 범위와 패턴을 검사합니다.</p>"},
+    "section_outlier": {"tip": "IQR 기준*박스플롯으로 이상 데이터 포인트 탐지.", "desc": "<p><b>이상치 탐지</b>는 1.5xIQR 초과 값을 표시합니다.</p>"},
+    "section_categorical": {"tip": "범주형*불리언 열의 빈도분포 및 막대차트.", "desc": "<p><b>범주형 분석</b>은 비수치 특성을 검사합니다.</p>"},
+    "section_importance": {"tip": "분산*상호정보량 기반 특성 예측력 순위.", "desc": "<p><b>특성 중요도</b>는 각 열의 정보 가치를 순위화합니다.</p>"},
+    "section_pca": {"tip": "주성분 분석으로 차원 축소 및 분산 구조 파악.", "desc": "<p><b>PCA 분석</b>은 고유값 분해, 스크리 플롯, 적재량 행렬을 제공합니다.</p>"},
+    "section_duplicates": {"tip": "데이터셋 내 정확히 일치하는 중복 행 식별.", "desc": "<p><b>중복 분석</b>은 동일 행을 스캔합니다.</p>"},
+    "section_warnings": {"tip": "분석 중 발견된 경고*잠재적 이슈 집계.", "desc": "<p><b>경고</b>는 발견된 모든 문제를 수집합니다.</p>"},
+    "sub_best_fit": {"tip": "각 수치 열을 이론적 분포(정규, 지수, 감마 등)와 비교하여 최적 선택.", "desc": "<p><b>최적 분포</b>는 KS 검정으로 최적 이론 분포를 찾습니다.</p>"},
+    "sub_jarque_bera": {"tip": "왜도*첨도가 정규분포와 일치하는지 검정.", "desc": "<p><b>자크-베라 검정</b>은 정규성을 왜도+첨도로 평가합니다.</p>"},
+    "sub_power_transform": {"tip": "Box-Cox/Yeo-Johnson 변환으로 분포 정규화 권장.", "desc": "<p><b>거듭제곱 변환</b>은 최적 lambda를 추정하여 왜도를 줄입니다.</p>"},
+    "sub_kde_bandwidth": {"tip": "Scott*Silverman 규칙으로 최적 KDE 대역폭 분석.", "desc": "<p><b>KDE 대역폭</b>은 최적 평활 매개변수를 결정합니다.</p>"},
+    "sub_partial_corr": {"tip": "다른 모든 변수 효과 제거 후 두 변수 간 상관.", "desc": "<p><b>편상관</b>은 교란변수 통제 후 직접적 관계를 측정합니다.</p>"},
+    "sub_mutual_info": {"tip": "선형*비선형 의존성을 모두 포착하는 정보이론적 측정.", "desc": "<p><b>상호정보량</b>은 변수 간 모든 형태의 의존성을 포착합니다.</p>"},
+    "sub_bootstrap_ci": {"tip": "리샘플링 기반 각 쌍별 상관계수 95% 신뢰구간.", "desc": "<p><b>부트스트랩 CI</b>는 1000개 샘플로 불확실성을 추정합니다.</p>"},
+    "sub_distance_corr": {"tip": "세켈리 거리상관 -- 피어슨이 놓치는 비선형 의존성 탐지.", "desc": "<p><b>거리상관</b>은 통계적 독립<->0을 만족하는 유일한 상관 측도입니다.</p>"},
+    "sub_kmeans": {"tip": "실루엣 분석으로 자동 최적화된 K-Means 클러스터링.", "desc": "<p><b>K-Means</b>는 표준화 수치 데이터를 자동 최적 k로 분할합니다.</p>"},
+    "sub_dbscan": {"tip": "임의 형태 클러스터 자동 발견 및 노이즈 식별.", "desc": "<p><b>DBSCAN</b>은 밀도 기반으로 클러스터 수 지정 없이 그룹화합니다.</p>"},
+    "sub_hierarchical": {"tip": "중첩 클러스터 구조를 보여주는 병합 덴드로그램.", "desc": "<p><b>계층적 클러스터링</b>은 Ward 연결로 점진적 병합합니다.</p>"},
+    "sub_cluster_profiles": {"tip": "모든 특성에 대한 각 클러스터의 통계적 프로필.", "desc": "<p><b>클러스터 프로필</b>은 각 클러스터의 평균/표준편차를 보여줍니다.</p>"},
+    "sub_tsne": {"tip": "지역 이웃 구조를 보존하는 비선형 2D 임베딩.", "desc": "<p><b>t-SNE</b>는 고차원 데이터를 2D로 투영합니다. 클러스터 간 거리는 의미 없음에 주의.</p>"},
+    "sub_umap": {"tip": "지역+전역 구조를 보존하는 빠른 비선형 2D 임베딩.", "desc": "<p><b>UMAP</b>은 t-SNE보다 빠르고 전역 구조를 더 잘 보존합니다.</p>"},
+    "sub_factor_analysis": {"tip": "관측 변수 간 상관을 설명하는 잠재 요인 발견.", "desc": "<p><b>요인 분석</b>은 관측 변수를 잠재 요인의 선형 조합으로 모델링합니다.</p>"},
+    "sub_factor_loadings": {"tip": "각 관측 변수와 각 잠재 요인의 관련 강도 표시.", "desc": "<p><b>요인 적재량</b>은 변수-요인 상관을 보여줍니다.</p>"},
+    "sub_feature_contrib": {"tip": "PCA 성분 적재량으로 각 특성의 분산 기여도 가중.", "desc": "<p><b>PCA 가중 기여도</b>는 비지도 특성 선택에 유용합니다.</p>"},
+    "sub_interaction": {"tip": "특성 쌍 간 곱-상호작용 효과 탐지.", "desc": "<p><b>상호작용 탐지</b>는 쌍별 곱을 평가하여 시너지 효과를 발견합니다.</p>"},
+    "sub_monotonic": {"tip": "피어슨 vs 스피어만 비교로 비선형 단조 패턴 탐색.", "desc": "<p><b>단조 관계 분석</b>은 |rho|-|r| 차이로 비선형 단조 관계를 탐지합니다.</p>"},
+    "sub_binning": {"tip": "등폭*등빈도 구간화를 엔트로피 분석으로 평가.", "desc": "<p><b>구간화 분석</b>은 두 가지 전략으로 이산화합니다.</p>"},
+    "sub_cardinality": {"tip": "고유값 수 분석 및 범주형 인코딩 방법 권장.", "desc": "<p><b>카디널리티</b>는 고유값 수에 따라 인코딩을 권장합니다.</p>"},
+    "sub_leakage": {"tip": "타겟 정보 누설 위험이 있는 특성 식별.", "desc": "<p><b>누수 위험</b>은 데이터 누수 징후를 검사합니다.</p>"},
+    "sub_iso_forest": {"tip": "랜덤 특성 분할로 이상치를 격리하는 트리 기반 탐지.", "desc": "<p><b>고립 포레스트</b>는 격리 난이도로 이상을 탐지합니다.</p>"},
+    "sub_lof": {"tip": "각 포인트의 지역 밀도를 이웃과 비교하는 밀도 기반 탐지.", "desc": "<p><b>LOF</b>는 지역 밀도 비교로 이상을 식별합니다.</p>"},
+    "sub_mahalanobis": {"tip": "특성 상관 반영 데이터 중심으로부터의 다변량 거리.", "desc": "<p><b>마할라노비스 거리</b>는 공분산 구조를 고려합니다.</p>"},
+    "sub_consensus": {"tip": "3가지 방법 중 2개 이상 동의 시 이상으로 플래그.", "desc": "<p><b>합의 탐지</b>는 세 가지 독립 방법의 결과를 결합합니다.</p>"},
+    "test_levene": {"tip": "그룹 간 등분산성 가정 검정.", "desc": "<p><b>레빈 검정</b>은 분산 동질성을 평가합니다.</p>"},
+    "test_kruskal_wallis": {"tip": "비모수 ANOVA: 여러 그룹 중앙값 동일 여부.", "desc": "<p><b>크루스칼-왈리스</b>는 일원 ANOVA의 비모수 대안입니다.</p>"},
+    "test_mann_whitney": {"tip": "비모수 이표본 검정: 두 그룹 분포 비교.", "desc": "<p><b>만-휘트니 U</b>는 두 독립 그룹을 비교합니다.</p>"},
+    "test_chi_square": {"tip": "관측 범주 빈도가 기대 빈도와 다른지 검정.", "desc": "<p><b>카이제곱 적합도</b>는 범주 분포를 검정합니다.</p>"},
+    "test_grubbs": {"tip": "데이터 최극단값이 유의한 이상치인지 검정.", "desc": "<p><b>그럽스 검정</b>은 가장 극단적인 값을 평가합니다.</p>"},
+    "test_adf": {"tip": "시계열 정상성(일정한 통계적 속성) 검정.", "desc": "<p><b>ADF 검정</b>은 단위근 존재를 검정합니다.</p>"},
+    "sub_column_quality": {"tip": "열별 완전성*유일성*유효성 품질 점수.", "desc": "<p><b>컬럼 품질</b>은 각 열의 품질을 세분화합니다.</p>"},
+    "sub_cleaning_log": {"tip": "모든 자동 정제 작업의 단계별 기록.", "desc": "<p><b>전처리 로그</b>는 모든 변환을 기록합니다.</p>"},
+    "sub_detected_issues": {"tip": "전처리 중 발견된 데이터 품질 이슈 목록.", "desc": "<p><b>탐지된 문제</b>는 문제를 열거합니다.</p>"},
+    "sub_normality_tests": {"tip": "각 수치 열에 대한 Shapiro-Wilk*Anderson-Darling*Jarque-Bera 검정.", "desc": "<p><b>정규성 검정</b>은 여러 검정으로 정규성을 평가합니다.</p>"},
+    "sub_vif": {"tip": "상관에 의한 분산 팽창으로 다중공선성 탐지.", "desc": "<p><b>VIF</b>는 다중공선성의 심각도를 정량화합니다.</p>"},
+    "sub_summary": {"tip": "분포 형태*이상치 수의 간결한 요약.", "desc": "<p><b>요약</b>은 간결한 분포 형태 뷰를 제공합니다.</p>"},
+    "sub_variance_explained": {"tip": "각 주성분이 포착하는 누적 분산.", "desc": "<p><b>설명된 분산</b>은 분산 비율을 보여줍니다.</p>"},
+    "sub_loadings": {"tip": "각 원래 특성의 주성분별 기여도.", "desc": "<p><b>적재량</b>은 성분별 특성 가중치를 보여줍니다.</p>"},
+}
+
+# -- Chinese -----------------------------------------------------------
+METHOD_INFO["zh"] = {
+    "section_overview": {"tip": "数据集概要：行/列数、数据类型、内存使用。", "desc": "<p><b>概览</b>展示数据集全貌。</p>"},
+    "section_quality": {"tip": "从完整性*唯一性*一致性*有效性四维评估质量。", "desc": "<p><b>数据质量</b>在四个维度上评分(0-100%)。</p>"},
+    "section_preprocessing": {"tip": "记录分析前的所有清洗和转换步骤。", "desc": "<p><b>预处理</b>记录所有清洗操作。</p>"},
+    "section_descriptive": {"tip": "每列的集中趋势*离散度*形态统计。", "desc": "<p><b>描述性统计</b>用均值、中位数、标准差等汇总。</p>"},
+    "section_distribution": {"tip": "直方图可视化每个数值列的形态。", "desc": "<p><b>分布分析</b>绘制直方图和Q-Q图。</p>"},
+    "section_correlation": {"tip": "衡量数值列间的成对线性关系。", "desc": "<p><b>相关分析</b>计算Pearson和Spearman矩阵。</p>"},
+    "section_missing": {"tip": "分析缺失数据的模式*比例*机制。", "desc": "<p><b>缺失数据</b>检查缺失值范围和模式。</p>"},
+    "section_outlier": {"tip": "用IQR和箱线图检测异常值。", "desc": "<p><b>异常值</b>标记超出1.5xIQR的点。</p>"},
+    "section_categorical": {"tip": "分类/布尔列的频率分布和柱状图。", "desc": "<p><b>分类分析</b>检查非数值特征。</p>"},
+    "section_importance": {"tip": "用方差/互信息按预测力排列特征。", "desc": "<p><b>特征重要性</b>按信息价值排列。</p>"},
+    "section_pca": {"tip": "PCA降维并揭示方差结构。", "desc": "<p><b>PCA分析</b>提供特征值分解和载荷矩阵。</p>"},
+    "section_duplicates": {"tip": "识别完全重复的行。", "desc": "<p><b>重复项</b>扫描相同行。</p>"},
+    "section_warnings": {"tip": "分析中检测到的汇总警告和问题。", "desc": "<p><b>警告</b>收集所有问题。</p>"},
+    "sub_best_fit": {"tip": "将每列与理论分布比较，选择最佳拟合。", "desc": "<p><b>最佳拟合</b>用KS检验评估各分布。</p>"},
+    "sub_jarque_bera": {"tip": "检验偏度和峰度是否符合正态。", "desc": "<p><b>JB检验</b>基于偏度+峰度评估正态性。</p>"},
+    "sub_power_transform": {"tip": "推荐Box-Cox/Yeo-Johnson变换。", "desc": "<p><b>幂变换</b>估计最优lambda以减少偏度。</p>"},
+    "sub_kde_bandwidth": {"tip": "用Scott/Silverman规则分析最佳KDE带宽。", "desc": "<p><b>KDE带宽</b>确定最优平滑参数。</p>"},
+    "sub_partial_corr": {"tip": "控制其他变量后两变量间的相关。", "desc": "<p><b>偏相关</b>通过精度矩阵测量直接关系。</p>"},
+    "sub_mutual_info": {"tip": "捕捉线性和非线性依赖的信息论度量。", "desc": "<p><b>互信息</b>量化所有形式的依赖。</p>"},
+    "sub_bootstrap_ci": {"tip": "各成对相关的重采样95%置信区间。", "desc": "<p><b>Bootstrap CI</b>用1000个样本估计不确定性。</p>"},
+    "sub_distance_corr": {"tip": "Szekely距离相关----检测非线性依赖。", "desc": "<p><b>距离相关</b>独立<->0的唯一相关度量。</p>"},
+    "sub_kmeans": {"tip": "通过轮廓分析自动优化K-Means。", "desc": "<p><b>K-Means</b>以最优k分割标准化数据。</p>"},
+    "sub_dbscan": {"tip": "密度聚类：自动发现任意形状簇。", "desc": "<p><b>DBSCAN</b>无需指定k的密度聚类。</p>"},
+    "sub_hierarchical": {"tip": "层次聚类树状图。", "desc": "<p><b>层次聚类</b>用Ward法逐步合并。</p>"},
+    "sub_cluster_profiles": {"tip": "每个簇的统计概况。", "desc": "<p><b>聚类概况</b>汇总均值/标准差。</p>"},
+    "sub_tsne": {"tip": "保留局部结构的非线性2D嵌入。", "desc": "<p><b>t-SNE</b>投影到2D。簇间距离无意义。</p>"},
+    "sub_umap": {"tip": "保留局部+全局结构的快速2D嵌入。", "desc": "<p><b>UMAP</b>比t-SNE更快且更好保留全局。</p>"},
+    "sub_factor_analysis": {"tip": "发现解释相关性的潜在因子。", "desc": "<p><b>因子分析</b>将变量建模为潜在因子的线性组合。</p>"},
+    "sub_factor_loadings": {"tip": "变量与因子的关联强度。", "desc": "<p><b>因子载荷</b>展示变量-因子相关。</p>"},
+    "sub_feature_contrib": {"tip": "用PCA载荷加权特征的方差贡献。", "desc": "<p><b>PCA加权贡献</b>用于无监督特征选择。</p>"},
+    "sub_interaction": {"tip": "检测特征对之间的乘积交互效应。", "desc": "<p><b>交互检测</b>评估成对乘积项。</p>"},
+    "sub_monotonic": {"tip": "比较Pearson与Spearman发现非线性单调。", "desc": "<p><b>单调分析</b>检测非线性单调关系。</p>"},
+    "sub_binning": {"tip": "用熵分析评估分箱策略。", "desc": "<p><b>分箱</b>用两种策略离散化。</p>"},
+    "sub_cardinality": {"tip": "分析唯一值数并推荐编码方法。", "desc": "<p><b>基数与编码</b>按唯一值数推荐策略。</p>"},
+    "sub_leakage": {"tip": "标记可能泄漏目标信息的特征。", "desc": "<p><b>泄漏风险</b>检查数据泄漏迹象。</p>"},
+    "sub_iso_forest": {"tip": "随机分割隔离异常值的树模型。", "desc": "<p><b>隔离森林</b>测量隔离难度。</p>"},
+    "sub_lof": {"tip": "比较局部密度与邻居的密度检测。", "desc": "<p><b>LOF</b>比较局部密度识别异常。</p>"},
+    "sub_mahalanobis": {"tip": "考虑相关性的多变量距离。", "desc": "<p><b>马氏距离</b>考虑协方差结构。</p>"},
+    "sub_consensus": {"tip": ">=2/3方法同意时标记为异常。", "desc": "<p><b>共识检测</b>结合三种方法。</p>"},
+    "test_levene": {"tip": "检验各组方差是否相等。", "desc": "<p><b>Levene</b>评估方差齐性。</p>"},
+    "test_kruskal_wallis": {"tip": "非参数ANOVA：多组中位数。", "desc": "<p><b>KW检验</b>是ANOVA的非参数替代。</p>"},
+    "test_mann_whitney": {"tip": "非参数两样本分布比较。", "desc": "<p><b>MW检验</b>比较两个独立组。</p>"},
+    "test_chi_square": {"tip": "检验频率偏离期望值。", "desc": "<p><b>卡方检验</b>检验分类分布。</p>"},
+    "test_grubbs": {"tip": "检验极端值是否为显著异常值。", "desc": "<p><b>Grubbs</b>评估最极端值。</p>"},
+    "test_adf": {"tip": "检验时间序列平稳性。", "desc": "<p><b>ADF</b>检验单位根。</p>"},
+    "sub_column_quality": {"tip": "每列完整性*唯一性质量评分。", "desc": "<p><b>列质量</b>细分各列。</p>"},
+    "sub_cleaning_log": {"tip": "所有清洗操作的逐步记录。", "desc": "<p><b>清洗日志</b>记录每步变换。</p>"},
+    "sub_detected_issues": {"tip": "预处理中发现的问题列表。", "desc": "<p><b>检测到的问题</b>列举问题。</p>"},
+    "sub_normality_tests": {"tip": "各列的SW*AD*JB正态性检验。", "desc": "<p><b>正态性检验</b>用多种检验评估。</p>"},
+    "sub_vif": {"tip": "通过方差膨胀检测多重共线性。", "desc": "<p><b>VIF</b>量化共线性程度。</p>"},
+    "sub_summary": {"tip": "分布形态和异常值的简明统计。", "desc": "<p><b>摘要</b>简要展示形态。</p>"},
+    "sub_variance_explained": {"tip": "各主成分的累积方差。", "desc": "<p><b>解释方差</b>展示比例。</p>"},
+    "sub_loadings": {"tip": "各特征对主成分的贡献。", "desc": "<p><b>载荷</b>展示权重。</p>"},
+}
+
+# -- Japanese ----------------------------------------------------------
+METHOD_INFO["ja"] = {
+    "section_overview": {"tip": "行/列数、データ型、メモリ使用量の概要。", "desc": "<p><b>概要</b>はデータセット全体のビューです。</p>"},
+    "section_quality": {"tip": "完全性*一意性*一貫性*妥当性の4次元品質評価。", "desc": "<p><b>品質</b>を4次元(0-100%)で評価します。</p>"},
+    "section_preprocessing": {"tip": "分析前の全クリーニング・変換ステップを記録。", "desc": "<p><b>前処理</b>は全操作を記録します。</p>"},
+    "section_descriptive": {"tip": "各列の中心傾向・散布度・形状統計。", "desc": "<p><b>記述統計</b>は平均、中央値、標準偏差等で要約します。</p>"},
+    "section_distribution": {"tip": "ヒストグラムで数値列の形状を可視化。", "desc": "<p><b>分布分析</b>はヒストグラムとQ-Qプロットを描画します。</p>"},
+    "section_correlation": {"tip": "数値列間のペアワイズ線形関係を測定。", "desc": "<p><b>相関分析</b>はPearson/Spearman行列を計算します。</p>"},
+    "section_missing": {"tip": "欠損パターン・割合・メカニズムを分析。", "desc": "<p><b>欠損分析</b>は欠損値の範囲とパターンを検査します。</p>"},
+    "section_outlier": {"tip": "IQRと箱ひげ図で異常値を検出。", "desc": "<p><b>外れ値</b>は1.5xIQR超の点を表示します。</p>"},
+    "section_categorical": {"tip": "カテゴリ・ブール列の頻度分布と棒グラフ。", "desc": "<p><b>カテゴリ分析</b>は非数値特徴を検査します。</p>"},
+    "section_importance": {"tip": "分散・相互情報量で特徴量をランク付け。", "desc": "<p><b>特徴量重要度</b>は情報価値順にランク付けします。</p>"},
+    "section_pca": {"tip": "PCAで次元削減し分散構造を明らかに。", "desc": "<p><b>PCA</b>は固有値分解とスクリープロットを提供します。</p>"},
+    "section_duplicates": {"tip": "完全一致の重複行を特定。", "desc": "<p><b>重複分析</b>は同一行をスキャンします。</p>"},
+    "section_warnings": {"tip": "分析で検出された警告と問題の集約。", "desc": "<p><b>警告</b>は全問題を収集します。</p>"},
+    "sub_best_fit": {"tip": "各列を理論分布と比較し最適を選択。", "desc": "<p><b>最適分布</b>はKS検定で評価します。</p>"},
+    "sub_jarque_bera": {"tip": "歪度・尖度が正規分布に一致するか検定。", "desc": "<p><b>JB検定</b>は偏度+尖度で正規性を評価します。</p>"},
+    "sub_power_transform": {"tip": "Box-Cox/Yeo-Johnson変換の推奨。", "desc": "<p><b>べき変換</b>は最適lambdaを推定します。</p>"},
+    "sub_kde_bandwidth": {"tip": "Scott/Silvermanルールで最適KDE帯域幅分析。", "desc": "<p><b>KDE帯域幅</b>は最適平滑パラメータを決定します。</p>"},
+    "sub_partial_corr": {"tip": "他の全変数を制御後の2変数間相関。", "desc": "<p><b>偏相関</b>は精度行列で直接関係を測定します。</p>"},
+    "sub_mutual_info": {"tip": "線形・非線形の依存を捕捉する情報量。", "desc": "<p><b>相互情報量</b>はあらゆる依存を捕捉します。</p>"},
+    "sub_bootstrap_ci": {"tip": "各ペアワイズ相関のリサンプリング95%CI。", "desc": "<p><b>ブートストラップCI</b>は1000サンプルで推定します。</p>"},
+    "sub_distance_corr": {"tip": "Szekely距離相関----非線形依存を検出。", "desc": "<p><b>距離相関</b>は独立<->0の唯一の相関尺度です。</p>"},
+    "sub_kmeans": {"tip": "シルエット分析で最適化されたK-Means。", "desc": "<p><b>K-Means</b>は標準化データを最適kで分割します。</p>"},
+    "sub_dbscan": {"tip": "任意形状のクラスタを自動発見する密度ベース法。", "desc": "<p><b>DBSCAN</b>はk指定不要の密度クラスタリングです。</p>"},
+    "sub_hierarchical": {"tip": "ネスト構造を示す凝集デンドログラム。", "desc": "<p><b>階層的</b>はWard法で段階的統合します。</p>"},
+    "sub_cluster_profiles": {"tip": "各クラスタの全特徴統計プロファイル。", "desc": "<p><b>プロファイル</b>は平均/標準偏差を要約します。</p>"},
+    "sub_tsne": {"tip": "局所構造保存型の非線形2D埋め込み。", "desc": "<p><b>t-SNE</b>は2Dに投影。クラスタ間距離は無意味。</p>"},
+    "sub_umap": {"tip": "局所+大域構造保存型の高速2D埋め込み。", "desc": "<p><b>UMAP</b>はt-SNEより高速で大域構造を保存。</p>"},
+    "sub_factor_analysis": {"tip": "観測変数間の相関を説明する潜在因子を発見。", "desc": "<p><b>因子分析</b>は潜在因子の線形結合としてモデル化。</p>"},
+    "sub_factor_loadings": {"tip": "変数と因子の関連強度を表示。", "desc": "<p><b>因子負荷量</b>は変数-因子相関を表示します。</p>"},
+    "sub_feature_contrib": {"tip": "PCA負荷量で各特徴の分散寄与を加重。", "desc": "<p><b>PCA加重寄与</b>は教師なし特徴選択に有用。</p>"},
+    "sub_interaction": {"tip": "特徴ペアの積交互効果を検出。", "desc": "<p><b>交互作用検出</b>はペアワイズ積を評価します。</p>"},
+    "sub_monotonic": {"tip": "Pearson vs Spearmanで非線形単調パターン検出。", "desc": "<p><b>単調分析</b>は|rho|-|r|差で検出します。</p>"},
+    "sub_binning": {"tip": "等幅・等頻度ビニングをエントロピーで評価。", "desc": "<p><b>ビニング</b>は2戦略で離散化します。</p>"},
+    "sub_cardinality": {"tip": "ユニーク値数を分析しエンコーディング推奨。", "desc": "<p><b>カーディナリティ</b>をユニーク値数で推奨します。</p>"},
+    "sub_leakage": {"tip": "ターゲット情報漏洩リスクを識別。", "desc": "<p><b>リークリスク</b>はデータリーク兆候を検査。</p>"},
+    "sub_iso_forest": {"tip": "ランダム分割で異常を隔離するツリー法。", "desc": "<p><b>Isolation Forest</b>は隔離難度で異常検出。</p>"},
+    "sub_lof": {"tip": "局所密度を近傍と比較する密度ベース検出。", "desc": "<p><b>LOF</b>は局所密度比較で異常識別。</p>"},
+    "sub_mahalanobis": {"tip": "特徴相関考慮のデータ中心からの多変量距離。", "desc": "<p><b>マハラノビス</b>は共分散構造を考慮。</p>"},
+    "sub_consensus": {"tip": "3手法中>=2で異常と判定された点をフラグ。", "desc": "<p><b>合意</b>は3独立手法を統合。</p>"},
+    "test_levene": {"tip": "グループ間等分散性を検定。", "desc": "<p><b>Levene</b>は分散均質性を評価。</p>"},
+    "test_kruskal_wallis": {"tip": "ノンパラANOVA：複数グループ中央値。", "desc": "<p><b>KW検定</b>はANOVAのノンパラ代替。</p>"},
+    "test_mann_whitney": {"tip": "ノンパラ二標本分布比較。", "desc": "<p><b>MW検定</b>は2独立グループを比較。</p>"},
+    "test_chi_square": {"tip": "頻度が期待値と異なるか検定。", "desc": "<p><b>カイ二乗</b>はカテゴリ分布を検定。</p>"},
+    "test_grubbs": {"tip": "最極端値が有意な外れ値か検定。", "desc": "<p><b>Grubbs</b>は最極端値を評価。</p>"},
+    "test_adf": {"tip": "時系列の定常性を検定。", "desc": "<p><b>ADF</b>は単位根を検定。</p>"},
+    "sub_column_quality": {"tip": "列別品質スコア。", "desc": "<p><b>列品質</b>は各列を細分化。</p>"},
+    "sub_cleaning_log": {"tip": "全自動クリーニング操作の記録。", "desc": "<p><b>ログ</b>は全変換を記録。</p>"},
+    "sub_detected_issues": {"tip": "前処理で検出された問題リスト。", "desc": "<p><b>問題</b>は全問題を列挙。</p>"},
+    "sub_normality_tests": {"tip": "各列のSW*AD*JB正規性検定。", "desc": "<p><b>正規性検定</b>は複数検定で評価。</p>"},
+    "sub_vif": {"tip": "分散膨張で多重共線性を検出。", "desc": "<p><b>VIF</b>は共線性を定量化。</p>"},
+    "sub_summary": {"tip": "分布形状と外れ値の簡潔な統計。", "desc": "<p><b>要約</b>は形状を簡潔に表示。</p>"},
+    "sub_variance_explained": {"tip": "各主成分の累積分散。", "desc": "<p><b>説明分散</b>は比率を表示。</p>"},
+    "sub_loadings": {"tip": "各特徴の主成分への寄与。", "desc": "<p><b>負荷量</b>は重みを表示。</p>"},
+}
+
+# -- German ------------------------------------------------------------
+METHOD_INFO["de"] = {k: METHOD_INFO["en"][k] for k in METHOD_INFO["en"]}
+# -- French ------------------------------------------------------------
+METHOD_INFO["fr"] = {k: METHOD_INFO["en"][k] for k in METHOD_INFO["en"]}
+
+
+def get_method_info_json() -> str:
+    """Return METHOD_INFO dict as a JSON string for embedding in JS."""
+    import json
+    return json.dumps(METHOD_INFO, ensure_ascii=False)
+
+
+# =====================================================================
+#  Metric tooltip translations  (column header / cell hover tips)
+# =====================================================================
+# METRIC_TIPS_I18N[lang_code][metric_key] = translated tooltip string
+# English tips are canonical; other languages mirror them.
+
+METRIC_TIPS_I18N: dict[str, dict[str, str]] = {}
+
+# ----- English (en) --------------------------------------------------
+METRIC_TIPS_I18N["en"] = {
+    "type": "Inferred data type of the column (numeric, categorical, text, datetime, boolean).",
+    "count": "Number of non-null values in the column.",
+    "missing": "Number of missing (null / NaN) values.",
+    "missing_%": "Percentage of missing values = (missing / total rows) x 100.",
+    "unique": "Number of distinct values in the column.",
+    "mean": "Arithmetic mean = sum of values / count.",
+    "median": "Middle value when data is sorted (50th percentile).",
+    "std": "Standard deviation -- measures spread around the mean. Larger = more dispersed.",
+    "se": "Standard error of the mean = std / sqrt(n). Indicates precision of the sample mean.",
+    "cv": "Coefficient of variation = std / |mean|. Unitless relative measure of variability.",
+    "mad": "Median Absolute Deviation = median(|xi - median|). Robust measure of spread.",
+    "min": "Minimum value in the column.",
+    "max": "Maximum value in the column.",
+    "range": "Range = max - min. Total spread of the data.",
+    "p5": "5th percentile -- 5% of data falls below this value.",
+    "q1": "1st quartile (25th percentile) -- 25% of data falls below this value.",
+    "q3": "3rd quartile (75th percentile) -- 75% of data falls below this value.",
+    "p95": "95th percentile -- 95% of data falls below this value.",
+    "iqr": "Interquartile Range = Q3 - Q1. Middle 50% spread, used for outlier detection.",
+    "skewness": "Skewness measures distribution asymmetry. 0 = symmetric, >0 = right-skewed, <0 = left-skewed.",
+    "kurtosis": "Excess kurtosis measures tail heaviness. 0 = normal, >0 = heavy tails, <0 = light tails.",
+    "top": "Most frequently occurring value in the column.",
+    "freq": "Frequency count of the most common value.",
+    "n": "Number of non-null observations used for the distribution test.",
+    "skew_type": "Interpretation of skewness: symmetric (|s|<0.5), moderate skew (0.5-1), high skew (>1).",
+    "kurt_type": "Interpretation of kurtosis: mesokurtic (~0), leptokurtic (>1, heavy tails), platykurtic (<-1, light tails).",
+    "normality_test": "Primary normality test used (Shapiro-Wilk for n<=5000, D'Agostino-Pearson for larger).",
+    "normality_p": "p-value of the primary normality test. p<0.05 -> likely non-normal.",
+    "is_normal_0.05": "True if p-value >= 0.05, meaning the null hypothesis of normality is not rejected at alpha=0.05.",
+    "shapiro_p": "p-value from Shapiro-Wilk test. Best for small-medium samples (n<=5000).",
+    "dagostino_p": "p-value from D'Agostino-Pearson test. Uses skewness + kurtosis, good for n>=20.",
+    "ks_p": "p-value from Kolmogorov-Smirnov test vs. normal distribution.",
+    "anderson_stat": "Anderson-Darling test statistic. Higher = stronger evidence against normality.",
+    "anderson_5pct_cv": "Anderson-Darling 5% critical value. If stat > cv -> reject normality at 5%.",
+    "missing_count": "Number of missing (null) values in this column.",
+    "missing_ratio": "Fraction of missing values = missing_count / total_rows (0 to 1).",
+    "dtype": "Pandas dtype of the column.",
+    "lower_bound": "IQR lower fence = Q1 - k x IQR. Values below this are outliers (default k=1.5).",
+    "upper_bound": "IQR upper fence = Q3 + k x IQR. Values above this are outliers (default k=1.5).",
+    "outlier_count": "Number of values falling outside the outlier bounds.",
+    "outlier_%": "Percentage of outlier values = (outlier_count / total) x 100.",
+    "min_outlier": "Smallest outlier value detected.",
+    "max_outlier": "Largest outlier value detected.",
+    "threshold": "Z-score threshold used. Values with |z| > threshold are outliers.",
+    "max_zscore": "Maximum absolute z-score found in the column.",
+    "top_value": "The most frequently occurring category value.",
+    "top_frequency": "Count of the most frequent category.",
+    "top_%": "Percentage of the most frequent category = (top_freq / total) x 100.",
+    "entropy": "Shannon entropy (bits). Higher = more uniform distribution among categories.",
+    "norm_entropy": "Normalized entropy = entropy / log2(unique). 1.0 = perfectly uniform.",
+    "max_entropy": "Maximum possible entropy = log2(unique). Achieved when all categories are equally frequent.",
+    "normalized_entropy": "Same as norm_entropy: entropy / max_entropy. 1.0 = uniform.",
+    "unique_values": "Number of distinct category values.",
+    "variance": "Variance of the column = mean of squared deviations from mean.",
+    "mean_abs_corr": "Mean absolute Pearson correlation with all other numeric columns.",
+    "avg_mutual_info": "Average mutual information with all other columns (uses sklearn).",
+    "VIF": "Variance Inflation Factor. VIF=1 -> no multicollinearity, >5 -> moderate, >10 -> severe.",
+    "multicollinearity": "Interpretation of VIF: low (<5), moderate (5-10), or high (>=10).",
+    "variance_ratio": "Proportion of total variance explained by this principal component.",
+    "cumulative_ratio": "Cumulative proportion of variance explained up to this component.",
+    "eigenvalue": "Eigenvalue of the covariance matrix for this component. Higher = more variance.",
+    "n_components": "Total number of principal components computed.",
+    "total_variance_explained": "Total variance captured by all computed components.",
+    "components_for_90pct": "Minimum number of components needed to explain >= 90% of variance.",
+    "top_component_variance": "Variance ratio of the first (most important) principal component.",
+    "total_rows": "Total number of rows in the dataset.",
+    "duplicate_rows": "Number of exact duplicate rows found.",
+    "unique_rows": "Number of unique (non-duplicate) rows.",
+    "duplicate_ratio": "Fraction of duplicate rows = duplicate_rows / total_rows.",
+    "uniqueness_ratio": "Ratio of unique values = unique / total_non_null. 1.0 = all unique.",
+    "total_non_null": "Number of non-null values used for uniqueness calculation.",
+    "is_unique_key": "True if every non-null value is unique -- potential primary key.",
+    "completeness": "Fraction of non-missing values = 1 - (missing / total). 1.0 = no missing data.",
+    "uniqueness": "Ratio of unique values to total non-null values. Higher = more diverse.",
+    "consistency": "Measures type consistency. 1.0 = all values match the expected data type.",
+    "validity": "Fraction of values within expected ranges/formats. 1.0 = all valid.",
+    "overall": "Weighted quality score = 0.35*completeness + 0.25*uniqueness + 0.20*consistency + 0.20*validity.",
+    "quality_score": "Per-column quality score combining completeness and uniqueness.",
+    "column": "Column name in the dataset.",
+    "component": "Principal component identifier (PC1, PC2, ...).",
+    "value": "Category or discrete value.",
+    "percentage": "Percentage share of this value = (count / total) x 100.",
+    "best_distribution": "Scipy distribution that best fits the data according to AIC.",
+    "aic": "Akaike Information Criterion -- lower is better. Penalises complexity.",
+    "bic": "Bayesian Information Criterion -- lower is better. More conservative than AIC.",
+    "ks_statistic": "Kolmogorov-Smirnov statistic measuring max CDF deviation from the fitted distribution.",
+    "jarque_bera_stat": "Jarque-Bera test statistic. Large values indicate non-normality.",
+    "jb_p_value": "p-value of the Jarque-Bera test. p < 0.05 -> reject normality.",
+    "recommended_transform": "Power transform recommended to make the column more normal (Box-Cox or Yeo-Johnson).",
+    "original_skew": "Skewness of the original (untransformed) column.",
+    "transformed_skew": "Skewness after applying the recommended power transform.",
+    "bandwidth_silverman": "Kernel bandwidth via Silverman's rule for KDE estimation.",
+    "bandwidth_scott": "Kernel bandwidth via Scott's rule for KDE estimation.",
+    "partial_corr": "Partial correlation -- Pearson correlation after removing confounding effects.",
+    "mutual_information": "Mutual information (bits) -- measures non-linear dependency between two variables.",
+    "ci_lower": "Lower bound of the 95% bootstrap confidence interval for the correlation.",
+    "ci_upper": "Upper bound of the 95% bootstrap confidence interval for the correlation.",
+    "distance_corr": "Szekely distance correlation -- captures non-linear dependencies (0=independent, 1=dependent).",
+    "optimal_k": "Best number of clusters determined by silhouette score analysis.",
+    "best_silhouette": "Highest mean silhouette score across evaluated k values (-1 to 1, higher=better).",
+    "inertia": "Within-cluster sum of squares (WCSS). Lower = tighter clusters.",
+    "n_clusters_dbscan": "Number of clusters found by DBSCAN (excludes noise).",
+    "noise_ratio": "Fraction of points labelled as noise by DBSCAN.",
+    "eps": "DBSCAN epsilon -- neighbourhood radius auto-estimated from k-distance plot.",
+    "kl_divergence": "Kullback-Leibler divergence of the t-SNE embedding. Lower = better fit.",
+    "tsne_perplexity": "Perplexity parameter for t-SNE (balances local vs. global structure).",
+    "n_factors": "Number of latent factors retained via Kaiser criterion (eigenvalue > 1).",
+    "factor_loading": "Correlation between an observed variable and a latent factor.",
+    "noise_variance": "Estimated noise (uniqueness) for each variable in Factor Analysis.",
+    "interaction_strength": "Pearson correlation between a product-interaction term and the top feature.",
+    "monotonic_gap": "Gap between Pearson and Spearman correlations -- large gap -> non-linear monotonic.",
+    "entropy_equal_width": "Shannon entropy of equal-width binning. Lower = more concentrated distribution.",
+    "entropy_equal_freq": "Shannon entropy of equal-frequency binning. Lower = more concentrated.",
+    "cardinality": "Number of unique values in a categorical column.",
+    "encoding_rec": "Recommended encoding strategy based on cardinality analysis.",
+    "leakage_risk": "Risk level (low/medium/high) that a feature may leak target information.",
+    "anomaly_score_if": "Isolation Forest anomaly score. More negative = more anomalous.",
+    "lof_score": "Local Outlier Factor minus-score. More negative = more anomalous.",
+    "mahalanobis_dist": "Mahalanobis distance from the data centroid. Larger = more unusual.",
+    "consensus_flag": "True if >= 2 out of 3 anomaly methods agree the point is anomalous.",
+    "levene_stat": "Levene test statistic for equality of variances.",
+    "levene_p": "p-value of Levene's test. p < 0.05 -> variances are significantly different.",
+    "kw_stat": "Kruskal-Wallis H statistic -- non-parametric one-way ANOVA.",
+    "kw_p": "p-value of Kruskal-Wallis test. p < 0.05 -> at least one group differs.",
+    "mw_stat": "Mann-Whitney U statistic -- non-parametric two-sample rank test.",
+    "mw_p": "p-value of Mann-Whitney U test.",
+    "chi2_stat": "Chi-square goodness-of-fit statistic vs. uniform distribution.",
+    "chi2_p": "p-value of chi-square goodness-of-fit test.",
+    "grubbs_stat": "Grubbs test statistic for detecting a single outlier.",
+    "grubbs_p": "p-value of Grubbs test.",
+    "adf_stat": "Augmented Dickey-Fuller test statistic for stationarity.",
+    "adf_p": "p-value of the ADF test. p < 0.05 -> series is stationary.",
+    "numeric_ratio": "Fraction of columns that are numeric.",
+    "categorical_ratio": "Fraction of columns that are categorical.",
+    "duplicate_row_ratio": "Fraction of rows that are exact duplicates.",
+}
+
+# ----- Korean (ko) ---------------------------------------------------
+METRIC_TIPS_I18N["ko"] = {
+    "type": "Column(Feature)의 추론된 데이터 타입 (numeric, categorical, text, datetime, boolean).",
+    "count": "Column(Feature)의 null이 아닌 값 개수.",
+    "missing": "결측(null / NaN) 값 개수.",
+    "missing_%": "결측 비율 = (결측 수 / 전체 행) x 100.",
+    "unique": "Column(Feature)의 고유(distinct) 값 개수.",
+    "mean": "산술 평균 = 값 합계 / 개수.",
+    "median": "데이터를 정렬했을 때 중앙값 (50번째 백분위).",
+    "std": "표준편차 -- 평균 주위의 분산 정도를 측정. 클수록 분산이 큼.",
+    "se": "평균의 표준오차 = std / sqrt(n). 표본 평균의 정밀도를 나타냄.",
+    "cv": "변동계수 = std / |mean|. 단위 없는 상대적 변동성 측정치.",
+    "mad": "중앙값 절대 편차 = median(|xi - median|). 강건한 산포 측정치.",
+    "min": "Column(Feature)의 최솟값.",
+    "max": "Column(Feature)의 최댓값.",
+    "range": "범위 = max - min. 데이터의 전체 분산 폭.",
+    "p5": "5번째 백분위 -- 데이터의 5%가 이 값보다 낮음.",
+    "q1": "1사분위수 (25번째 백분위) -- 데이터의 25%가 이 값보다 낮음.",
+    "q3": "3사분위수 (75번째 백분위) -- 데이터의 75%가 이 값보다 낮음.",
+    "p95": "95번째 백분위 -- 데이터의 95%가 이 값보다 낮음.",
+    "iqr": "사분위 범위 = Q3 - Q1. 중간 50% 분포 폭, 이상치 탐지에 사용.",
+    "skewness": "왜도: 분포의 비대칭성. 0 = 대칭, >0 = 오른쪽 치우침, <0 = 왼쪽 치우침.",
+    "kurtosis": "초과 첨도: 꼬리 두께. 0 = 정규, >0 = 두꺼운 꼬리, <0 = 얇은 꼬리.",
+    "top": "Column(Feature)에서 가장 자주 나타나는 값.",
+    "freq": "최빈값의 빈도 수.",
+    "n": "분포 검정에 사용된 null이 아닌 관측치 수.",
+    "skew_type": "왜도 해석: 대칭(|s|<0.5), 중간 왜도(0.5-1), 높은 왜도(>1).",
+    "kurt_type": "첨도 해석: 중간첨도(~0), 급첨(>1, 두꺼운 꼬리), 완첨(<-1, 얇은 꼬리).",
+    "normality_test": "사용된 주 정규성 검정 (Shapiro-Wilk n<=5000, D'Agostino-Pearson 큰 표본).",
+    "normality_p": "주 정규성 검정의 p값. p<0.05 -> 비정규 가능성 높음.",
+    "is_normal_0.05": "p값 >= 0.05이면 True, 즉 alpha=0.05에서 정규성 귀무가설이 기각되지 않음.",
+    "shapiro_p": "Shapiro-Wilk 검정 p값. 소-중 표본에 적합 (n<=5000).",
+    "dagostino_p": "D'Agostino-Pearson 검정 p값. 왜도 + 첨도 사용, n>=20에 적합.",
+    "ks_p": "Kolmogorov-Smirnov 검정 p값 (정규분포와 비교).",
+    "anderson_stat": "Anderson-Darling 검정 통계량. 높을수록 정규성 반증 강함.",
+    "anderson_5pct_cv": "Anderson-Darling 5% 임계값. stat > cv -> 5%에서 정규성 기각.",
+    "missing_count": "이 Column(Feature)의 결측(null) 값 개수.",
+    "missing_ratio": "결측 비율 = missing_count / total_rows (0~1).",
+    "dtype": "Column(Feature)의 Pandas dtype.",
+    "lower_bound": "IQR 하한 = Q1 - k x IQR. 이보다 낮으면 이상치 (기본 k=1.5).",
+    "upper_bound": "IQR 상한 = Q3 + k x IQR. 이보다 높으면 이상치 (기본 k=1.5).",
+    "outlier_count": "이상치 범위 밖의 값 개수.",
+    "outlier_%": "이상치 비율 = (outlier_count / 전체) x 100.",
+    "min_outlier": "탐지된 가장 작은 이상치 값.",
+    "max_outlier": "탐지된 가장 큰 이상치 값.",
+    "threshold": "사용된 Z-점수 임계값. |z| > threshold이면 이상치.",
+    "max_zscore": "Column(Feature)에서 발견된 최대 절대 Z-점수.",
+    "top_value": "가장 빈번한 범주 값.",
+    "top_frequency": "가장 빈번한 범주의 빈도 수.",
+    "top_%": "가장 빈번한 범주의 비율 = (top_freq / 전체) x 100.",
+    "entropy": "Shannon 엔트로피 (비트). 높을수록 범주 간 분포가 더 균일.",
+    "norm_entropy": "정규화 엔트로피 = entropy / log2(unique). 1.0 = 완전히 균일.",
+    "max_entropy": "최대 가능 엔트로피 = log2(unique). 모든 범주가 동일 빈도일 때 달성.",
+    "normalized_entropy": "norm_entropy와 동일: entropy / max_entropy. 1.0 = 균일.",
+    "unique_values": "고유 범주 값 개수.",
+    "variance": "Column(Feature)의 분산 = 평균으로부터 편차 제곱의 평균.",
+    "mean_abs_corr": "다른 모든 수치형 Column(Feature)과의 평균 절대 Pearson 상관계수.",
+    "avg_mutual_info": "다른 모든 Column(Feature)과의 평균 상호정보량.",
+    "VIF": "분산팽창계수. VIF=1 -> 다중공선성 없음, >5 -> 보통, >10 -> 심각.",
+    "multicollinearity": "VIF 해석: 낮음(<5), 보통(5-10), 높음(>=10).",
+    "variance_ratio": "이 주성분이 설명하는 총 분산의 비율.",
+    "cumulative_ratio": "이 성분까지 누적 설명 분산 비율.",
+    "eigenvalue": "이 성분의 공분산 행렬 고유값. 높을수록 더 많은 분산.",
+    "n_components": "계산된 주성분 총 개수.",
+    "total_variance_explained": "모든 성분이 설명하는 총 분산.",
+    "components_for_90pct": "분산 90% 이상 설명에 필요한 최소 성분 수.",
+    "top_component_variance": "첫 번째 (가장 중요한) 주성분의 분산 비율.",
+    "total_rows": "데이터셋의 총 행 수.",
+    "duplicate_rows": "정확히 중복된 행 수.",
+    "unique_rows": "고유한(비중복) 행 수.",
+    "duplicate_ratio": "중복 행 비율 = duplicate_rows / total_rows.",
+    "uniqueness_ratio": "고유값 비율 = unique / total_non_null. 1.0 = 모두 고유.",
+    "total_non_null": "고유성 계산에 사용된 null이 아닌 값 수.",
+    "is_unique_key": "모든 null이 아닌 값이 고유하면 True -- 잠재적 기본 키.",
+    "completeness": "비결측 값 비율 = 1 - (missing / total). 1.0 = 결측 없음.",
+    "uniqueness": "고유 값 대 총 non-null 값 비율. 높을수록 다양함.",
+    "consistency": "타입 일관성 측정. 1.0 = 모든 값이 예상 데이터 타입과 일치.",
+    "validity": "예상 범위/형식 내 값 비율. 1.0 = 모두 유효.",
+    "overall": "가중 품질 점수 = 0.35*completeness + 0.25*uniqueness + 0.20*consistency + 0.20*validity.",
+    "quality_score": "completeness와 uniqueness를 결합한 Column(Feature)별 품질 점수.",
+    "column": "데이터셋의 Column(Feature) 이름.",
+    "component": "주성분 식별자 (PC1, PC2, ...).",
+    "value": "범주 또는 이산 값.",
+    "percentage": "이 값의 비율 = (count / total) x 100.",
+    "best_distribution": "AIC 기준 데이터에 가장 적합한 scipy 분포.",
+    "aic": "아카이케 정보 기준 -- 낮을수록 좋음. 복잡도를 벌점화.",
+    "bic": "베이지안 정보 기준 -- 낮을수록 좋음. AIC보다 보수적.",
+    "ks_statistic": "적합된 분포와의 최대 CDF 편차를 측정하는 K-S 통계량.",
+    "jarque_bera_stat": "Jarque-Bera 검정 통계량. 큰 값은 비정규성을 나타냄.",
+    "jb_p_value": "Jarque-Bera 검정 p값. p < 0.05 -> 정규성 기각.",
+    "recommended_transform": "Column(Feature)을 더 정규적으로 만드는 권장 변환 (Box-Cox 또는 Yeo-Johnson).",
+    "original_skew": "원래(변환 전) Column(Feature)의 왜도.",
+    "transformed_skew": "권장 변환 적용 후 왜도.",
+    "bandwidth_silverman": "KDE 추정을 위한 Silverman 규칙 커널 대역폭.",
+    "bandwidth_scott": "KDE 추정을 위한 Scott 규칙 커널 대역폭.",
+    "partial_corr": "편상관 -- 다른 변수의 혼동 효과를 제거한 후의 Pearson 상관.",
+    "mutual_information": "상호정보량 (비트) -- 두 변수 간 비선형 의존성 측정.",
+    "ci_lower": "상관계수에 대한 95% 부트스트랩 신뢰구간의 하한.",
+    "ci_upper": "상관계수에 대한 95% 부트스트랩 신뢰구간의 상한.",
+    "distance_corr": "Szekely 거리 상관 -- 비선형 의존성 포착 (0=독립, 1=의존).",
+    "optimal_k": "실루엣 점수 분석으로 결정된 최적 클러스터 수.",
+    "best_silhouette": "평가된 k 값 중 최고 평균 실루엣 점수 (-1~1, 높을수록 좋음).",
+    "inertia": "클러스터 내 제곱합(WCSS). 낮을수록 더 밀집된 클러스터.",
+    "n_clusters_dbscan": "DBSCAN이 찾은 클러스터 수 (노이즈 제외).",
+    "noise_ratio": "DBSCAN이 노이즈로 분류한 점의 비율.",
+    "eps": "DBSCAN epsilon -- k-distance 플롯에서 추정된 이웃 반경.",
+    "kl_divergence": "t-SNE 임베딩의 KL 발산. 낮을수록 좋은 적합度.",
+    "tsne_perplexity": "t-SNE perplexity(혼란도) (지역 vs 전역 구조 균형).",
+    "n_factors": "Kaiser 기준(eigenvalue > 1)으로 유지된 잠재 요인 수.",
+    "factor_loading": "관측 변수와 잠재 요인 간 상관.",
+    "noise_variance": "요인 분석에서 각 변수의 추정 노이즈 (고유분산).",
+    "interaction_strength": "곱 상호작용 항과 상위 특성 간의 Pearson 상관.",
+    "monotonic_gap": "Pearson과 Spearman 상관 간 차이 -- 큰 차이 -> 비선형 단조 관계.",
+    "entropy_equal_width": "등폭 구간 Shannon 엔트로피. 낮을수록 분포가 집중적.",
+    "entropy_equal_freq": "등빈도 구간 Shannon 엔트로피. 낮을수록 집중적.",
+    "cardinality": "범주형 Column(Feature)의 고유 값 수.",
+    "encoding_rec": "카디널리티 분석 기반 권장 인코딩 전략.",
+    "leakage_risk": "특성이 타겟 정보를 누출할 수 있는 위험 수준 (low/medium/high).",
+    "anomaly_score_if": "Isolation Forest 이상 점수. 더 음수일수록 더 이상적.",
+    "lof_score": "Local Outlier Factor 마이너스 점수. 더 음수일수록 더 이상적.",
+    "mahalanobis_dist": "데이터 중심으로부터의 Mahalanobis 거리. 클수록 비정상적.",
+    "consensus_flag": "3가지 이상치 방법 중 2개 이상 동의하면 True.",
+    "levene_stat": "등분산성에 대한 Levene 검정 통계량.",
+    "levene_p": "Levene 검정 p값. p < 0.05 -> 분산이 유의하게 다름.",
+    "kw_stat": "Kruskal-Wallis H 통계량 -- 비모수 일원 ANOVA.",
+    "kw_p": "Kruskal-Wallis 검정 p값. p < 0.05 -> 적어도 하나의 집단이 다름.",
+    "mw_stat": "Mann-Whitney U 통계량 -- 비모수 두 표본 순위 검정.",
+    "mw_p": "Mann-Whitney U 검정 p값.",
+    "chi2_stat": "균일 분포 대비 카이제곱 적합도 검정 통계량.",
+    "chi2_p": "카이제곱 적합도 검정 p값.",
+    "grubbs_stat": "단일 이상치 탐지를 위한 Grubbs 검정 통계량.",
+    "grubbs_p": "Grubbs 검정 p값.",
+    "adf_stat": "정상성에 대한 ADF(Augmented Dickey-Fuller) 검정 통계량.",
+    "adf_p": "ADF 검정 p값. p < 0.05 -> 시계열이 정상적.",
+    "numeric_ratio": "수치형 Column(Feature) 비율.",
+    "categorical_ratio": "범주형 Column(Feature) 비율.",
+    "duplicate_row_ratio": "정확히 중복된 행의 비율.",
+}
+
+# ----- Chinese (zh) --------------------------------------------------
+METRIC_TIPS_I18N["zh"] = {
+    "type": "推断的数据类型 (numeric, categorical, text, datetime, boolean).",
+    "count": "该列中非空值的数量.",
+    "missing": "缺失(null / NaN)值的数量.",
+    "missing_%": "缺失率 = (缺失数 / 总行数) x 100.",
+    "unique": "该列中不同(唯一)值的数量.",
+    "mean": "算术平均 = 值总和 / 个数.",
+    "median": "按大小排序后的中间值(第50百分位).",
+    "std": "标准差 -- 衡量围绕均值的离散程度. 越大越分散.",
+    "se": "均值标准误 = std / sqrt(n). 表示样本均值的精度.",
+    "cv": "变异系数 = std / |mean|. 无单位的相对变异度量.",
+    "mad": "中位绝对偏差 = median(|xi - median|). 稳健的离散度量.",
+    "min": "该列的最小值.",
+    "max": "该列的最大值.",
+    "range": "极差 = max - min. 数据的总分布幅度.",
+    "p5": "第5百分位 -- 5%的数据低于此值.",
+    "q1": "第1四分位(第25百分位) -- 25%的数据低于此值.",
+    "q3": "第3四分位(第75百分位) -- 75%的数据低于此值.",
+    "p95": "第95百分位 -- 95%的数据低于此值.",
+    "iqr": "四分位距 = Q3 - Q1. 中间50%的分布幅度, 用于异常值检测.",
+    "skewness": "偏度衡量分布不对称性. 0=对称, >0=右偏, <0=左偏.",
+    "kurtosis": "超额峰度衡量尾部厚度. 0=正态, >0=厚尾, <0=薄尾.",
+    "top": "该列中出现频率最高的值.",
+    "freq": "最频繁值的出现次数.",
+    "n": "用于分布检验的非空观测数.",
+    "skew_type": "偏度解释: 对称(|s|<0.5), 中等偏(0.5-1), 高偏(>1).",
+    "kurt_type": "峰度解释: 中等峰(~0), 尖峰(>1,厚尾), 扁峰(<-1,薄尾).",
+    "normality_test": "使用的主要正态性检验(n<=5000用Shapiro-Wilk, 大样本用D'Agostino-Pearson).",
+    "normality_p": "主要正态性检验的p值. p<0.05 -> 可能非正态.",
+    "is_normal_0.05": "若p值>=0.05则为True, 即在alpha=0.05下正态性零假设未被拒绝.",
+    "shapiro_p": "Shapiro-Wilk检验p值. 适合中小样本(n<=5000).",
+    "dagostino_p": "D'Agostino-Pearson检验p值. 使用偏度+峰度, 适合n>=20.",
+    "ks_p": "Kolmogorov-Smirnov检验p值(与正态分布比较).",
+    "anderson_stat": "Anderson-Darling检验统计量. 越高则反正态证据越强.",
+    "anderson_5pct_cv": "Anderson-Darling 5%临界值. stat > cv -> 在5%水平拒绝正态性.",
+    "missing_count": "该列中缺失(null)值的数量.",
+    "missing_ratio": "缺失比例 = missing_count / total_rows (0至1).",
+    "dtype": "该列的Pandas数据类型.",
+    "lower_bound": "IQR下限 = Q1 - k x IQR. 低于此值为异常值(默认k=1.5).",
+    "upper_bound": "IQR上限 = Q3 + k x IQR. 高于此值为异常值(默认k=1.5).",
+    "outlier_count": "落在异常值范围外的值数量.",
+    "outlier_%": "异常值百分比 = (outlier_count / 总数) x 100.",
+    "min_outlier": "检测到的最小异常值.",
+    "max_outlier": "检测到的最大异常值.",
+    "threshold": "使用的Z分数阈值. |z| > threshold则为异常值.",
+    "max_zscore": "该列中找到的最大绝对Z分数.",
+    "top_value": "出现频率最高的类别值.",
+    "top_frequency": "最频繁类别的计数.",
+    "top_%": "最频繁类别的百分比 = (top_freq / 总数) x 100.",
+    "entropy": "Shannon熵(比特). 越高意味着类别间分布越均匀.",
+    "norm_entropy": "归一化熵 = entropy / log2(unique). 1.0=完全均匀.",
+    "max_entropy": "最大可能熵 = log2(unique). 所有类别频率相同时达到.",
+    "normalized_entropy": "与norm_entropy相同: entropy / max_entropy. 1.0=均匀.",
+    "unique_values": "不同类别值的数量.",
+    "variance": "该列方差 = 与均值偏差平方的均值.",
+    "mean_abs_corr": "与所有其他数值列的平均绝对Pearson相关系数.",
+    "avg_mutual_info": "与所有其他列的平均互信息量.",
+    "VIF": "方差膨胀因子. VIF=1->无多重共线性, >5->中等, >10->严重.",
+    "multicollinearity": "VIF解释: 低(<5), 中等(5-10), 高(>=10).",
+    "variance_ratio": "该主成分解释的总方差比例.",
+    "cumulative_ratio": "截至该成分的累计方差解释比例.",
+    "eigenvalue": "该成分的协方差矩阵特征值. 越高解释越多方差.",
+    "n_components": "计算的主成分总数.",
+    "total_variance_explained": "所有成分解释的总方差.",
+    "components_for_90pct": "解释>=90%方差所需的最小成分数.",
+    "top_component_variance": "第一个(最重要)主成分的方差比例.",
+    "total_rows": "数据集的总行数.",
+    "duplicate_rows": "找到的完全重复行数.",
+    "unique_rows": "唯一(非重复)行数.",
+    "duplicate_ratio": "重复行比例 = duplicate_rows / total_rows.",
+    "uniqueness_ratio": "唯一值比例 = unique / total_non_null. 1.0=全部唯一.",
+    "total_non_null": "用于唯一性计算的非空值数.",
+    "is_unique_key": "若每个非空值都唯一则为True -- 可能是主键.",
+    "completeness": "非缺失值比例 = 1 - (missing / total). 1.0=无缺失.",
+    "uniqueness": "唯一值与总非空值的比率. 越高越多样.",
+    "consistency": "类型一致性度量. 1.0=所有值匹配预期数据类型.",
+    "validity": "在预期范围/格式内的值比例. 1.0=全部有效.",
+    "overall": "加权质量分数 = 0.35*completeness + 0.25*uniqueness + 0.20*consistency + 0.20*validity.",
+    "quality_score": "结合完整性和唯一性的逐列质量分数.",
+    "column": "数据集中的列名.",
+    "component": "主成分标识符(PC1, PC2, ...).",
+    "value": "类别或离散值.",
+    "percentage": "该值的占比 = (count / total) x 100.",
+    "best_distribution": "根据AIC拟合最好的scipy分布.",
+    "aic": "赤池信息准则 -- 越低越好, 惩罚复杂度.",
+    "bic": "贝叶斯信息准则 -- 越低越好, 比AIC更保守.",
+    "ks_statistic": "衡量拟合分布最大CDF偏差的K-S统计量.",
+    "jarque_bera_stat": "Jarque-Bera检验统计量. 大值表示非正态.",
+    "jb_p_value": "Jarque-Bera检验p值. p < 0.05 -> 拒绝正态性.",
+    "recommended_transform": "使列更正态的推荐变换(Box-Cox或Yeo-Johnson).",
+    "original_skew": "原始(未变换)列的偏度.",
+    "transformed_skew": "应用推荐变换后的偏度.",
+    "bandwidth_silverman": "用于KDE估计的Silverman规则核带宽.",
+    "bandwidth_scott": "用于KDE估计的Scott规则核带宽.",
+    "partial_corr": "偏相关 -- 去除其他变量混淆效应后的Pearson相关.",
+    "mutual_information": "互信息(比特) -- 衡量两变量间的非线性依赖.",
+    "ci_lower": "相关系数95%自助法置信区间下限.",
+    "ci_upper": "相关系数95%自助法置信区间上限.",
+    "distance_corr": "Szekely距离相关 -- 捕获非线性依赖(0=独立, 1=依赖).",
+    "optimal_k": "基于轮廓分数分析确定的最佳聚类数.",
+    "best_silhouette": "所评估k值中最高平均轮廓分数(-1至1, 越高越好).",
+    "inertia": "簇内平方和(WCSS). 越低=越紧凑.",
+    "n_clusters_dbscan": "DBSCAN找到的聚类数(不含噪声).",
+    "noise_ratio": "DBSCAN标记为噪声的点的比例.",
+    "eps": "DBSCAN epsilon -- 从k距离图估计的邻域半径.",
+    "kl_divergence": "t-SNE嵌入的KL散度. 越低拟合越好.",
+    "tsne_perplexity": "t-SNE困惑度参数(平衡局部与全局结构).",
+    "n_factors": "通过Kaiser准则(特征值>1)保留的潜因子数.",
+    "factor_loading": "观测变量与潜因子间的相关.",
+    "noise_variance": "因子分析中每个变量的估计噪声(独特方差).",
+    "interaction_strength": "乘积交互项与头部特征间的Pearson相关.",
+    "monotonic_gap": "Pearson与Spearman相关之差 -- 差距大->非线性单调关系.",
+    "entropy_equal_width": "等宽分箱Shannon熵. 越低分布越集中.",
+    "entropy_equal_freq": "等频分箱Shannon熵. 越低越集中.",
+    "cardinality": "类别列的唯一值数量.",
+    "encoding_rec": "基于基数分析的推荐编码策略.",
+    "leakage_risk": "特征可能泄露目标信息的风险等级(low/medium/high).",
+    "anomaly_score_if": "Isolation Forest异常分数. 越负越异常.",
+    "lof_score": "Local Outlier Factor负分数. 越负越异常.",
+    "mahalanobis_dist": "距数据中心的Mahalanobis距离. 越大越异常.",
+    "consensus_flag": "若3种异常方法中2种以上同意则为True.",
+    "levene_stat": "等方差性Levene检验统计量.",
+    "levene_p": "Levene检验p值. p < 0.05 -> 方差有显著差异.",
+    "kw_stat": "Kruskal-Wallis H统计量 -- 非参数单因素ANOVA.",
+    "kw_p": "Kruskal-Wallis检验p值. p < 0.05 -> 至少一组不同.",
+    "mw_stat": "Mann-Whitney U统计量 -- 非参数两样本秩检验.",
+    "mw_p": "Mann-Whitney U检验p值.",
+    "chi2_stat": "对均匀分布的卡方拟合优度统计量.",
+    "chi2_p": "卡方拟合优度检验p值.",
+    "grubbs_stat": "检测单个异常值的Grubbs检验统计量.",
+    "grubbs_p": "Grubbs检验p值.",
+    "adf_stat": "平稳性ADF(Augmented Dickey-Fuller)检验统计量.",
+    "adf_p": "ADF检验p值. p < 0.05 -> 序列平稳.",
+    "numeric_ratio": "数值列的比例.",
+    "categorical_ratio": "类别列的比例.",
+    "duplicate_row_ratio": "完全重复行的比例.",
+}
+
+# ----- Japanese (ja) -------------------------------------------------
+METRIC_TIPS_I18N["ja"] = {
+    "type": "推論されたデータ型 (numeric, categorical, text, datetime, boolean).",
+    "count": "列の非null値の数.",
+    "missing": "欠損(null / NaN)値の数.",
+    "missing_%": "欠損率 = (欠損数 / 総行数) x 100.",
+    "unique": "列のユニーク(固有)値の数.",
+    "mean": "算術平均 = 値の合計 / 個数.",
+    "median": "データを並べた時の中央値(第50百分位).",
+    "std": "標準偏差 -- 平均周りの散らばりを測定. 大きいほど分散が大きい.",
+    "se": "平均の標準誤差 = std / sqrt(n). 標本平均の精度を示す.",
+    "cv": "変動係数 = std / |mean|. 無次元の相対的変動性の尺度.",
+    "mad": "中央絶対偏差 = median(|xi - median|). ロバストな散布度の尺度.",
+    "min": "列の最小値.",
+    "max": "列の最大値.",
+    "range": "範囲 = max - min. データの全体的な広がり.",
+    "p5": "第5百分位 -- データの5%がこの値未満.",
+    "q1": "第1四分位(第25百分位) -- データの25%がこの値未満.",
+    "q3": "第3四分位(第75百分位) -- データの75%がこの値未満.",
+    "p95": "第95百分位 -- データの95%がこの値未満.",
+    "iqr": "四分位範囲 = Q3 - Q1. 中央50%の広がり, 外れ値検出に使用.",
+    "skewness": "歪度: 分布の非対称性. 0=対称, >0=右に歪, <0=左に歪.",
+    "kurtosis": "超過尖度: 裾の厚さ. 0=正規, >0=厚い裾, <0=薄い裾.",
+    "top": "列で最も頻繁な値.",
+    "freq": "最頻値の出現回数.",
+    "n": "分布検定に使用された非null観測数.",
+    "skew_type": "歪度の解釈: 対称(|s|<0.5), 中程度の歪み(0.5-1), 高い歪み(>1).",
+    "kurt_type": "尖度の解釈: 中程度(~0), 尖峰(>1,厚い裾), 扁平(<-1,薄い裾).",
+    "normality_test": "使用された正規性検定(n<=5000ならShapiro-Wilk, 大標本はD'Agostino-Pearson).",
+    "normality_p": "主正規性検定のp値. p<0.05 -> 非正規の可能性.",
+    "is_normal_0.05": "p値>=0.05ならTrue. alpha=0.05で正規性の帰無仮説が棄却されない.",
+    "shapiro_p": "Shapiro-Wilk検定p値. 小中標本向け(n<=5000).",
+    "dagostino_p": "D'Agostino-Pearson検定p値. 歪度+尖度を使用, n>=20向け.",
+    "ks_p": "Kolmogorov-Smirnov検定p値(正規分布と比較).",
+    "anderson_stat": "Anderson-Darling検定統計量. 高いほど反正規性の証拠が強い.",
+    "anderson_5pct_cv": "Anderson-Darling 5%臨界値. stat > cv -> 5%で正規性棄却.",
+    "missing_count": "この列の欠損(null)値の数.",
+    "missing_ratio": "欠損割合 = missing_count / total_rows (0~1).",
+    "dtype": "列のPandasデータ型.",
+    "lower_bound": "IQR下限 = Q1 - k x IQR. これより低い値は外れ値(デフォルトk=1.5).",
+    "upper_bound": "IQR上限 = Q3 + k x IQR. これより高い値は外れ値(デフォルトk=1.5).",
+    "outlier_count": "外れ値範囲外の値の数.",
+    "outlier_%": "外れ値率 = (outlier_count / 総数) x 100.",
+    "min_outlier": "検出された最小の外れ値.",
+    "max_outlier": "検出された最大の外れ値.",
+    "threshold": "使用されたZスコア閾値. |z| > thresholdなら外れ値.",
+    "max_zscore": "列で見つかった最大絶対Zスコア.",
+    "top_value": "最も頻繁なカテゴリ値.",
+    "top_frequency": "最も頻繁なカテゴリのカウント.",
+    "top_%": "最も頻繁なカテゴリの割合 = (top_freq / 総数) x 100.",
+    "entropy": "Shannonエントロピー(ビット). 高いほどカテゴリ間の分布が均一.",
+    "norm_entropy": "正規化エントロピー = entropy / log2(unique). 1.0=完全均一.",
+    "max_entropy": "最大可能エントロピー = log2(unique). 全カテゴリが同頻度で達成.",
+    "normalized_entropy": "norm_entropyと同じ: entropy / max_entropy. 1.0=均一.",
+    "unique_values": "固有カテゴリ値の数.",
+    "variance": "列の分散 = 平均からの偏差の二乗の平均.",
+    "mean_abs_corr": "他の全数値列との平均絶対Pearson相関係数.",
+    "avg_mutual_info": "他の全列との平均相互情報量.",
+    "VIF": "分散膨張係数. VIF=1->多重共線性なし, >5->中程度, >10->深刻.",
+    "multicollinearity": "VIF解釈: 低(<5), 中程度(5-10), 高(>=10).",
+    "variance_ratio": "この主成分が説明する総分散の割合.",
+    "cumulative_ratio": "この成分までの累積分散説明割合.",
+    "eigenvalue": "この成分の共分散行列の固有値. 高いほどより多くの分散を説明.",
+    "n_components": "計算された主成分の総数.",
+    "total_variance_explained": "全成分で説明される総分散.",
+    "components_for_90pct": "分散90%以上の説明に必要な最小成分数.",
+    "top_component_variance": "第1(最重要)主成分の分散比率.",
+    "total_rows": "データセットの総行数.",
+    "duplicate_rows": "完全重複行の数.",
+    "unique_rows": "ユニーク(非重複)行の数.",
+    "duplicate_ratio": "重複行の割合 = duplicate_rows / total_rows.",
+    "uniqueness_ratio": "ユニーク値の割合 = unique / total_non_null. 1.0=全て固有.",
+    "total_non_null": "ユニーク性計算に使用された非null値の数.",
+    "is_unique_key": "全ての非null値がユニークならTrue -- 主キーの候補.",
+    "completeness": "非欠損値の割合 = 1 - (missing / total). 1.0=欠損なし.",
+    "uniqueness": "ユニーク値と総非null値の比率. 高いほど多様.",
+    "consistency": "型一致性の測定. 1.0=全値が期待データ型と一致.",
+    "validity": "期待範囲/形式内の値の割合. 1.0=全て有効.",
+    "overall": "加重品質スコア = 0.35*completeness + 0.25*uniqueness + 0.20*consistency + 0.20*validity.",
+    "quality_score": "完全性と一意性を組み合わせた列別品質スコア.",
+    "column": "データセットの列名.",
+    "component": "主成分識別子(PC1, PC2, ...).",
+    "value": "カテゴリまたは離散値.",
+    "percentage": "この値の割合 = (count / total) x 100.",
+    "best_distribution": "AIC基準でデータに最も適合するscipy分布.",
+    "aic": "赤池情報量基準 -- 低いほど良い. 複雑さにペナルティ.",
+    "bic": "ベイズ情報量基準 -- 低いほど良い. AICより保守的.",
+    "ks_statistic": "適合分布との最大CDF偏差を測るK-S統計量.",
+    "jarque_bera_stat": "Jarque-Bera検定統計量. 大きい値は非正規性を示す.",
+    "jb_p_value": "Jarque-Bera検定p値. p < 0.05 -> 正規性棄却.",
+    "recommended_transform": "列をより正規にする推奨変換(Box-CoxまたはYeo-Johnson).",
+    "original_skew": "元の(未変換)列の歪度.",
+    "transformed_skew": "推奨変換適用後の歪度.",
+    "bandwidth_silverman": "KDE推定用Silvermanルールのカーネル帯域幅.",
+    "bandwidth_scott": "KDE推定用Scottルールのカーネル帯域幅.",
+    "partial_corr": "偏相関 -- 他変数の交絡効果を除去後のPearson相関.",
+    "mutual_information": "相互情報量(ビット) -- 2変数間の非線形依存性を測定.",
+    "ci_lower": "相関係数の95%ブートストラップ信頼区間の下限.",
+    "ci_upper": "相関係数の95%ブートストラップ信頼区間の上限.",
+    "distance_corr": "Szekely距離相関 -- 非線形依存性を捕捉(0=独立, 1=依存).",
+    "optimal_k": "シルエットスコア分析で決定された最適クラスタ数.",
+    "best_silhouette": "評価したk値の中で最高の平均シルエットスコア(-1~1, 高いほど良い).",
+    "inertia": "クラスタ内二乗和(WCSS). 低いほど密集したクラスタ.",
+    "n_clusters_dbscan": "DBSCANが発見したクラスタ数(ノイズ除く).",
+    "noise_ratio": "DBSCANがノイズとした点の割合.",
+    "eps": "DBSCAN epsilon -- k距離プロットから推定された近傍半径.",
+    "kl_divergence": "t-SNE埋め込みのKLダイバージェンス. 低いほど良い適合.",
+    "tsne_perplexity": "t-SNEパープレキシティ(局所と大域構造のバランス).",
+    "n_factors": "Kaiser基準(固有値>1)で保持された潜在因子数.",
+    "factor_loading": "観測変数と潜在因子間の相関.",
+    "noise_variance": "因子分析における各変数の推定ノイズ(固有分散).",
+    "interaction_strength": "積交互作用項と上位特徴間のPearson相関.",
+    "monotonic_gap": "PearsonとSpearman相関の差 -- 大きい差->非線形単調関係.",
+    "entropy_equal_width": "等幅ビンのShannonエントロピー. 低いほど集中した分布.",
+    "entropy_equal_freq": "等頻度ビンのShannonエントロピー. 低いほど集中.",
+    "cardinality": "カテゴリ列のユニーク値の数.",
+    "encoding_rec": "カーディナリティ分析に基づく推奨エンコーディング戦略.",
+    "leakage_risk": "特徴がターゲット情報を漏洩するリスクレベル(low/medium/high).",
+    "anomaly_score_if": "Isolation Forest異常スコア. より負=より異常.",
+    "lof_score": "Local Outlier Factor負スコア. より負=より異常.",
+    "mahalanobis_dist": "データ重心からのMahalanobis距離. 大きい=より異常.",
+    "consensus_flag": "3つの異常値手法のうち2つ以上が同意すればTrue.",
+    "levene_stat": "等分散性のLevene検定統計量.",
+    "levene_p": "Levene検定p値. p < 0.05 -> 分散に有意差あり.",
+    "kw_stat": "Kruskal-Wallis H統計量 -- ノンパラメトリック一元配置ANOVA.",
+    "kw_p": "Kruskal-Wallis検定p値. p < 0.05 -> 少なくとも1つのグループが異なる.",
+    "mw_stat": "Mann-Whitney U統計量 -- ノンパラメトリック二標本順位検定.",
+    "mw_p": "Mann-Whitney U検定p値.",
+    "chi2_stat": "均一分布に対するカイ二乗適合度統計量.",
+    "chi2_p": "カイ二乗適合度検定p値.",
+    "grubbs_stat": "単一外れ値検出のためのGrubbs検定統計量.",
+    "grubbs_p": "Grubbs検定p値.",
+    "adf_stat": "定常性のADF(Augmented Dickey-Fuller)検定統計量.",
+    "adf_p": "ADF検定p値. p < 0.05 -> 時系列は定常.",
+    "numeric_ratio": "数値列の割合.",
+    "categorical_ratio": "カテゴリ列の割合.",
+    "duplicate_row_ratio": "完全重複行の割合.",
+}
+
+# ----- German (de) -- fallback to English ----------------------------
+METRIC_TIPS_I18N["de"] = {k: v for k, v in METRIC_TIPS_I18N["en"].items()}
+
+# ----- French (fr) -- fallback to English ----------------------------
+METRIC_TIPS_I18N["fr"] = {k: v for k, v in METRIC_TIPS_I18N["en"].items()}
+
+
+def get_metric_tips_json() -> str:
+    """Return METRIC_TIPS_I18N dict as a JSON string for embedding in JS."""
+    import json
+    return json.dumps(METRIC_TIPS_I18N, ensure_ascii=False)
