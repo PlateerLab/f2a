@@ -1,6 +1,6 @@
 [package]
 name = "f2a"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 description = "f2a computation core -- Rust engine with PyO3 bindings"
 license = "Apache-2.0"
