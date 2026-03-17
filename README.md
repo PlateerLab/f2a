@@ -12,10 +12,11 @@
 
 ## Live Sample Report
 
-> 📊 **[View Sample Report (lerobot/roboturk)](sample/lerobot_roboturk_20260317_090024_report.html)**
+> 📊 **[View Sample Report (lerobot/roboturk)](https://cocoRoF.github.io/f2a/lerobot_roboturk_20260317_090024_report.html)** ← GitHub Pages (recommended)
 >
-> A fully self-contained HTML report generated from the [lerobot/roboturk](https://huggingface.co/datasets/lerobot/roboturk) dataset.
-> Download the HTML file and open it in a browser — no server required.
+> A fully self-contained interactive HTML report generated from the [lerobot/roboturk](https://huggingface.co/datasets/lerobot/roboturk) dataset.
+>
+> **Alternative:** [Download raw HTML](https://raw.githubusercontent.com/CocoRoF/f2a/main/sample/lerobot_roboturk_20260317_090024_report.html) and open in your browser.
 
 ---
 
