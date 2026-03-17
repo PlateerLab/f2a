@@ -8,6 +8,16 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-88%20passed-brightgreen)]()
 
+<p align="center">
+  <img src="img/overview.png" alt="f2a Overview Report" width="80%">
+</p>
+
+<p align="center">
+  <img src="img/cluster.png" alt="f2a Clustering Analysis" width="80%">
+</p>
+
+<p align="center"><i>Generated from <code>f2a.analyze("lerobot/roboturk")</code> — a single line of code.</i></p>
+
 ---
 
 ## Live Sample Report
