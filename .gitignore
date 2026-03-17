@@ -1,6 +1,10 @@
 # f2a — .gitignore
 
-# Python
+# ── Rust ──
+target/
+**/*.rs.bk
+
+# ── Python ──
 __pycache__/
 *.py[cod]
 *$py.class
@@ -8,41 +12,35 @@ __pycache__/
 dist/
 build/
 *.egg
+*.so
+*.pyd
+*.pdb
 
-# Virtual environments
+# ── Virtual environments ──
 .venv/
 venv/
 env/
 
-# IDE
+# ── IDE ──
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
+# ── OS ──
 .DS_Store
 Thumbs.db
 
-# Test & Coverage
+# ── Test & Coverage ──
 .pytest_cache/
 htmlcov/
 .coverage
 coverage.xml
+test_data_e2e/
 
-# Manual test folder
-test/
-
-# Output
-examples/output/
-examples/sample_data.csv
+# ── Output ──
 output/*.html
 
-# Allow sample reports
-!sample/
-
-# mypy
+# ── mypy / ruff ──
 .mypy_cache/
-
-# ruff
 .ruff_cache/

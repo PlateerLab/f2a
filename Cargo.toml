@@ -1,0 +1,63 @@
+[package]
+name = "f2a"
+version = "1.0.0"
+edition = "2021"
+description = "f2a computation core -- Rust engine with PyO3 bindings"
+license = "Apache-2.0"
+readme = "README.md"
+
+[lib]
+name = "_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+# PyO3 – Python bindings
+pyo3 = { version = "0.22", features = ["extension-module"] }
+
+# DataFrame / Arrow
+polars = { version = "0.46", features = [
+    "csv",
+    "parquet",
+    "json",
+    "lazy",
+    "strings",
+    "temporal",
+    "dtype-struct",
+    "rank",
+    "round_series",
+    "abs",
+    "log",
+    "mode",
+    "is_unique",
+    "is_in",
+    "cum_agg",
+    "interpolate",
+    "ipc",
+] }
+
+# Numerical computing
+ndarray = { version = "0.16", features = ["rayon"] }
+# ndarray-linalg removed — all linear algebra is hand-implemented
+# (power iteration, Gaussian elimination, etc.) to avoid BLAS build complexity
+
+# Statistics
+statrs = "0.17"
+
+# Parallel iteration
+rayon = "1.10"
+
+# Error handling
+thiserror = "2"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Utilities
+indexmap = { version = "2", features = ["serde"] }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
