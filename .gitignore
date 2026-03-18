@@ -13,6 +13,7 @@ build/
 .venv/
 venv/
 env/
+uv.lock
 
 # IDE
 .vscode/
@@ -29,7 +30,7 @@ Thumbs.db
 htmlcov/
 .coverage
 coverage.xml
-
+python_test/
 # Manual test folder
 test/
 
