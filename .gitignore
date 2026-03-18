@@ -1,10 +1,6 @@
 # f2a — .gitignore
 
-# ── Rust ──
-target/
-**/*.rs.bk
-
-# ── Python ──
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -12,38 +8,41 @@ __pycache__/
 dist/
 build/
 *.egg
-*.so
-*.pyd
-*.pdb
-python_test
 
-# ── Virtual environments ──
+# Virtual environments
 .venv/
 venv/
 env/
-f2a-old
-uv.lock
 
-# ── IDE ──
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# ── OS ──
+# OS
 .DS_Store
 Thumbs.db
 
-# ── Test & Coverage ──
+# Test & Coverage
 .pytest_cache/
 htmlcov/
 .coverage
 coverage.xml
-test_data_e2e/
 
-# ── Output ──
+# Manual test folder
+test/
+
+# Output
+examples/output/
+examples/sample_data.csv
 output/*.html
 
-# ── mypy / ruff ──
+# Allow sample reports
+!sample/
+
+# mypy
 .mypy_cache/
+
+# ruff
 .ruff_cache/
